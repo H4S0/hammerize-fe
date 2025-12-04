@@ -5,7 +5,8 @@ import axios, {
   type AxiosError,
 } from 'axios';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
-import { getValidTokenString } from './get-valid-token';
+import { getValidTokenString, refreshApi } from './get-valid-token';
+import { setAccessToken, clearUser } from '../auth/auth-storage';
 export const BE_URL = 'http://localhost:3000/api/v1';
 
 export type ApiResponse<T = unknown> = {

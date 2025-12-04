@@ -1,10 +1,6 @@
-import {
-  clearUser,
-  getAccessToken,
-  setAccessToken,
-} from '../auth-setup/auth-storage';
 import axios from 'axios';
 import { BE_URL, type ApiResponse } from './axios';
+import { getAccessToken, setAccessToken } from '../auth/auth-storage';
 
 export const refreshApi = axios.create({
   baseURL: BE_URL,
@@ -41,4 +37,7 @@ export async function getValidTokenString(): Promise<string | null> {
     clearUser();
     throw error;
   }
+}
+function clearUser() {
+  throw new Error('Function not implemented.');
 }
