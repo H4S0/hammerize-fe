@@ -9,7 +9,7 @@ const FormVideoCard = () => {
         loop
         muted
         playsInline
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover scale-120 transition-transform duration-700 ease-out"
       />
     </div>
   );
