@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { BE_URL, type ApiResponse } from './axios';
+import { type ApiResponse } from './axios';
 import { getAccessToken, setAccessToken } from '../auth/auth-storage';
-
+export const BE_URL = 'http://localhost:3000/api/v1';
 export const refreshApi = axios.create({
   baseURL: BE_URL,
   withCredentials: true,

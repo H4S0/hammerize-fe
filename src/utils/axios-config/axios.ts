@@ -6,9 +6,8 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
-import { getValidTokenString, refreshApi } from './get-valid-token';
+import { BE_URL, getValidTokenString, refreshApi } from './get-valid-token';
 import { setAccessToken, clearUser } from '../auth/auth-storage';
-export const BE_URL = 'http://localhost:3000/api/v1';
 
 export type ApiResponse<T = unknown> = {
   success: boolean;
