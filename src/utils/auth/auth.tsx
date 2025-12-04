@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import type z from 'zod';
 import { api } from '../axios-config/axios';
 import {
@@ -8,22 +8,32 @@ import {
   getStoredUser,
   setStoredUser,
 } from './auth-storage';
-import { LoginSchema } from '../api/user';
+import { login, LoginSchema } from '../api/user';
+import type { ApiResponse } from '../axios-config/axios';
+import { toast } from 'sonner';
 
 export interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
-  loginUser: (data: z.infer<typeof LoginSchema>) => Promise<void | null>;
+  loginUser: (data: z.infer<typeof LoginSchema>) => Promise<void>;
   logout: () => Promise<void>;
   refetchUser: () => Promise<User | null>;
 }
 
 const AuthContext = React.createContext<AuthContextType | null>(null);
 
+function isApiResponse(error: any): error is ApiResponse<any> {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'success' in error &&
+    'message' in error
+  );
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(getStoredUser());
   const isAuthenticated = !!user;
-  const { toast } = useToast();
 
   const refetchUser = useCallback(async () => {
     try {
@@ -34,34 +44,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setStoredUser(updatedUser);
 
       return updatedUser;
-    } catch {
+    } catch (error) {
       setUser(null);
       clearUser();
+
+      if (isApiResponse(error)) {
+        toast.error(error.message || 'Molimo prijavite se ponovo.');
+      }
       return null;
     }
   }, []);
 
-  const loginUser = useCallback(
-    async (data: z.infer<typeof LoginSchema>) => {
+  const loginUser = useCallback(async (data: z.infer<typeof LoginSchema>) => {
+    try {
       const res = await login(data);
 
-      if (!res.success) {
-        return toast({
-          title: res.message,
-          variant: 'destructive',
-        });
+      toast.success(res.message || 'Uspešna prijava!');
+
+      if (res.data) {
+        setUser(res.data);
+        setStoredUser(res.data);
+      }
+    } catch (error) {
+      if (isApiResponse(error)) {
+        toast.error(error.message || 'Došlo je do nepoznate greške.');
+      } else {
+        toast.error('Nije moguće kontaktirati server. Proverite konekciju.');
       }
 
-      toast({
-        title: res.message,
-        variant: 'success',
-      });
-
-      setUser(res.data);
-      setStoredUser(res.data);
-    },
-    [toast]
-  );
+      throw error;
+    }
+  }, []);
 
   const logout = useCallback(async () => {
     try {
@@ -79,13 +92,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(getStoredUser());
   }, []);
 
-  return (
-    <AuthContext.Provider
-      value={{ isAuthenticated, user, loginUser, logout, refetchUser }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      isAuthenticated,
+      user,
+      loginUser,
+      logout,
+      refetchUser,
+    }),
+    [isAuthenticated, user, loginUser, logout, refetchUser]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
