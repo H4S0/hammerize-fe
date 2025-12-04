@@ -16,6 +16,9 @@ import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import InstantFieldError from '../instant-field-error';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Github } from 'lucide-react';
+import DiscordLogo from '../../../../public/discord-icon-43736.png';
 
 const LoginForm = () => {
   const { loginUser } = useAuth();
@@ -30,11 +33,7 @@ const LoginForm = () => {
 
   return (
     <Card className="w-full sm:max-w-md">
-      <CardHeader>
-        <CardTitle>Login form</CardTitle>
-        <CardDescription>Login form YEYE</CardDescription>
-      </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <form id="form-rhf" onSubmit={form.handleSubmit(handleSubmit)}>
           <FieldGroup>
             <Controller
@@ -54,7 +53,7 @@ const LoginForm = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Email</FieldLabel>
+                  <FieldLabel>Password</FieldLabel>
                   <Input {...field} placeholder="••••••••" />
                   <InstantFieldError fieldState={fieldState} />
                 </Field>
@@ -65,7 +64,30 @@ const LoginForm = () => {
       </CardContent>
 
       <CardFooter>
-        <Button>Login</Button>
+        <div className="flex flex-col items-center w-full space-y-4">
+          <Button className="w-full" form="form-rhf">
+            Login
+          </Button>
+
+          <div className="flex items-center w-full space-x-2">
+            <Separator className="flex-1" />
+            <span className="text-sm text-muted-foreground">
+              or continue with
+            </span>
+            <Separator className="flex-1" />
+          </div>
+
+          <div className="flex gap-2 w-full justify-center">
+            <Button variant="outline" className="flex-1">
+              Discord
+              <img src={DiscordLogo} alt="discord" className="w-5 h-5" />
+            </Button>
+            <Button variant="outline" className="flex-1">
+              GitHub
+              <Github />
+            </Button>
+          </div>
+        </div>
       </CardFooter>
     </Card>
   );
