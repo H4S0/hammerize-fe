@@ -9,55 +9,110 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PublicRegisterRouteImport } from './routes/_public/register'
+import { Route as PublicLoginRouteImport } from './routes/_public/login'
+import { Route as PublicInitForgetPasswordRouteImport } from './routes/_public/init-forget-password'
+import { Route as PublicAuthOauthSuccessOauthResponseRouteImport } from './routes/_public/auth/oauth/success-oauth-response'
+import { Route as PublicAuthOauthErrorOatuhResponseRouteImport } from './routes/_public/auth/oauth/error-oatuh-response'
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PublicRegisterRoute = PublicRegisterRouteImport.update({
+  id: '/_public/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicLoginRoute = PublicLoginRouteImport.update({
+  id: '/_public/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicInitForgetPasswordRoute =
+  PublicInitForgetPasswordRouteImport.update({
+    id: '/_public/init-forget-password',
+    path: '/init-forget-password',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PublicAuthOauthSuccessOauthResponseRoute =
+  PublicAuthOauthSuccessOauthResponseRouteImport.update({
+    id: '/_public/auth/oauth/success-oauth-response',
+    path: '/auth/oauth/success-oauth-response',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PublicAuthOauthErrorOatuhResponseRoute =
+  PublicAuthOauthErrorOatuhResponseRouteImport.update({
+    id: '/_public/auth/oauth/error-oatuh-response',
+    path: '/auth/oauth/error-oatuh-response',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/init-forget-password': typeof PublicInitForgetPasswordRoute
+  '/login': typeof PublicLoginRoute
+  '/register': typeof PublicRegisterRoute
+  '/auth/oauth/error-oatuh-response': typeof PublicAuthOauthErrorOatuhResponseRoute
+  '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/init-forget-password': typeof PublicInitForgetPasswordRoute
+  '/login': typeof PublicLoginRoute
+  '/register': typeof PublicRegisterRoute
+  '/auth/oauth/error-oatuh-response': typeof PublicAuthOauthErrorOatuhResponseRoute
+  '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/_public/init-forget-password': typeof PublicInitForgetPasswordRoute
+  '/_public/login': typeof PublicLoginRoute
+  '/_public/register': typeof PublicRegisterRoute
+  '/_public/auth/oauth/error-oatuh-response': typeof PublicAuthOauthErrorOatuhResponseRoute
+  '/_public/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths:
+    | '/'
+    | '/init-forget-password'
+    | '/login'
+    | '/register'
+    | '/auth/oauth/error-oatuh-response'
+    | '/auth/oauth/success-oauth-response'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to:
+    | '/'
+    | '/init-forget-password'
+    | '/login'
+    | '/register'
+    | '/auth/oauth/error-oatuh-response'
+    | '/auth/oauth/success-oauth-response'
+  id:
+    | '__root__'
+    | '/'
+    | '/_public/init-forget-password'
+    | '/_public/login'
+    | '/_public/register'
+    | '/_public/auth/oauth/error-oatuh-response'
+    | '/_public/auth/oauth/success-oauth-response'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  PublicInitForgetPasswordRoute: typeof PublicInitForgetPasswordRoute
+  PublicLoginRoute: typeof PublicLoginRoute
+  PublicRegisterRoute: typeof PublicRegisterRoute
+  PublicAuthOauthErrorOatuhResponseRoute: typeof PublicAuthOauthErrorOatuhResponseRoute
+  PublicAuthOauthSuccessOauthResponseRoute: typeof PublicAuthOauthSuccessOauthResponseRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -65,12 +120,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_public/register': {
+      id: '/_public/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof PublicRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public/login': {
+      id: '/_public/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof PublicLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public/init-forget-password': {
+      id: '/_public/init-forget-password'
+      path: '/init-forget-password'
+      fullPath: '/init-forget-password'
+      preLoaderRoute: typeof PublicInitForgetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public/auth/oauth/success-oauth-response': {
+      id: '/_public/auth/oauth/success-oauth-response'
+      path: '/auth/oauth/success-oauth-response'
+      fullPath: '/auth/oauth/success-oauth-response'
+      preLoaderRoute: typeof PublicAuthOauthSuccessOauthResponseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public/auth/oauth/error-oatuh-response': {
+      id: '/_public/auth/oauth/error-oatuh-response'
+      path: '/auth/oauth/error-oatuh-response'
+      fullPath: '/auth/oauth/error-oatuh-response'
+      preLoaderRoute: typeof PublicAuthOauthErrorOatuhResponseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  PublicInitForgetPasswordRoute: PublicInitForgetPasswordRoute,
+  PublicLoginRoute: PublicLoginRoute,
+  PublicRegisterRoute: PublicRegisterRoute,
+  PublicAuthOauthErrorOatuhResponseRoute:
+    PublicAuthOauthErrorOatuhResponseRoute,
+  PublicAuthOauthSuccessOauthResponseRoute:
+    PublicAuthOauthSuccessOauthResponseRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -5,6 +5,7 @@ import { routeTree } from './routeTree.gen';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider, useAuth } from './utils/auth/auth';
 import { Toaster } from './components/ui/sonner';
+import './globals.css';
 
 const queryClient = new QueryClient();
 const router = createRouter({
