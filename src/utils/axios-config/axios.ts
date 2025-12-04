@@ -3,6 +3,7 @@ import axios, {
   type AxiosRequestConfig,
   type AxiosResponse,
   type AxiosError,
+  InternalAxiosRequestConfig,
 } from 'axios';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import { getValidTokenString, refreshApi } from './get-valid-token';
@@ -15,6 +16,10 @@ export type ApiResponse<T = unknown> = {
   error?: string | null;
   data: T | null;
 };
+
+interface ExtendedInternalAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
 
 interface TypedAxiosInstance extends AxiosInstance {
   get<T, R = AxiosResponse<ApiResponse<T>>>(
@@ -93,7 +98,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const originalRequest = error.config!;
+    const originalRequest = error.config! as ExtendedInternalAxiosRequestConfig;
     const res = error.response;
     const statusCode = res?.status ?? StatusCodes.INTERNAL_SERVER_ERROR;
 
