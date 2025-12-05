@@ -14,8 +14,9 @@ import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
 import { Route as PublicInitForgetPasswordRouteImport } from './routes/_public/init-forget-password'
-import { Route as AuthDashboardIndexRouteImport } from './routes/_auth/dashboard/index'
+import { Route as AuthNavbarRouteImport } from './routes/_auth/_navbar'
 import { Route as PublicPasswordResetTokenRouteImport } from './routes/_public/password-reset/$token'
+import { Route as AuthNavbarDashboardIndexRouteImport } from './routes/_auth/_navbar/dashboard/index'
 import { Route as PublicAuthOauthSuccessOauthResponseRouteImport } from './routes/_public/auth/oauth/success-oauth-response'
 import { Route as PublicAuthOauthErrorOatuhResponseRouteImport } from './routes/_public/auth/oauth/error-oatuh-response'
 
@@ -43,9 +44,8 @@ const PublicInitForgetPasswordRoute =
     path: '/init-forget-password',
     getParentRoute: () => PublicRoute,
   } as any)
-const AuthDashboardIndexRoute = AuthDashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
+const AuthNavbarRoute = AuthNavbarRouteImport.update({
+  id: '/_navbar',
   getParentRoute: () => AuthRoute,
 } as any)
 const PublicPasswordResetTokenRoute =
@@ -53,6 +53,12 @@ const PublicPasswordResetTokenRoute =
     id: '/password-reset/$token',
     path: '/password-reset/$token',
     getParentRoute: () => PublicRoute,
+  } as any)
+const AuthNavbarDashboardIndexRoute =
+  AuthNavbarDashboardIndexRouteImport.update({
+    id: '/dashboard/',
+    path: '/dashboard/',
+    getParentRoute: () => AuthNavbarRoute,
   } as any)
 const PublicAuthOauthSuccessOauthResponseRoute =
   PublicAuthOauthSuccessOauthResponseRouteImport.update({
@@ -72,30 +78,31 @@ export interface FileRoutesByFullPath {
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
   '/password-reset/$token': typeof PublicPasswordResetTokenRoute
-  '/dashboard': typeof AuthDashboardIndexRoute
   '/auth/oauth/error-oatuh-response': typeof PublicAuthOauthErrorOatuhResponseRoute
   '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
+  '/dashboard': typeof AuthNavbarDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/init-forget-password': typeof PublicInitForgetPasswordRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
   '/password-reset/$token': typeof PublicPasswordResetTokenRoute
-  '/dashboard': typeof AuthDashboardIndexRoute
   '/auth/oauth/error-oatuh-response': typeof PublicAuthOauthErrorOatuhResponseRoute
   '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
+  '/dashboard': typeof AuthNavbarDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
+  '/_auth/_navbar': typeof AuthNavbarRouteWithChildren
   '/_public/init-forget-password': typeof PublicInitForgetPasswordRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/register': typeof PublicRegisterRoute
   '/_public/password-reset/$token': typeof PublicPasswordResetTokenRoute
-  '/_auth/dashboard/': typeof AuthDashboardIndexRoute
   '/_public/auth/oauth/error-oatuh-response': typeof PublicAuthOauthErrorOatuhResponseRoute
   '/_public/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
+  '/_auth/_navbar/dashboard/': typeof AuthNavbarDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -104,29 +111,30 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/password-reset/$token'
-    | '/dashboard'
     | '/auth/oauth/error-oatuh-response'
     | '/auth/oauth/success-oauth-response'
+    | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/init-forget-password'
     | '/login'
     | '/register'
     | '/password-reset/$token'
-    | '/dashboard'
     | '/auth/oauth/error-oatuh-response'
     | '/auth/oauth/success-oauth-response'
+    | '/dashboard'
   id:
     | '__root__'
     | '/_auth'
     | '/_public'
+    | '/_auth/_navbar'
     | '/_public/init-forget-password'
     | '/_public/login'
     | '/_public/register'
     | '/_public/password-reset/$token'
-    | '/_auth/dashboard/'
     | '/_public/auth/oauth/error-oatuh-response'
     | '/_public/auth/oauth/success-oauth-response'
+    | '/_auth/_navbar/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,11 +179,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicInitForgetPasswordRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_auth/dashboard/': {
-      id: '/_auth/dashboard/'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthDashboardIndexRouteImport
+    '/_auth/_navbar': {
+      id: '/_auth/_navbar'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthNavbarRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_public/password-reset/$token': {
@@ -184,6 +192,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/password-reset/$token'
       preLoaderRoute: typeof PublicPasswordResetTokenRouteImport
       parentRoute: typeof PublicRoute
+    }
+    '/_auth/_navbar/dashboard/': {
+      id: '/_auth/_navbar/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthNavbarDashboardIndexRouteImport
+      parentRoute: typeof AuthNavbarRoute
     }
     '/_public/auth/oauth/success-oauth-response': {
       id: '/_public/auth/oauth/success-oauth-response'
@@ -202,12 +217,24 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthNavbarRouteChildren {
+  AuthNavbarDashboardIndexRoute: typeof AuthNavbarDashboardIndexRoute
+}
+
+const AuthNavbarRouteChildren: AuthNavbarRouteChildren = {
+  AuthNavbarDashboardIndexRoute: AuthNavbarDashboardIndexRoute,
+}
+
+const AuthNavbarRouteWithChildren = AuthNavbarRoute._addFileChildren(
+  AuthNavbarRouteChildren,
+)
+
 interface AuthRouteChildren {
-  AuthDashboardIndexRoute: typeof AuthDashboardIndexRoute
+  AuthNavbarRoute: typeof AuthNavbarRouteWithChildren
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-  AuthDashboardIndexRoute: AuthDashboardIndexRoute,
+  AuthNavbarRoute: AuthNavbarRouteWithChildren,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
