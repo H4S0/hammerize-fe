@@ -1,6 +1,6 @@
 import { Link, LinkProps, ToPathOption } from '@tanstack/react-router';
 
-type FormHeaderCardProps = {
+export type FormHeaderCardProps = {
   title: string;
   description: string;
   link: LinkProps['to'];
