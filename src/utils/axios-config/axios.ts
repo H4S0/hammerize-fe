@@ -163,7 +163,7 @@ api.interceptors.response.use(
     let message: string;
 
     if (statusCode >= 500) {
-      message = 'Internal Server Error. Please try again later.';
+      message = 'Something went wrong, please contact support!';
     } else {
       message = getReasonPhrase(statusCode);
     }

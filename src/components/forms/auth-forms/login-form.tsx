@@ -22,7 +22,14 @@ const LoginForm = () => {
 
   const handleSubmit: SubmitHandler<z.infer<typeof LoginSchema>> = async (
     data
-  ) => {};
+  ) => {
+    try {
+      await loginUser(data);
+      navigate({ to: '/dashboard' });
+    } catch (err) {
+      console.log('error', err);
+    }
+  };
 
   return (
     <Card className="w-full sm:max-w-md">
@@ -47,7 +54,7 @@ const LoginForm = () => {
               render={({ field, fieldState }) => (
                 <Field>
                   <FieldLabel>Password</FieldLabel>
-                  <Input {...field} placeholder="••••••••" />
+                  <Input {...field} placeholder="••••••••" type="password" />
                   <InstantFieldError fieldState={fieldState} />
                 </Field>
               )}

@@ -35,7 +35,7 @@ export async function register(data: z.infer<typeof RegisterSchema>) {
 
 export const LoginSchema = z.object({
   email: z.email('Please enter a valid email address'),
-  password: z.string().min(1, 'Password is required'),
+  password: z.string('Password is required').min(1),
 });
 
 export async function login(data: z.infer<typeof LoginSchema>) {

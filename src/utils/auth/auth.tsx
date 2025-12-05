@@ -49,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       clearUser();
 
       if (isApiResponse(error)) {
-        toast.error(error.message || 'Molimo prijavite se ponovo.');
+        toast.error(error.message || 'Please login again!');
       }
       return null;
     }
@@ -59,7 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const res = await login(data);
 
-      toast.success(res.message || 'Uspešna prijava!');
+      toast.success(res.message || 'You have logged in successfully!');
 
       if (res.data) {
         setUser(res.data);
@@ -67,9 +67,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (error) {
       if (isApiResponse(error)) {
-        toast.error(error.message || 'Došlo je do nepoznate greške.');
+        toast.error(error.message || 'Something went wrong, please try again');
       } else {
-        toast.error('Nije moguće kontaktirati server. Proverite konekciju.');
+        toast.error('Something went wrong. Please check your connection.');
       }
 
       throw error;
