@@ -43,7 +43,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <Card className="w-full sm:max-w-md">
+    <Card>
       <CardContent className="pt-6">
         <form id="form-rhf" onSubmit={form.handleSubmit(handleSubmit)}>
           <FieldGroup>

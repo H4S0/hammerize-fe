@@ -14,7 +14,7 @@ const formHeaderContent = {
     title: 'Login to your account',
     description: 'Don`t have an account?',
     link: '/register',
-    linkLabel: 'Register',
+    linkLabel: 'Sign up',
   },
   register: {
     title: 'Create a new account',
@@ -31,7 +31,7 @@ const formHeaderContent = {
   'password-reset': {
     title: 'Reset your password',
     description:
-      'Make sure to check you email, so you can reset your password!',
+      'Make sure to check your email so you can reset your password!',
     link: '/login',
     linkLabel: 'Back to login',
   },
@@ -41,11 +41,11 @@ const AuthLayout = ({ children, type }: AuthLayoutProps) => {
   const content = formHeaderContent[type];
 
   return (
-    <div className="h-screen flex flex-col md:flex-row items-center justify-center p-4 md:p-10 gap-6">
+    <div className="min-h-screen flex flex-col md:flex-row p-4 md:p-6 gap-6">
       <FormVideoCard />
 
-      <div className="md:w-1/2 flex flex-col justify-center items-center">
-        <div className="flex flex-col gap-2 w-full max-w-md">
+      <div className="w-full md:w-1/2 flex items-center justify-center min-h-screen md:min-h-full">
+        <div className="w-full max-w-lg flex flex-col gap-4">
           <FormHeaderCard
             title={content.title}
             description={content.description}

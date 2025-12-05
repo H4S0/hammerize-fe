@@ -10,8 +10,6 @@ import { Input } from '@/components/ui/input';
 import InstantFieldError from '../instant-field-error';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Github } from 'lucide-react';
-import DiscordLogo from '../../../../public/discord-icon-43736.png';
 import OAuthField from './oauth-field';
 
 const LoginForm = () => {
@@ -33,7 +31,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Card className="w-full sm:max-w-md">
+    <Card>
       <CardContent className="pt-6">
         <form id="form-rhf" onSubmit={form.handleSubmit(handleSubmit)}>
           <FieldGroup>
