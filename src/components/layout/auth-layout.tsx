@@ -41,10 +41,10 @@ const AuthLayout = ({ children, type }: AuthLayoutProps) => {
   const content = formHeaderContent[type];
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row p-4 md:p-6 gap-6">
+    <div className="flex flex-col md:flex-row min-h-screen">
       <FormVideoCard />
 
-      <div className="w-full md:w-1/2 flex items-center justify-center min-h-screen md:min-h-full">
+      <div className="flex flex-1 items-center justify-center p-4 md:p-10">
         <div className="w-full max-w-lg flex flex-col gap-4">
           <FormHeaderCard
             title={content.title}
@@ -52,7 +52,6 @@ const AuthLayout = ({ children, type }: AuthLayoutProps) => {
             link={content.link}
             linkLabel={content.linkLabel}
           />
-
           {children}
         </div>
       </div>

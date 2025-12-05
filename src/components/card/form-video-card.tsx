@@ -2,7 +2,7 @@ import HammerizeVideo from '../../../public/real-video.mp4';
 
 const FormVideoCard = () => {
   return (
-    <div className="hidden md:block md:w-1/2 h-full rounded-2xl overflow-hidden">
+    <div className="hidden md:block w-1/2 h-[calc(100vh-32px)] rounded-2xl overflow-hidden m-4">
       <video
         src={HammerizeVideo}
         autoPlay
