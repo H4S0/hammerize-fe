@@ -9,6 +9,8 @@ import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import { BE_URL, getValidTokenString, refreshApi } from './get-valid-token';
 import { setAccessToken, clearUser } from '../auth/auth-storage';
 
+const PUBLIC_URLS = ['/auth/login', '/auth/register'];
+
 export type ApiResponse<T = unknown> = {
   success: boolean;
   message: string;
@@ -80,7 +82,9 @@ const stringifyError = (err: unknown) => {
 
 api.interceptors.request.use(
   async (config) => {
-    if (config.url?.includes('/verify/refresh-token')) {
+    const isPublicRoute = PUBLIC_URLS.some((url) => config.url?.endsWith(url));
+
+    if (isPublicRoute || config.url?.includes('/verify/refresh-token')) {
       return config;
     }
 
@@ -100,6 +104,14 @@ api.interceptors.response.use(
     const originalRequest = error.config! as ExtendedInternalAxiosRequestConfig;
     const res = error.response;
     const statusCode = res?.status ?? StatusCodes.INTERNAL_SERVER_ERROR;
+
+    const isPublicRoute = PUBLIC_URLS.some((url) =>
+      originalRequest.url?.endsWith(url)
+    );
+
+    if (isPublicRoute) {
+      return Promise.reject(error.response?.data || error);
+    }
 
     if (
       statusCode === StatusCodes.UNAUTHORIZED &&
