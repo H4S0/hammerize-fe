@@ -14,6 +14,7 @@ import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
 import { Route as PublicInitForgetPasswordRouteImport } from './routes/_public/init-forget-password'
+import { Route as AuthDashboardIndexRouteImport } from './routes/_auth/dashboard/index'
 import { Route as PublicPasswordResetTokenRouteImport } from './routes/_public/password-reset/$token'
 import { Route as PublicAuthOauthSuccessOauthResponseRouteImport } from './routes/_public/auth/oauth/success-oauth-response'
 import { Route as PublicAuthOauthErrorOatuhResponseRouteImport } from './routes/_public/auth/oauth/error-oatuh-response'
@@ -42,6 +43,11 @@ const PublicInitForgetPasswordRoute =
     path: '/init-forget-password',
     getParentRoute: () => PublicRoute,
   } as any)
+const AuthDashboardIndexRoute = AuthDashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => AuthRoute,
+} as any)
 const PublicPasswordResetTokenRoute =
   PublicPasswordResetTokenRouteImport.update({
     id: '/password-reset/$token',
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
   '/password-reset/$token': typeof PublicPasswordResetTokenRoute
+  '/dashboard': typeof AuthDashboardIndexRoute
   '/auth/oauth/error-oatuh-response': typeof PublicAuthOauthErrorOatuhResponseRoute
   '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
 }
@@ -74,17 +81,19 @@ export interface FileRoutesByTo {
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
   '/password-reset/$token': typeof PublicPasswordResetTokenRoute
+  '/dashboard': typeof AuthDashboardIndexRoute
   '/auth/oauth/error-oatuh-response': typeof PublicAuthOauthErrorOatuhResponseRoute
   '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_auth': typeof AuthRoute
+  '/_auth': typeof AuthRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
   '/_public/init-forget-password': typeof PublicInitForgetPasswordRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/register': typeof PublicRegisterRoute
   '/_public/password-reset/$token': typeof PublicPasswordResetTokenRoute
+  '/_auth/dashboard/': typeof AuthDashboardIndexRoute
   '/_public/auth/oauth/error-oatuh-response': typeof PublicAuthOauthErrorOatuhResponseRoute
   '/_public/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
 }
@@ -95,6 +104,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/password-reset/$token'
+    | '/dashboard'
     | '/auth/oauth/error-oatuh-response'
     | '/auth/oauth/success-oauth-response'
   fileRoutesByTo: FileRoutesByTo
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/password-reset/$token'
+    | '/dashboard'
     | '/auth/oauth/error-oatuh-response'
     | '/auth/oauth/success-oauth-response'
   id:
@@ -113,12 +124,13 @@ export interface FileRouteTypes {
     | '/_public/login'
     | '/_public/register'
     | '/_public/password-reset/$token'
+    | '/_auth/dashboard/'
     | '/_public/auth/oauth/error-oatuh-response'
     | '/_public/auth/oauth/success-oauth-response'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   PublicRoute: typeof PublicRouteWithChildren
 }
 
@@ -159,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicInitForgetPasswordRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_auth/dashboard/': {
+      id: '/_auth/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthDashboardIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_public/password-reset/$token': {
       id: '/_public/password-reset/$token'
       path: '/password-reset/$token'
@@ -182,6 +201,16 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthRouteChildren {
+  AuthDashboardIndexRoute: typeof AuthDashboardIndexRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthDashboardIndexRoute: AuthDashboardIndexRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface PublicRouteChildren {
   PublicInitForgetPasswordRoute: typeof PublicInitForgetPasswordRoute
@@ -207,7 +236,7 @@ const PublicRouteWithChildren =
   PublicRoute._addFileChildren(PublicRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   PublicRoute: PublicRouteWithChildren,
 }
 export const routeTree = rootRouteImport
