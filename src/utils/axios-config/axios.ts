@@ -178,3 +178,12 @@ api.interceptors.response.use(
     return Promise.reject(finalErrorResponse);
   }
 );
+
+export function isApiResponse(error: any): error is ApiResponse<any> {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'success' in error &&
+    'message' in error
+  );
+}

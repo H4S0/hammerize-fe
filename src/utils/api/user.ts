@@ -15,12 +15,9 @@ export const UserSchema = z.object({
 });
 
 export const RegisterSchema = z.object({
-  firstname: z.string(),
-  lastname: z.string(),
+  username: z.string(),
   email: z.email(),
   password: z.string(),
-  user: z.boolean().optional(),
-  delivery: z.boolean().optional(),
 });
 
 export async function register(data: z.infer<typeof RegisterSchema>) {
