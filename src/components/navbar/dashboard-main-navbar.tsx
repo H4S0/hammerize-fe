@@ -32,11 +32,6 @@ const dashboardMainNavbarItems: NavbarItemsOptions[] = [
     link: '/dashboard/bots',
   },
   {
-    icon: <Key size={15} />,
-    label: 'Keys',
-    link: '/dashboard/keys',
-  },
-  {
     icon: <Settings size={15} />,
     label: 'Settings',
     link: '/dashboard/user-settings',

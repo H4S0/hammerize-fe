@@ -7,11 +7,9 @@ const RoleEnum = z.enum(['user', 'delivery']);
 
 export const UserSchema = z.object({
   _id: z.string(),
-  firstname: z.string(),
-  lastname: z.string(),
+  username: z.string(),
   email: z.email(),
   role: RoleEnum,
-  image: z.string().optional(),
 });
 
 export const RegisterSchema = z.object({
@@ -35,8 +33,13 @@ export const LoginSchema = z.object({
   password: z.string('Password is required').min(1),
 });
 
+export interface LoginResponse {
+  data: User;
+}
+
 export async function login(data: z.infer<typeof LoginSchema>) {
   const hashedPassword = await createSHA512Hash(data.password);
+
   const res = await api.post<User>('/auth/login', {
     ...data,
     password: hashedPassword,
