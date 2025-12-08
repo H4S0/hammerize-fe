@@ -17,7 +17,7 @@ const PageHeader = ({
     <div className="flex flex-col items-start gap-1">
       <div className="flex items-center gap-2 text-primary">
         {icon}
-        <p>{iconLabel}</p>
+        <p className="font-semibold">{iconLabel}</p>
       </div>
       <h2 className="text-3xl font-bold">{title}</h2>
       <p className="text-sm text-muted-foreground">{description}</p>

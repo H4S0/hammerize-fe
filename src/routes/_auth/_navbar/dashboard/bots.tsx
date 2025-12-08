@@ -1,3 +1,4 @@
+import NewBotSection from '@/components/sections/new-bot-section';
 import PageHeader from '@/components/typography/page-header';
 import { createFileRoute } from '@tanstack/react-router';
 import { Bot } from 'lucide-react';
@@ -15,6 +16,8 @@ function RouteComponent() {
         title="Manage Your Bots"
         description="Connect platforms and manage bot integrations"
       />
+
+      <NewBotSection />
     </div>
   );
 }
