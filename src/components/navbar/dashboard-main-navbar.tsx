@@ -47,7 +47,7 @@ const DashboardMainNavbar = () => {
           to={item.link}
           key={item.label}
           className={cn(
-            'flex items-center gap-2 hover:bg-primary/70 rounded-md px-2 py-1 text-muted-foreground hover:text-white',
+            'flex items-center gap-2 hover:bg-primary/70 rounded-md px-2 py-1 text-muted-foreground hover:text-white transition-colors duration-150',
             item.link === location.href && 'bg-primary/70 text-white'
           )}
         >

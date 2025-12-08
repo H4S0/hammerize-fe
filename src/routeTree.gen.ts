@@ -22,7 +22,6 @@ import { Route as PublicAuthOauthErrorOatuhResponseRouteImport } from './routes/
 import { Route as AuthNavbarDashboardUserSettingsRouteImport } from './routes/_auth/_navbar/dashboard/user-settings'
 import { Route as AuthNavbarDashboardSummariesRouteImport } from './routes/_auth/_navbar/dashboard/summaries'
 import { Route as AuthNavbarDashboardOverviewRouteImport } from './routes/_auth/_navbar/dashboard/overview'
-import { Route as AuthNavbarDashboardKeysRouteImport } from './routes/_auth/_navbar/dashboard/keys'
 import { Route as AuthNavbarDashboardBotsRouteImport } from './routes/_auth/_navbar/dashboard/bots'
 
 const PublicRoute = PublicRouteImport.update({
@@ -95,11 +94,6 @@ const AuthNavbarDashboardOverviewRoute =
     path: '/dashboard/overview',
     getParentRoute: () => AuthNavbarRoute,
   } as any)
-const AuthNavbarDashboardKeysRoute = AuthNavbarDashboardKeysRouteImport.update({
-  id: '/dashboard/keys',
-  path: '/dashboard/keys',
-  getParentRoute: () => AuthNavbarRoute,
-} as any)
 const AuthNavbarDashboardBotsRoute = AuthNavbarDashboardBotsRouteImport.update({
   id: '/dashboard/bots',
   path: '/dashboard/bots',
@@ -112,7 +106,6 @@ export interface FileRoutesByFullPath {
   '/register': typeof PublicRegisterRoute
   '/password-reset/$token': typeof PublicPasswordResetTokenRoute
   '/dashboard/bots': typeof AuthNavbarDashboardBotsRoute
-  '/dashboard/keys': typeof AuthNavbarDashboardKeysRoute
   '/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
   '/dashboard/user-settings': typeof AuthNavbarDashboardUserSettingsRoute
@@ -126,7 +119,6 @@ export interface FileRoutesByTo {
   '/register': typeof PublicRegisterRoute
   '/password-reset/$token': typeof PublicPasswordResetTokenRoute
   '/dashboard/bots': typeof AuthNavbarDashboardBotsRoute
-  '/dashboard/keys': typeof AuthNavbarDashboardKeysRoute
   '/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
   '/dashboard/user-settings': typeof AuthNavbarDashboardUserSettingsRoute
@@ -144,7 +136,6 @@ export interface FileRoutesById {
   '/_public/register': typeof PublicRegisterRoute
   '/_public/password-reset/$token': typeof PublicPasswordResetTokenRoute
   '/_auth/_navbar/dashboard/bots': typeof AuthNavbarDashboardBotsRoute
-  '/_auth/_navbar/dashboard/keys': typeof AuthNavbarDashboardKeysRoute
   '/_auth/_navbar/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/_auth/_navbar/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
   '/_auth/_navbar/dashboard/user-settings': typeof AuthNavbarDashboardUserSettingsRoute
@@ -160,7 +151,6 @@ export interface FileRouteTypes {
     | '/register'
     | '/password-reset/$token'
     | '/dashboard/bots'
-    | '/dashboard/keys'
     | '/dashboard/overview'
     | '/dashboard/summaries'
     | '/dashboard/user-settings'
@@ -174,7 +164,6 @@ export interface FileRouteTypes {
     | '/register'
     | '/password-reset/$token'
     | '/dashboard/bots'
-    | '/dashboard/keys'
     | '/dashboard/overview'
     | '/dashboard/summaries'
     | '/dashboard/user-settings'
@@ -191,7 +180,6 @@ export interface FileRouteTypes {
     | '/_public/register'
     | '/_public/password-reset/$token'
     | '/_auth/_navbar/dashboard/bots'
-    | '/_auth/_navbar/dashboard/keys'
     | '/_auth/_navbar/dashboard/overview'
     | '/_auth/_navbar/dashboard/summaries'
     | '/_auth/_navbar/dashboard/user-settings'
@@ -298,13 +286,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthNavbarDashboardOverviewRouteImport
       parentRoute: typeof AuthNavbarRoute
     }
-    '/_auth/_navbar/dashboard/keys': {
-      id: '/_auth/_navbar/dashboard/keys'
-      path: '/dashboard/keys'
-      fullPath: '/dashboard/keys'
-      preLoaderRoute: typeof AuthNavbarDashboardKeysRouteImport
-      parentRoute: typeof AuthNavbarRoute
-    }
     '/_auth/_navbar/dashboard/bots': {
       id: '/_auth/_navbar/dashboard/bots'
       path: '/dashboard/bots'
@@ -317,7 +298,6 @@ declare module '@tanstack/react-router' {
 
 interface AuthNavbarRouteChildren {
   AuthNavbarDashboardBotsRoute: typeof AuthNavbarDashboardBotsRoute
-  AuthNavbarDashboardKeysRoute: typeof AuthNavbarDashboardKeysRoute
   AuthNavbarDashboardOverviewRoute: typeof AuthNavbarDashboardOverviewRoute
   AuthNavbarDashboardSummariesRoute: typeof AuthNavbarDashboardSummariesRoute
   AuthNavbarDashboardUserSettingsRoute: typeof AuthNavbarDashboardUserSettingsRoute
@@ -326,7 +306,6 @@ interface AuthNavbarRouteChildren {
 
 const AuthNavbarRouteChildren: AuthNavbarRouteChildren = {
   AuthNavbarDashboardBotsRoute: AuthNavbarDashboardBotsRoute,
-  AuthNavbarDashboardKeysRoute: AuthNavbarDashboardKeysRoute,
   AuthNavbarDashboardOverviewRoute: AuthNavbarDashboardOverviewRoute,
   AuthNavbarDashboardSummariesRoute: AuthNavbarDashboardSummariesRoute,
   AuthNavbarDashboardUserSettingsRoute: AuthNavbarDashboardUserSettingsRoute,
