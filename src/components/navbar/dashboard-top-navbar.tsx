@@ -3,7 +3,7 @@ import UserDropdown from '../dropdown/user-dropdown';
 
 const DashboardTopNavbar = () => {
   return (
-    <div className="flex items-center justify-between h-12 px-4">
+    <div className="flex items-center justify-between h-12">
       <div className="flex items-center">
         <img
           src={HammerizeLogo}

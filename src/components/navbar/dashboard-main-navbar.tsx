@@ -1,4 +1,6 @@
-import { Link } from '@tanstack/react-router';
+import { cn } from '@/lib/utils';
+import { Link, LinkProps, useLocation } from '@tanstack/react-router';
+import { ReactElement } from 'react';
 import {
   Bot,
   Key,
@@ -6,43 +8,53 @@ import {
   MessageSquareMore,
   Settings,
 } from 'lucide-react';
-import React from 'react';
 
-const dashboardMainNavbarItems = [
+type NavbarItemsOptions = {
+  icon: ReactElement;
+  label: string;
+  link: LinkProps['to'];
+};
+
+const dashboardMainNavbarItems: NavbarItemsOptions[] = [
   {
     icon: <LayoutPanelLeft size={15} />,
     label: 'Overview',
-    link: '',
+    link: '/dashboard/overview',
   },
   {
     icon: <MessageSquareMore size={15} />,
     label: 'Summaries',
-    link: '',
+    link: '/dashboard/summaries',
   },
   {
     icon: <Bot size={15} />,
     label: 'Bots',
-    link: '',
+    link: '/dashboard/bots',
   },
   {
     icon: <Key size={15} />,
     label: 'Keys',
-    link: '',
+    link: '/dashboard/keys',
   },
   {
     icon: <Settings size={15} />,
     label: 'Settings',
-    link: '',
+    link: '/dashboard/user-settings',
   },
 ];
 const DashboardMainNavbar = () => {
+  const location = useLocation();
+  console.log('location', location);
   return (
-    <div className="flex items-center gap-5 py-5">
+    <div className="flex items-center gap-5 py-2">
       {dashboardMainNavbarItems.map((item) => (
         <Link
           to={item.link}
           key={item.label}
-          className="flex items-center gap-2 hover:bg-primary/20 rounded-md px-2 py-1 text-muted-foreground hover:text-black "
+          className={cn(
+            'flex items-center gap-2 hover:bg-primary/70 rounded-md px-2 py-1 text-muted-foreground hover:text-white',
+            item.link === location.href && 'bg-primary/70 text-white'
+          )}
         >
           {item.icon}
           <p>{item.label}</p>
