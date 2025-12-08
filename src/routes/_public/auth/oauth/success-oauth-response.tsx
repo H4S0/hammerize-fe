@@ -1,17 +1,21 @@
 import OAuthStatusCard from '@/components/card/oauth-status-card';
 import { UserSchema } from '@/utils/api/user';
 import { useAuth } from '@/utils/auth/auth';
-import { setStoredUser } from '@/utils/auth/auth-storage';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { BadgeCheck } from 'lucide-react';
 import { useEffect } from 'react';
+import z from 'zod';
+
+const OAuthResSchema = z.object({
+  accessToken: z.string(),
+  user: UserSchema,
+});
 
 export const Route = createFileRoute(
   '/_public/auth/oauth/success-oauth-response'
 )({
   component: RouteComponent,
   validateSearch: (search) => {
-    const loginRes = UserSchema.safeParse(search);
+    const loginRes = OAuthResSchema.safeParse(search);
 
     if (!loginRes) {
       return null;
@@ -22,20 +26,28 @@ export const Route = createFileRoute(
 });
 
 function RouteComponent() {
+  const { setOAuthUser } = useAuth();
   const search = Route.useSearch();
   const navigate = useNavigate();
 
+  console.log('search', search);
   useEffect(() => {
-    if (!search?.accessToken || !search._id) {
-      return;
-    }
+    if (!search?.accessToken || !search.user) return;
 
-    setStoredUser(search);
+    setOAuthUser({
+      ...search.user,
+      accessToken: search.accessToken,
+    });
+
+    console.log('search', search);
+    console.log('search', search);
     navigate({ to: '/dashboard' });
   }, []);
+
   return (
     <div className="flex items-center justify-center min-h-screen">
       <OAuthStatusCard
+        type="success"
         title="Connected Successfully"
         description="Your account has been linked with the provider."
       />

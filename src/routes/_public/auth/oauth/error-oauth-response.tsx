@@ -31,7 +31,7 @@ function RouteComponent() {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <OAuthStatusCard title={title} description={description} />
+      <OAuthStatusCard title={title} description={description} type="fail" />
     </div>
   );
 }

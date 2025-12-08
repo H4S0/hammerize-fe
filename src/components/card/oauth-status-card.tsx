@@ -1,12 +1,21 @@
-import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '../ui/card';
 import HammerizeLogo from '../../../public/hammerize-logo-png.png';
+import { Button } from '../ui/button';
+import { Link } from '@tanstack/react-router';
 
 type StatusCardProps = {
   title: string;
   description: string;
+  type: 'success' | 'fail';
 };
 
-const OAuthStatusCard = ({ title, description }: StatusCardProps) => {
+const OAuthStatusCard = ({ title, description, type }: StatusCardProps) => {
   return (
     <Card className="w-full max-w-lg sm:max-w-lg">
       <CardHeader>
@@ -18,6 +27,14 @@ const OAuthStatusCard = ({ title, description }: StatusCardProps) => {
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
+
+      {type === 'success' && (
+        <CardContent>
+          <Link to="/dashboard">
+            <Button>Go to dashboard</Button>
+          </Link>
+        </CardContent>
+      )}
     </Card>
   );
 };

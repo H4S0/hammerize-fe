@@ -18,6 +18,7 @@ export interface AuthContextType {
   loginUser: (data: z.infer<typeof LoginSchema>) => Promise<void>;
   logout: () => Promise<void>;
   refetchUser: () => Promise<User | null>;
+  setOAuthUser: (user: User) => void;
 }
 
 const AuthContext = React.createContext<AuthContextType | null>(null);
@@ -88,6 +89,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  const setOAuthUser = useCallback((user: User) => {
+    setUser(user);
+    setStoredUser(user);
+  }, []);
+
   useEffect(() => {
     setUser(getStoredUser());
   }, []);
@@ -99,8 +105,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       loginUser,
       logout,
       refetchUser,
+      setOAuthUser,
     }),
-    [isAuthenticated, user, loginUser, logout, refetchUser]
+    [isAuthenticated, user, loginUser, logout, refetchUser, setOAuthUser]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
