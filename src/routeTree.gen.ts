@@ -18,7 +18,7 @@ import { Route as AuthNavbarRouteImport } from './routes/_auth/_navbar'
 import { Route as PublicPasswordResetTokenRouteImport } from './routes/_public/password-reset/$token'
 import { Route as AuthNavbarDashboardIndexRouteImport } from './routes/_auth/_navbar/dashboard/index'
 import { Route as PublicAuthOauthSuccessOauthResponseRouteImport } from './routes/_public/auth/oauth/success-oauth-response'
-import { Route as PublicAuthOauthErrorOatuhResponseRouteImport } from './routes/_public/auth/oauth/error-oatuh-response'
+import { Route as PublicAuthOauthErrorOauthResponseRouteImport } from './routes/_public/auth/oauth/error-oauth-response'
 import { Route as AuthNavbarDashboardUserSettingsRouteImport } from './routes/_auth/_navbar/dashboard/user-settings'
 import { Route as AuthNavbarDashboardSummariesRouteImport } from './routes/_auth/_navbar/dashboard/summaries'
 import { Route as AuthNavbarDashboardOverviewRouteImport } from './routes/_auth/_navbar/dashboard/overview'
@@ -70,10 +70,10 @@ const PublicAuthOauthSuccessOauthResponseRoute =
     path: '/auth/oauth/success-oauth-response',
     getParentRoute: () => PublicRoute,
   } as any)
-const PublicAuthOauthErrorOatuhResponseRoute =
-  PublicAuthOauthErrorOatuhResponseRouteImport.update({
-    id: '/auth/oauth/error-oatuh-response',
-    path: '/auth/oauth/error-oatuh-response',
+const PublicAuthOauthErrorOauthResponseRoute =
+  PublicAuthOauthErrorOauthResponseRouteImport.update({
+    id: '/auth/oauth/error-oauth-response',
+    path: '/auth/oauth/error-oauth-response',
     getParentRoute: () => PublicRoute,
   } as any)
 const AuthNavbarDashboardUserSettingsRoute =
@@ -109,7 +109,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
   '/dashboard/user-settings': typeof AuthNavbarDashboardUserSettingsRoute
-  '/auth/oauth/error-oatuh-response': typeof PublicAuthOauthErrorOatuhResponseRoute
+  '/auth/oauth/error-oauth-response': typeof PublicAuthOauthErrorOauthResponseRoute
   '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/dashboard': typeof AuthNavbarDashboardIndexRoute
 }
@@ -122,7 +122,7 @@ export interface FileRoutesByTo {
   '/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
   '/dashboard/user-settings': typeof AuthNavbarDashboardUserSettingsRoute
-  '/auth/oauth/error-oatuh-response': typeof PublicAuthOauthErrorOatuhResponseRoute
+  '/auth/oauth/error-oauth-response': typeof PublicAuthOauthErrorOauthResponseRoute
   '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/dashboard': typeof AuthNavbarDashboardIndexRoute
 }
@@ -139,7 +139,7 @@ export interface FileRoutesById {
   '/_auth/_navbar/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/_auth/_navbar/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
   '/_auth/_navbar/dashboard/user-settings': typeof AuthNavbarDashboardUserSettingsRoute
-  '/_public/auth/oauth/error-oatuh-response': typeof PublicAuthOauthErrorOatuhResponseRoute
+  '/_public/auth/oauth/error-oauth-response': typeof PublicAuthOauthErrorOauthResponseRoute
   '/_public/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/_auth/_navbar/dashboard/': typeof AuthNavbarDashboardIndexRoute
 }
@@ -154,7 +154,7 @@ export interface FileRouteTypes {
     | '/dashboard/overview'
     | '/dashboard/summaries'
     | '/dashboard/user-settings'
-    | '/auth/oauth/error-oatuh-response'
+    | '/auth/oauth/error-oauth-response'
     | '/auth/oauth/success-oauth-response'
     | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
@@ -167,7 +167,7 @@ export interface FileRouteTypes {
     | '/dashboard/overview'
     | '/dashboard/summaries'
     | '/dashboard/user-settings'
-    | '/auth/oauth/error-oatuh-response'
+    | '/auth/oauth/error-oauth-response'
     | '/auth/oauth/success-oauth-response'
     | '/dashboard'
   id:
@@ -183,7 +183,7 @@ export interface FileRouteTypes {
     | '/_auth/_navbar/dashboard/overview'
     | '/_auth/_navbar/dashboard/summaries'
     | '/_auth/_navbar/dashboard/user-settings'
-    | '/_public/auth/oauth/error-oatuh-response'
+    | '/_public/auth/oauth/error-oauth-response'
     | '/_public/auth/oauth/success-oauth-response'
     | '/_auth/_navbar/dashboard/'
   fileRoutesById: FileRoutesById
@@ -258,11 +258,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAuthOauthSuccessOauthResponseRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_public/auth/oauth/error-oatuh-response': {
-      id: '/_public/auth/oauth/error-oatuh-response'
-      path: '/auth/oauth/error-oatuh-response'
-      fullPath: '/auth/oauth/error-oatuh-response'
-      preLoaderRoute: typeof PublicAuthOauthErrorOatuhResponseRouteImport
+    '/_public/auth/oauth/error-oauth-response': {
+      id: '/_public/auth/oauth/error-oauth-response'
+      path: '/auth/oauth/error-oauth-response'
+      fullPath: '/auth/oauth/error-oauth-response'
+      preLoaderRoute: typeof PublicAuthOauthErrorOauthResponseRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_auth/_navbar/dashboard/user-settings': {
@@ -331,7 +331,7 @@ interface PublicRouteChildren {
   PublicLoginRoute: typeof PublicLoginRoute
   PublicRegisterRoute: typeof PublicRegisterRoute
   PublicPasswordResetTokenRoute: typeof PublicPasswordResetTokenRoute
-  PublicAuthOauthErrorOatuhResponseRoute: typeof PublicAuthOauthErrorOatuhResponseRoute
+  PublicAuthOauthErrorOauthResponseRoute: typeof PublicAuthOauthErrorOauthResponseRoute
   PublicAuthOauthSuccessOauthResponseRoute: typeof PublicAuthOauthSuccessOauthResponseRoute
 }
 
@@ -340,8 +340,8 @@ const PublicRouteChildren: PublicRouteChildren = {
   PublicLoginRoute: PublicLoginRoute,
   PublicRegisterRoute: PublicRegisterRoute,
   PublicPasswordResetTokenRoute: PublicPasswordResetTokenRoute,
-  PublicAuthOauthErrorOatuhResponseRoute:
-    PublicAuthOauthErrorOatuhResponseRoute,
+  PublicAuthOauthErrorOauthResponseRoute:
+    PublicAuthOauthErrorOauthResponseRoute,
   PublicAuthOauthSuccessOauthResponseRoute:
     PublicAuthOauthSuccessOauthResponseRoute,
 }

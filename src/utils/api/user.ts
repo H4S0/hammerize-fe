@@ -10,6 +10,7 @@ export const UserSchema = z.object({
   username: z.string(),
   email: z.email(),
   role: RoleEnum,
+  accessToken: z.string(),
 });
 
 export const RegisterSchema = z.object({
