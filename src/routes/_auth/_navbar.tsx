@@ -19,7 +19,7 @@ function RouteComponent() {
 
   return (
     <div className="w-full">
-      <div className="w-full bg-gray-100 backdrop-blur-md">
+      <div className="w-full bg-muted/30 backdrop-blur-md">
         <div className="max-w-5xl mx-auto w-full">
           <DashboardTopNavbar />
         </div>
@@ -27,7 +27,7 @@ function RouteComponent() {
 
       <Separator className="w-full" />
 
-      <div className="w-full bg-gray-100 backdrop-blur-md">
+      <div className="w-full bg-muted/30 backdrop-blur-md">
         <div className="max-w-5xl mx-auto w-full">
           <DashboardMainNavbar />
         </div>

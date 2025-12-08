@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider, useAuth } from './utils/auth/auth';
 import { Toaster } from './components/ui/sonner';
 import './globals.css';
+import { ThemeProvider } from './components/theme/theme-provider';
 
 const queryClient = new QueryClient();
 const router = createRouter({
@@ -36,11 +37,13 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <InnerApp />
-        </AuthProvider>
-      </QueryClientProvider>
+      <ThemeProvider defaultTheme="light" storageKey="hammerize-ui-theme">
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <InnerApp />
+          </AuthProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </StrictMode>
   );
 }
