@@ -3,6 +3,8 @@ import DiscordLogo from '../../../public/discord-icon-43736.png';
 import TelegramLogo from '../../../public/Slack_icon_2019.svg.png';
 import SlackLogo from '../../../public/telegram.png';
 import PlatformInviteCard from '../card/platform-invite-card';
+import LinkBotModal from '../modal/link-bot-modal';
+import { Separator } from '../ui/separator';
 
 const newBotItems = [
   {
@@ -31,12 +33,16 @@ const newBotItems = [
 const NewBotSection = () => {
   return (
     <div className="mt-10">
-      <h2 className="flex items-center gap-2  text-muted-foreground">
-        <CirclePlus size={20} />
-        <p className="text-2xl"> Add new platform</p>
-      </h2>
+      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <CirclePlus size={20} />
+          <p className="text-2xl"> Add new platform</p>
+        </div>
+        <Separator orientation="vertical" className="py-3" />
+        <LinkBotModal />
+      </div>
 
-      <div className="grid grid-cols-3 gap-3 mt-2">
+      <div className="grid grid-cols-3 gap-3 mt-5">
         {newBotItems.map((item) => (
           <PlatformInviteCard item={item} />
         ))}
