@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import OAuthField from './oauth-field';
 import { toast } from 'sonner';
-import { ApiResponse, isApiResponse } from '@/utils/axios-config/axios';
+import { isApiResponse } from '@/utils/axios-config/axios';
 
 const RegisterForm = () => {
   const navigate = useNavigate();
