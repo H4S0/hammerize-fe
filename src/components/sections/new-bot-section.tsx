@@ -42,9 +42,9 @@ const NewBotSection = () => {
         <LinkBotModal />
       </div>
 
-      <div className="grid grid-cols-3 gap-3 mt-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-5">
         {newBotItems.map((item) => (
-          <PlatformInviteCard item={item} />
+          <PlatformInviteCard key={item.label} item={item} />
         ))}
       </div>
     </div>

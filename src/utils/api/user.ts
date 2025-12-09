@@ -79,17 +79,6 @@ export async function newPassword(
   return res.data;
 }
 
-export async function fetchCreditsAmount() {
-  try {
-    const res = await api.get<number>('/user/get-credits-amount'); // Koristi se ?? za default vrednost
-
-    return { credits: res.data.data ?? 0 };
-  } catch (error) {
-    console.error('Failed to fetch credits amount:', error);
-    return { credits: 0 };
-  }
-}
-
 export const EmailUpdateSchema = z.object({
   oldEmail: z.email(),
   newEmail: z.email(),
@@ -108,7 +97,7 @@ export async function updateEmail(data: z.infer<typeof EmailUpdateSchema>) {
 export async function updatePassword(
   data: z.infer<typeof PasswordUpdateSchema>
 ) {
-  const hashedOldPassword = await createSHA512Hash(data.oldPassword); // 🚨 OPASNOST: Ovde ste koristili data.oldPassword umesto data.newPassword!
+  const hashedOldPassword = await createSHA512Hash(data.oldPassword);
   const hashedNewPassword = await createSHA512Hash(data.newPassword);
   const res = await api.put('/user/new-password', {
     oldPassword: hashedOldPassword,
