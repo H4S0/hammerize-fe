@@ -35,7 +35,7 @@ function RouteComponent() {
 
       <Separator className="w-full" />
 
-      <div className="max-w-5xl mx-auto w-full mt-6 px-3 md:px-0">
+      <div className="max-w-5xl mx-auto w-full mt-6 px-3">
         <Outlet />
       </div>
     </div>

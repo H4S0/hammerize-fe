@@ -6,7 +6,12 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
-import { BE_URL, getValidTokenString, refreshApi } from './get-valid-token';
+import {
+  BE_URL,
+  getValidToken,
+  getValidTokenString,
+  refreshApi,
+} from './get-valid-token';
 import { setAccessToken, clearUser } from '../auth/auth-storage';
 
 const PUBLIC_URLS = ['/auth/login', '/auth/register'];
@@ -88,7 +93,7 @@ api.interceptors.request.use(
       return config;
     }
 
-    const token = await getValidTokenString();
+    const token = await getValidToken();
     if (token) {
       config.headers = config.headers || {};
       config.headers.Authorization = `Bearer ${token}`;
