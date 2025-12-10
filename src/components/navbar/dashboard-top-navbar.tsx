@@ -8,7 +8,7 @@ const DashboardTopNavbar = () => {
         <img
           src={HammerizeLogo}
           alt="hammerize-logo"
-          className="w-25 h-25 object-contain"
+          className="w-10 h-10 md:w-25 md:h-25 object-contain"
         />
         <p className="text-lg font-semibold">Hammerize.ai</p>
       </div>

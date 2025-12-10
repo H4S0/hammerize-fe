@@ -3,7 +3,6 @@ import { Link, LinkProps, useLocation } from '@tanstack/react-router';
 import { ReactElement } from 'react';
 import {
   Bot,
-  Key,
   LayoutPanelLeft,
   MessageSquareMore,
   Settings,
@@ -17,42 +16,40 @@ type NavbarItemsOptions = {
 
 const dashboardMainNavbarItems: NavbarItemsOptions[] = [
   {
-    icon: <LayoutPanelLeft size={15} />,
+    icon: <LayoutPanelLeft size={18} />,
     label: 'Overview',
     link: '/dashboard/overview',
   },
   {
-    icon: <MessageSquareMore size={15} />,
+    icon: <MessageSquareMore size={18} />,
     label: 'Summaries',
     link: '/dashboard/summaries',
   },
+  { icon: <Bot size={18} />, label: 'Bots', link: '/dashboard/bots-page/bots' },
   {
-    icon: <Bot size={15} />,
-    label: 'Bots',
-    link: '/dashboard/bots-page/bots',
-  },
-  {
-    icon: <Settings size={15} />,
+    icon: <Settings size={18} />,
     label: 'Settings',
     link: '/dashboard/user-settings',
   },
 ];
+
 const DashboardMainNavbar = () => {
   const location = useLocation();
-  console.log('location', location);
+
   return (
-    <div className="flex items-center gap-5 py-2">
+    <div className="flex sm:flex-row flex-row justify-around sm:justify-start items-center py-2 gap-0 sm:gap-5 w-full">
       {dashboardMainNavbarItems.map((item) => (
         <Link
           to={item.link}
           key={item.label}
           className={cn(
-            'flex items-center gap-2 hover:bg-primary/70 rounded-md px-2 py-1 text-muted-foreground hover:text-white transition-colors duration-150',
+            'flex items-center gap-2 sm:gap-2 px-2 py-1 rounded-md text-muted-foreground hover:bg-primary/70 hover:text-white transition-colors duration-150',
+            'sm:flex-row flex-col sm:w-auto w-full justify-center',
             item.link === location.href && 'bg-primary/70 text-white'
           )}
         >
           {item.icon}
-          <p>{item.label}</p>
+          <span className="hidden sm:block">{item.label}</span>
         </Link>
       ))}
     </div>
