@@ -29,7 +29,7 @@ const dashboardMainNavbarItems: NavbarItemsOptions[] = [
   {
     icon: <Bot size={15} />,
     label: 'Bots',
-    link: '/dashboard/bots',
+    link: '/dashboard/bots-page/bots',
   },
   {
     icon: <Settings size={15} />,

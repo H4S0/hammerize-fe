@@ -13,7 +13,7 @@ export async function linkPlatform(data: z.infer<typeof LinkPlatformSchema>) {
   return res.data;
 }
 
-type PlatformsChatRes = {
+export type Platform = {
   _id: string;
   chatId: string;
   platform: z.infer<typeof PlatformSchema>;
@@ -23,7 +23,21 @@ type PlatformsChatRes = {
   adminUserId: string;
 };
 
+export type Server = {
+  _id: string;
+  serverId: string;
+  serverName: string;
+  serverImage: string;
+  members: number;
+  channelCount: number;
+};
+
+type PlatformsChatRes = {
+  others: Platform[];
+  servers: Server[];
+};
+
 export async function fetchUserPlatformsChat() {
-  const res = await api.get<PlatformsChatRes[]>('/platform/all-platforms');
+  const res = await api.get<PlatformsChatRes>('/platform/all-platforms');
   return res.data;
 }
