@@ -44,9 +44,22 @@ export async function fetchUserPlatformsChat() {
   return res.data;
 }
 
-export async function deletePlatform(platformChatId: string) {
-  const res = await api.delete(
-    `/platform//delete-platform?platformChatId=${platformChatId}`
-  );
+export async function deletePlatform({
+  platformChatId,
+  serverId,
+}: {
+  platformChatId?: string;
+  serverId?: string;
+}) {
+  const query = new URLSearchParams();
+
+  if (platformChatId) query.append('platformChatId', platformChatId);
+  if (serverId) {
+    query.append('isServer', 'true');
+    query.append('serverId', serverId);
+  }
+
+  const res = await api.delete(`/platform/delete-platform?${query.toString()}`);
+
   return res.data;
 }

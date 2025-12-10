@@ -47,7 +47,7 @@ const PlatformCard = ({ platformChat }: { platformChat: Platform }) => {
           </div>
         </div>
 
-        <PlatformSettingsDropdown />
+        <PlatformSettingsDropdown platformChatId={platformChat._id} />
       </CardContent>
     </Card>
   );
