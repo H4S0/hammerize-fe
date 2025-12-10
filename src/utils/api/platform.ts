@@ -63,3 +63,14 @@ export async function deletePlatform({
 
   return res.data;
 }
+
+type InviteUrlRes = {
+  discord: string;
+  telegram: string;
+  slack: string;
+};
+
+export async function fetchInviteUrls() {
+  const res = await api.get<InviteUrlRes>('/platform/invite-urls');
+  return res.data;
+}

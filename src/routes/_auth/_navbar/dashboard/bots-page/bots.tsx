@@ -34,13 +34,15 @@ function RouteComponent() {
         title="Manage Your Bots"
         description="Connect platforms and manage bot integrations"
       />
+
       <NewBotSection />
       <Separator className="my-5" />
+
       <div className="mb-8">
         <div className="flex items-center gap-2">
           <h2 className="text-xl font-semibold">Discord Integrations</h2>
           <Badge>
-            {discordServerCount}
+            {discordServerCount}{' '}
             {discordServerCount === 1 ? 'server' : 'servers'}
           </Badge>
         </div>
@@ -54,7 +56,9 @@ function RouteComponent() {
           )}
         </div>
       </div>
+
       <Separator className="my-5" />
+
       <div className="mb-8">
         <div className="flex items-center gap-2">
           <h2 className="text-xl font-semibold">Telegram & Slack</h2> 
