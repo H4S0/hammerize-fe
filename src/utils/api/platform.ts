@@ -13,10 +13,12 @@ export async function linkPlatform(data: z.infer<typeof LinkPlatformSchema>) {
   return res.data;
 }
 
+type PlatformSchema = z.infer<typeof PlatformSchema>;
+
 export type Platform = {
   _id: string;
   chatId: string;
-  platform: z.infer<typeof PlatformSchema>;
+  platform: Exclude<PlatformSchema, 'discord'>;
   chatName: string;
   isActive: boolean;
   lastProcessAt: Date;
@@ -39,5 +41,12 @@ type PlatformsChatRes = {
 
 export async function fetchUserPlatformsChat() {
   const res = await api.get<PlatformsChatRes>('/platform/all-platforms');
+  return res.data;
+}
+
+export async function deletePlatform(platformChatId: string) {
+  const res = await api.delete(
+    `/platform//delete-platform?platformChatId=${platformChatId}`
+  );
   return res.data;
 }
