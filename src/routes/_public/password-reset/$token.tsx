@@ -7,9 +7,11 @@ export const Route = createFileRoute('/_public/password-reset/$token')({
 });
 
 function RouteComponent() {
+  const { token } = Route.useParams();
+
   return (
     <AuthLayout type="new-password">
-      <PasswordResetForm />
+      <PasswordResetForm token={token} />
     </AuthLayout>
   );
 }
