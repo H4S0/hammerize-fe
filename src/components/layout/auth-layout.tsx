@@ -30,8 +30,7 @@ const formHeaderContent = {
   },
   'password-reset': {
     title: 'Reset your password',
-    description:
-      'Make sure to check your email so you can reset your password!',
+    description: 'Make sure to check your email inbox!',
     link: '/login',
     linkLabel: 'Back to login',
   },

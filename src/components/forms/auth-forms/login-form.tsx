@@ -1,6 +1,6 @@
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import z from 'zod';
-import { useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { LoginSchema } from '@/utils/api/user';
 import { useAuth } from '@/utils/auth/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -52,7 +52,14 @@ const LoginForm = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field>
-                  <FieldLabel>Password</FieldLabel>
+                  <div className="flex items-center justify-between">
+                    <FieldLabel>Password</FieldLabel>
+                    <Link to="/init-forget-password">
+                      <Button size="sm" variant="link">
+                        Forget password?
+                      </Button>
+                    </Link>
+                  </div>
                   <Input {...field} placeholder="••••••••" type="password" />
                   <InstantFieldError fieldState={fieldState} />
                 </Field>

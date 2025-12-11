@@ -105,13 +105,11 @@ api.interceptors.response.use(
     const originalRequest = error.config! as ExtendedInternalAxiosRequestConfig;
     const res = error.response;
 
-    // Logika za parsiranje odgovora (API Error Format)
     const backendResponse: ApiResponse<unknown> | null =
       res?.data && typeof res.data === 'object' && 'message' in res.data
         ? (res.data as ApiResponse<unknown>)
         : null;
 
-    // 1. Provera javne rute (ako ne uspe poziv ka /login ili /register)
     const isPublicRoute = PUBLIC_URLS.some((url) =>
       originalRequest.url?.endsWith(url)
     );
@@ -120,17 +118,16 @@ api.interceptors.response.use(
       return Promise.reject(backendResponse || error.response?.data || error);
     }
 
-    // 2. Detekcija isteka tokena na osnovu backend odgovora
     const statusCode =
       res?.status ??
       backendResponse?.status ??
       StatusCodes.INTERNAL_SERVER_ERROR;
 
     const isTokenExpiredResponse =
-      statusCode === StatusCodes.UNAUTHORIZED || // Ako je status 401
+      statusCode === StatusCodes.UNAUTHORIZED ||
       (backendResponse &&
-        backendResponse.status === StatusCodes.UNAUTHORIZED) || // Ako backend JSON body ima status 401
-      backendResponse?.message?.includes('Invalid or expired token'); // Ako poruka sadrži ključnu frazu
+        backendResponse.status === StatusCodes.UNAUTHORIZED) ||
+      backendResponse?.message?.includes('Invalid or expired token');
 
     const shouldAttemptRefresh =
       isTokenExpiredResponse &&
@@ -183,12 +180,11 @@ api.interceptors.response.use(
       } finally {
         isRefreshing = false;
       }
-    } // 3. RUKOVANJE OSTALIM GREŠKAMA
+    }
 
     if (backendResponse) {
-      // Vraćanje JSON objekta greške koji je došao iz backend-a
       return Promise.reject(backendResponse);
-    } // Fallback za ne-JSON greške (npr. mreža, CORS, timeout)
+    }
 
     let message: string;
     const finalStatusCode =
