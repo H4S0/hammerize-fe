@@ -6,12 +6,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
-import {
-  BE_URL,
-  getValidToken,
-  getValidTokenString,
-  refreshApi,
-} from './get-valid-token';
+import { BE_URL, getValidToken, refreshApi } from './get-valid-token';
 import { setAccessToken, clearUser } from '../auth/auth-storage';
 
 const PUBLIC_URLS = ['/auth/login', '/auth/register'];
@@ -21,6 +16,7 @@ export type ApiResponse<T = unknown> = {
   message: string;
   error?: string | null;
   data: T | null;
+  status?: StatusCodes;
 };
 
 interface ExtendedInternalAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -108,21 +104,40 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config! as ExtendedInternalAxiosRequestConfig;
     const res = error.response;
-    const statusCode = res?.status ?? StatusCodes.INTERNAL_SERVER_ERROR;
 
+    // Logika za parsiranje odgovora (API Error Format)
+    const backendResponse: ApiResponse<unknown> | null =
+      res?.data && typeof res.data === 'object' && 'message' in res.data
+        ? (res.data as ApiResponse<unknown>)
+        : null;
+
+    // 1. Provera javne rute (ako ne uspe poziv ka /login ili /register)
     const isPublicRoute = PUBLIC_URLS.some((url) =>
       originalRequest.url?.endsWith(url)
     );
 
     if (isPublicRoute) {
-      return Promise.reject(error.response?.data || error);
+      return Promise.reject(backendResponse || error.response?.data || error);
     }
 
-    if (
-      statusCode === StatusCodes.UNAUTHORIZED &&
+    // 2. Detekcija isteka tokena na osnovu backend odgovora
+    const statusCode =
+      res?.status ??
+      backendResponse?.status ??
+      StatusCodes.INTERNAL_SERVER_ERROR;
+
+    const isTokenExpiredResponse =
+      statusCode === StatusCodes.UNAUTHORIZED || // Ako je status 401
+      (backendResponse &&
+        backendResponse.status === StatusCodes.UNAUTHORIZED) || // Ako backend JSON body ima status 401
+      backendResponse?.message?.includes('Invalid or expired token'); // Ako poruka sadrži ključnu frazu
+
+    const shouldAttemptRefresh =
+      isTokenExpiredResponse &&
       !originalRequest._retry &&
-      !originalRequest.url?.includes('/verify/refresh-token')
-    ) {
+      !originalRequest.url?.includes('/verify/refresh-token');
+
+    if (shouldAttemptRefresh) {
       if (isRefreshing) {
         return new Promise<string>((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -168,21 +183,23 @@ api.interceptors.response.use(
       } finally {
         isRefreshing = false;
       }
-    }
+    } // 3. RUKOVANJE OSTALIM GREŠKAMA
 
-    if (res && res.data) {
-      const backendResponse: ApiResponse<unknown> =
-        res.data as ApiResponse<unknown>;
-
+    if (backendResponse) {
+      // Vraćanje JSON objekta greške koji je došao iz backend-a
       return Promise.reject(backendResponse);
-    }
+    } // Fallback za ne-JSON greške (npr. mreža, CORS, timeout)
 
     let message: string;
+    const finalStatusCode =
+      error.response?.status || StatusCodes.INTERNAL_SERVER_ERROR;
 
-    if (statusCode >= 500) {
+    if (finalStatusCode >= 500) {
       message = 'Something went wrong, please contact support!';
+    } else if (finalStatusCode) {
+      message = getReasonPhrase(finalStatusCode);
     } else {
-      message = getReasonPhrase(statusCode);
+      message = 'Network error or request failed to complete.';
     }
 
     const finalErrorResponse: ApiResponse<null> = {
@@ -190,6 +207,7 @@ api.interceptors.response.use(
       message,
       error: stringifyError(error),
       data: null,
+      status: finalStatusCode,
     };
 
     return Promise.reject(finalErrorResponse);
