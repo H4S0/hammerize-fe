@@ -15,12 +15,14 @@ import InstantFieldError from './instant-field-error';
 import { Button } from '../ui/button';
 import { toast } from 'sonner';
 import { isApiResponse } from '@/utils/axios-config/axios';
+import { useQueryClient } from '@tanstack/react-query';
 
 const PlatformLinkForm = ({
   setIsModalOpen,
 }: {
   setIsModalOpen: (isOpen: boolean) => void;
 }) => {
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof LinkPlatformSchema>>({
     resolver: zodResolver(LinkPlatformSchema),
   });
@@ -32,6 +34,7 @@ const PlatformLinkForm = ({
       const res = await linkPlatform(data);
       toast.success(res.message);
 
+      queryClient.invalidateQueries({ queryKey: ['user-platform-chat'] });
       form.reset();
       setIsModalOpen(false);
     } catch (err) {

@@ -1,12 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { Github } from 'lucide-react';
-import DiscordLogo from '../../../../public/discord-icon-43736.png';
+import DiscordBlackLogo from '../../../../public/discord-icon-43736.png';
+import DiscordWhiteLogo from '../../../../public/discord-white-icon.png';
 import { useState } from 'react';
 import { BE_URL } from '@/utils/axios-config/get-valid-token';
+import { useTheme } from '@/components/theme/theme-provider';
 
 const OAuthField = () => {
   const [loading, setLoading] = useState<'github' | 'discord' | null>(null);
-
+  const { theme } = useTheme();
   const handleOAuth = (provider: 'github' | 'discord') => {
     setLoading(provider);
 
@@ -22,7 +24,11 @@ const OAuthField = () => {
         disabled={loading === 'discord'}
       >
         {loading === 'discord' ? 'Connecting...' : 'Discord'}
-        <img src={DiscordLogo} alt="discord" className="w-5 h-5" />
+        <img
+          src={theme === 'dark' ? DiscordWhiteLogo : DiscordBlackLogo}
+          alt="discord"
+          className="w-5 h-5"
+        />
       </Button>
 
       <Button
