@@ -75,7 +75,12 @@ export async function fetchInviteUrls() {
   return res.data;
 }
 
+type ServerRes = {
+  server: Server;
+  channels: Platform[];
+};
+
 export async function fetchServerById(serverId: string) {
-  const res = await api.get(`/platform/get-server/${serverId}`);
+  const res = await api.get<ServerRes>(`/platform/get-server/${serverId}`);
   return res.data;
 }

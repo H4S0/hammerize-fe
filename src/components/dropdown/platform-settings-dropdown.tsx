@@ -30,15 +30,15 @@ const PlatformSettingsDropdown = ({
       <DropdownMenuContent>
         <DropdownMenuLabel>Platform chat settings</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="justify-between">
-          <Link
-            to="/dashboard/bots-page/platform-page/$platformId"
-            params={{ platformId: platformChatId }}
-          >
+        <Link
+          to="/dashboard/bots-page/platform-page/$platformId"
+          params={{ platformId: platformChatId }}
+        >
+          <DropdownMenuItem className="justify-between w-full">
             View summaries
             <LinkIcon />
-          </Link>
-        </DropdownMenuItem>
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuItem
           className="justify-between"
           onClick={async () => {
