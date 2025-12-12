@@ -23,7 +23,8 @@ import { Route as AuthNavbarDashboardUserSettingsRouteImport } from './routes/_a
 import { Route as AuthNavbarDashboardSummariesRouteImport } from './routes/_auth/_navbar/dashboard/summaries'
 import { Route as AuthNavbarDashboardOverviewRouteImport } from './routes/_auth/_navbar/dashboard/overview'
 import { Route as AuthNavbarDashboardBotsPageBotsRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/bots'
-import { Route as AuthNavbarDashboardBotsPagePlatformIdRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/$platformId'
+import { Route as AuthNavbarDashboardBotsPageServerPageServerIdRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
+import { Route as AuthNavbarDashboardBotsPagePlatformPagePlatformIdRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/platform-page/$platformId'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -101,10 +102,16 @@ const AuthNavbarDashboardBotsPageBotsRoute =
     path: '/dashboard/bots-page/bots',
     getParentRoute: () => AuthNavbarRoute,
   } as any)
-const AuthNavbarDashboardBotsPagePlatformIdRoute =
-  AuthNavbarDashboardBotsPagePlatformIdRouteImport.update({
-    id: '/dashboard/bots-page/$platformId',
-    path: '/dashboard/bots-page/$platformId',
+const AuthNavbarDashboardBotsPageServerPageServerIdRoute =
+  AuthNavbarDashboardBotsPageServerPageServerIdRouteImport.update({
+    id: '/dashboard/bots-page/server-page/$serverId',
+    path: '/dashboard/bots-page/server-page/$serverId',
+    getParentRoute: () => AuthNavbarRoute,
+  } as any)
+const AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute =
+  AuthNavbarDashboardBotsPagePlatformPagePlatformIdRouteImport.update({
+    id: '/dashboard/bots-page/platform-page/$platformId',
+    path: '/dashboard/bots-page/platform-page/$platformId',
     getParentRoute: () => AuthNavbarRoute,
   } as any)
 
@@ -119,8 +126,9 @@ export interface FileRoutesByFullPath {
   '/auth/oauth/error-oauth-response': typeof PublicAuthOauthErrorOauthResponseRoute
   '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/dashboard': typeof AuthNavbarDashboardIndexRoute
-  '/dashboard/bots-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformIdRoute
   '/dashboard/bots-page/bots': typeof AuthNavbarDashboardBotsPageBotsRoute
+  '/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
+  '/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
 }
 export interface FileRoutesByTo {
   '/init-forget-password': typeof PublicInitForgetPasswordRoute
@@ -133,8 +141,9 @@ export interface FileRoutesByTo {
   '/auth/oauth/error-oauth-response': typeof PublicAuthOauthErrorOauthResponseRoute
   '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/dashboard': typeof AuthNavbarDashboardIndexRoute
-  '/dashboard/bots-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformIdRoute
   '/dashboard/bots-page/bots': typeof AuthNavbarDashboardBotsPageBotsRoute
+  '/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
+  '/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -151,8 +160,9 @@ export interface FileRoutesById {
   '/_public/auth/oauth/error-oauth-response': typeof PublicAuthOauthErrorOauthResponseRoute
   '/_public/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/_auth/_navbar/dashboard/': typeof AuthNavbarDashboardIndexRoute
-  '/_auth/_navbar/dashboard/bots-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformIdRoute
   '/_auth/_navbar/dashboard/bots-page/bots': typeof AuthNavbarDashboardBotsPageBotsRoute
+  '/_auth/_navbar/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
+  '/_auth/_navbar/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -167,8 +177,9 @@ export interface FileRouteTypes {
     | '/auth/oauth/error-oauth-response'
     | '/auth/oauth/success-oauth-response'
     | '/dashboard'
-    | '/dashboard/bots-page/$platformId'
     | '/dashboard/bots-page/bots'
+    | '/dashboard/bots-page/platform-page/$platformId'
+    | '/dashboard/bots-page/server-page/$serverId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/init-forget-password'
@@ -181,8 +192,9 @@ export interface FileRouteTypes {
     | '/auth/oauth/error-oauth-response'
     | '/auth/oauth/success-oauth-response'
     | '/dashboard'
-    | '/dashboard/bots-page/$platformId'
     | '/dashboard/bots-page/bots'
+    | '/dashboard/bots-page/platform-page/$platformId'
+    | '/dashboard/bots-page/server-page/$serverId'
   id:
     | '__root__'
     | '/_auth'
@@ -198,8 +210,9 @@ export interface FileRouteTypes {
     | '/_public/auth/oauth/error-oauth-response'
     | '/_public/auth/oauth/success-oauth-response'
     | '/_auth/_navbar/dashboard/'
-    | '/_auth/_navbar/dashboard/bots-page/$platformId'
     | '/_auth/_navbar/dashboard/bots-page/bots'
+    | '/_auth/_navbar/dashboard/bots-page/platform-page/$platformId'
+    | '/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -307,11 +320,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthNavbarDashboardBotsPageBotsRouteImport
       parentRoute: typeof AuthNavbarRoute
     }
-    '/_auth/_navbar/dashboard/bots-page/$platformId': {
-      id: '/_auth/_navbar/dashboard/bots-page/$platformId'
-      path: '/dashboard/bots-page/$platformId'
-      fullPath: '/dashboard/bots-page/$platformId'
-      preLoaderRoute: typeof AuthNavbarDashboardBotsPagePlatformIdRouteImport
+    '/_auth/_navbar/dashboard/bots-page/server-page/$serverId': {
+      id: '/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
+      path: '/dashboard/bots-page/server-page/$serverId'
+      fullPath: '/dashboard/bots-page/server-page/$serverId'
+      preLoaderRoute: typeof AuthNavbarDashboardBotsPageServerPageServerIdRouteImport
+      parentRoute: typeof AuthNavbarRoute
+    }
+    '/_auth/_navbar/dashboard/bots-page/platform-page/$platformId': {
+      id: '/_auth/_navbar/dashboard/bots-page/platform-page/$platformId'
+      path: '/dashboard/bots-page/platform-page/$platformId'
+      fullPath: '/dashboard/bots-page/platform-page/$platformId'
+      preLoaderRoute: typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRouteImport
       parentRoute: typeof AuthNavbarRoute
     }
   }
@@ -322,8 +342,9 @@ interface AuthNavbarRouteChildren {
   AuthNavbarDashboardSummariesRoute: typeof AuthNavbarDashboardSummariesRoute
   AuthNavbarDashboardUserSettingsRoute: typeof AuthNavbarDashboardUserSettingsRoute
   AuthNavbarDashboardIndexRoute: typeof AuthNavbarDashboardIndexRoute
-  AuthNavbarDashboardBotsPagePlatformIdRoute: typeof AuthNavbarDashboardBotsPagePlatformIdRoute
   AuthNavbarDashboardBotsPageBotsRoute: typeof AuthNavbarDashboardBotsPageBotsRoute
+  AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute: typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
+  AuthNavbarDashboardBotsPageServerPageServerIdRoute: typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
 }
 
 const AuthNavbarRouteChildren: AuthNavbarRouteChildren = {
@@ -331,9 +352,11 @@ const AuthNavbarRouteChildren: AuthNavbarRouteChildren = {
   AuthNavbarDashboardSummariesRoute: AuthNavbarDashboardSummariesRoute,
   AuthNavbarDashboardUserSettingsRoute: AuthNavbarDashboardUserSettingsRoute,
   AuthNavbarDashboardIndexRoute: AuthNavbarDashboardIndexRoute,
-  AuthNavbarDashboardBotsPagePlatformIdRoute:
-    AuthNavbarDashboardBotsPagePlatformIdRoute,
   AuthNavbarDashboardBotsPageBotsRoute: AuthNavbarDashboardBotsPageBotsRoute,
+  AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute:
+    AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute,
+  AuthNavbarDashboardBotsPageServerPageServerIdRoute:
+    AuthNavbarDashboardBotsPageServerPageServerIdRoute,
 }
 
 const AuthNavbarRouteWithChildren = AuthNavbarRoute._addFileChildren(

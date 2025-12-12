@@ -31,8 +31,8 @@ const ServerCard = ({ server }: { server: Server }) => {
         </div>
 
         <Link
-          to="/dashboard/bots-page/$platformId"
-          params={{ platformId: server._id }}
+          to="/dashboard/bots-page/server-page/$serverId"
+          params={{ serverId: server.serverId }}
         >
           <Button size="sm" variant="outline">
             <Link2 />

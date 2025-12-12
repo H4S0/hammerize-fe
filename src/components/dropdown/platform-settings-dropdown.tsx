@@ -7,11 +7,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '../ui/button';
-import { Link, Menu, Trash } from 'lucide-react';
+import { Link as LinkIcon, Menu, Trash } from 'lucide-react';
 import { deletePlatform } from '@/utils/api/platform';
 import { toast } from 'sonner';
 import { isApiResponse } from '@/utils/axios-config/axios';
 import { useQueryClient } from '@tanstack/react-query';
+import { Link } from '@tanstack/react-router';
 
 const PlatformSettingsDropdown = ({
   platformChatId,
@@ -30,8 +31,13 @@ const PlatformSettingsDropdown = ({
         <DropdownMenuLabel>Platform chat settings</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="justify-between">
-          View summaries
-          <Link />
+          <Link
+            to="/dashboard/bots-page/platform-page/$platformId"
+            params={{ platformId: platformChatId }}
+          >
+            View summaries
+            <LinkIcon />
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem
           className="justify-between"

@@ -74,3 +74,8 @@ export async function fetchInviteUrls() {
   const res = await api.get<InviteUrlRes>('/platform/invite-urls');
   return res.data;
 }
+
+export async function fetchServerById(serverId: string) {
+  const res = await api.get(`/platform/get-server/${serverId}`);
+  return res.data;
+}
