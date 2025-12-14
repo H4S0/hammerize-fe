@@ -44,16 +44,19 @@ export async function fetchUserPlatformsChat() {
   return res.data;
 }
 
+type DeletePlatformOpts = {
+  platformChatId?: string;
+  serverId?: string;
+};
+
 export async function deletePlatform({
   platformChatId,
   serverId,
-}: {
-  platformChatId?: string;
-  serverId?: string;
-}) {
+}: DeletePlatformOpts) {
   const query = new URLSearchParams();
 
   if (platformChatId) query.append('platformChatId', platformChatId);
+
   if (serverId) {
     query.append('isServer', 'true');
     query.append('serverId', serverId);
@@ -82,5 +85,17 @@ type ServerRes = {
 
 export async function fetchServerById(serverId: string) {
   const res = await api.get<ServerRes>(`/platform/get-server/${serverId}`);
+  return res.data;
+}
+
+export const UpdateServerSchema = z.object({
+  name: z.string().optional(),
+});
+
+export async function updateServer(
+  serverId: string,
+  data: z.infer<typeof UpdateServerSchema>
+) {
+  const res = await api.put(`/platform/-update-server/${serverId}`, data);
   return res.data;
 }
