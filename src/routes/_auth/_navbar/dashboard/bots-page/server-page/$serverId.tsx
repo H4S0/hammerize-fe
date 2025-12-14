@@ -90,6 +90,7 @@ function RouteComponent() {
                   <EditServerForm
                     serverName={server.serverName}
                     serverId={server._id}
+                    invalidationServerId={server.serverId}
                   />
                 </CardContent>
               </Card>

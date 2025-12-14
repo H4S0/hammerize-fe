@@ -14,9 +14,14 @@ import { useQueryClient } from '@tanstack/react-query';
 type EditServerForm = {
   serverId: string;
   serverName: string;
+  invalidationServerId: string;
 };
 
-const EditServerForm = ({ serverName, serverId }: EditServerForm) => {
+const EditServerForm = ({
+  serverName,
+  serverId,
+  invalidationServerId,
+}: EditServerForm) => {
   const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof UpdateServerSchema>>({
@@ -32,7 +37,9 @@ const EditServerForm = ({ serverName, serverId }: EditServerForm) => {
     try {
       const res = await updateServer(serverId, data);
       toast.success(res.message);
-      queryClient.invalidateQueries({ queryKey: ['server', serverId] });
+      queryClient.invalidateQueries({
+        queryKey: ['server', invalidationServerId],
+      });
     } catch (err) {
       if (isApiResponse(err)) {
         const apiError = err;
