@@ -1,13 +1,15 @@
 import PlatformCard from '@/components/card/platform-card';
 import ServerCard from '@/components/card/server-card';
+import LinkBotModal from '@/components/modal/link-bot-modal';
 import NewBotSection from '@/components/sections/new-bot-section';
 import PageHeader from '@/components/typography/page-header';
 import { Badge } from '@/components/ui/badge';
+import CustomEmptyCard from '@/components/ui/custom-empty-card';
 import { Separator } from '@/components/ui/separator';
 import { platformChatsOptions } from '@/utils/queries/platform';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { Bot, AlertCircle, MessageSquare } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 export const Route = createFileRoute('/_auth/_navbar/dashboard/bots-page/bots')(
   {
@@ -82,15 +84,11 @@ function RouteComponent() {
         </div>
       </div>
       {!hasPlatforms && (
-        <div className="p-8 text-center border rounded-lg bg-gray-50">
-          <AlertCircle className="w-8 h-8 mx-auto text-gray-400" />
-          <h3 className="mt-2 text-sm font-medium text-gray-900">
-            Get Started
-          </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            Connect your first platform using the "Connect Bot" section above.
-          </p>
-        </div>
+        <CustomEmptyCard
+          title="No platform linked"
+          description="Invite you bot and link your first platform, to recive amaizing summaries"
+          button={<LinkBotModal />}
+        />
       )}
     </div>
   );
