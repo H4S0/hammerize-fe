@@ -9,6 +9,7 @@ import InstantFieldError from './instant-field-error';
 import { Button } from '../ui/button';
 import { toast } from 'sonner';
 import { isApiResponse } from '@/utils/axios-config/axios';
+import { useQueryClient } from '@tanstack/react-query';
 
 type EditServerForm = {
   serverId: string;
@@ -16,10 +17,12 @@ type EditServerForm = {
 };
 
 const EditServerForm = ({ serverName, serverId }: EditServerForm) => {
+  const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof UpdateServerSchema>>({
     resolver: zodResolver(UpdateServerSchema),
     defaultValues: {
-      name: serverName,
+      serverName: serverName,
     },
   });
 
@@ -29,6 +32,7 @@ const EditServerForm = ({ serverName, serverId }: EditServerForm) => {
     try {
       const res = await updateServer(serverId, data);
       toast.success(res.message);
+      queryClient.invalidateQueries({ queryKey: ['server', serverId] });
     } catch (err) {
       if (isApiResponse(err)) {
         const apiError = err;
@@ -46,7 +50,7 @@ const EditServerForm = ({ serverName, serverId }: EditServerForm) => {
     <form id="form-rhf-init" onSubmit={form.handleSubmit(handleSubmit)}>
       <FieldGroup>
         <Controller
-          name="name"
+          name="serverName"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field>

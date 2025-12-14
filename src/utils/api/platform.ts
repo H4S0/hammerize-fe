@@ -89,13 +89,13 @@ export async function fetchServerById(serverId: string) {
 }
 
 export const UpdateServerSchema = z.object({
-  name: z.string().optional(),
+  serverName: z.string(),
 });
 
 export async function updateServer(
   serverId: string,
   data: z.infer<typeof UpdateServerSchema>
 ) {
-  const res = await api.put(`/platform/-update-server/${serverId}`, data);
+  const res = await api.put(`/platform/update-server/${serverId}`, data);
   return res.data;
 }
