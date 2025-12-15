@@ -1,5 +1,7 @@
 import PlatformCard from '@/components/card/platform-card';
+import PlatformSettingsCard from '@/components/card/platform-settings-card';
 import EditServerForm from '@/components/forms/edit-server-form';
+import SummariesPlatformLayout from '@/components/layout/summaries-platform-layout';
 import DeleteServerModal from '@/components/modal/delete-server-modal';
 import PageHeader from '@/components/typography/page-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,7 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { serverOptions } from '@/utils/queries/platform';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { ServerCog } from 'lucide-react';
+import { Delete, ServerCog } from 'lucide-react';
 
 export const Route = createFileRoute(
   '/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
@@ -68,7 +70,7 @@ function RouteComponent() {
             <p className="text-muted-foreground">Members: {server.members}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-[65%_35%] gap-3">
+          <SummariesPlatformLayout>
             <div className="flex flex-col gap-3">
               {channels.length === 0 ? (
                 <p className="text-muted-foreground">
@@ -81,23 +83,18 @@ function RouteComponent() {
               )}
             </div>
 
-            <div className="flex flex-col gap-3">
-              <Card>
-                <CardHeader className="p-3">
-                  <CardTitle>Edit this server</CardTitle>
-                </CardHeader>
-                <CardContent className="p-3">
-                  <EditServerForm
-                    serverName={server.serverName}
-                    serverId={server._id}
-                    invalidationServerId={server.serverId}
-                  />
-                </CardContent>
-              </Card>
-
-              <DeleteServerModal serverId={server._id} />
-            </div>
-          </div>
+            <PlatformSettingsCard
+              title="Edit this server"
+              form={
+                <EditServerForm
+                  serverName={server.serverName}
+                  serverId={server._id}
+                  invalidationServerId={server.serverId}
+                />
+              }
+              deleteModal={<DeleteServerModal serverId={server._id} />}
+            />
+          </SummariesPlatformLayout>
         </>
       )}
     </div>

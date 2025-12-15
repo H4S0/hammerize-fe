@@ -1,3 +1,7 @@
+import PlatformSettingsCard from '@/components/card/platform-settings-card';
+import EditPlatformForm from '@/components/forms/edit-platform-form';
+import SummariesPlatformLayout from '@/components/layout/summaries-platform-layout';
+import DeletePlatformModal from '@/components/modal/delete-platform-modal';
 import PageHeader from '@/components/typography/page-header';
 import { Separator } from '@/components/ui/separator';
 import { summariesByChatIdOptions } from '@/utils/queries/summaries';
@@ -30,6 +34,16 @@ function RouteComponent() {
       />
 
       <Separator className="my-5" />
+
+      <SummariesPlatformLayout>
+        <div></div>
+
+        <PlatformSettingsCard
+          title="Edit this summary platform"
+          form={<EditPlatformForm platformChatId={platformId} />}
+          deleteModal={<DeletePlatformModal platformChatId={platformId} />}
+        />
+      </SummariesPlatformLayout>
     </div>
   );
 }
