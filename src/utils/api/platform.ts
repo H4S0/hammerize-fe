@@ -14,6 +14,7 @@ export async function linkPlatform(data: z.infer<typeof LinkPlatformSchema>) {
 }
 
 type PlatformSchema = z.infer<typeof PlatformSchema>;
+type SummaryMode = 'short-term' | 'digest-mode';
 
 export type Platform = {
   _id: string;
@@ -23,6 +24,7 @@ export type Platform = {
   isActive: boolean;
   lastProcessAt: Date;
   adminUserId: string;
+  summaryMode: SummaryMode;
 };
 
 export type Server = {
@@ -97,5 +99,27 @@ export async function updateServer(
   data: z.infer<typeof UpdateServerSchema>
 ) {
   const res = await api.put(`/platform/update-server/${serverId}`, data);
+  return res.data;
+}
+
+export const UpdatePlatformSchema = z.object({
+  chatName: z.string().optional(),
+  isActive: z.boolean().optional(),
+  modes: z.enum(['short-term', 'digest-mode']).optional(),
+});
+
+export async function updatePlatform(
+  platformChatId: string,
+  data: z.infer<typeof UpdatePlatformSchema>
+) {
+  const res = await api.put(
+    `/platform/update-platform/${platformChatId}`,
+    data
+  );
+  return res.data;
+}
+
+export async function fetchPlatformById(id: string) {
+  const res = await api.get<Platform>(`/platform/get-platform/${id}`);
   return res.data;
 }

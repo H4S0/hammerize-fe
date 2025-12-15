@@ -4,8 +4,10 @@ import SummariesPlatformLayout from '@/components/layout/summaries-platform-layo
 import DeletePlatformModal from '@/components/modal/delete-platform-modal';
 import PageHeader from '@/components/typography/page-header';
 import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { platformChatOptions } from '@/utils/queries/platform';
 import { summariesByChatIdOptions } from '@/utils/queries/summaries';
-import { useQuery } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { TextInitial } from 'lucide-react';
 
@@ -14,17 +16,34 @@ export const Route = createFileRoute(
 )({
   component: RouteComponent,
   loader: ({ context, params }) => {
-    return context.queryClient.ensureQueryData(
-      summariesByChatIdOptions(params.platformId)
-    );
+    return Promise.all([
+      context.queryClient.ensureQueryData(
+        summariesByChatIdOptions(params.platformId)
+      ),
+      context.queryClient.ensureQueryData(
+        platformChatOptions(params.platformId)
+      ),
+    ]);
   },
 });
 
 function RouteComponent() {
   const { platformId } = Route.useParams();
-  const summariesQuery = useQuery(summariesByChatIdOptions(platformId));
 
-  console.log('summaries', summariesQuery.data);
+  const [summariesQuery, platformChatQuery] = useQueries({
+    queries: [
+      summariesByChatIdOptions(platformId),
+      platformChatOptions(platformId),
+    ],
+  });
+
+  const isLoading = summariesQuery.isLoading || platformChatQuery.isLoading;
+
+  const isError = summariesQuery.isError || platformChatQuery.isError;
+
+  const platformChat = platformChatQuery.data?.data;
+  const summaries = summariesQuery.data?.data ?? [];
+
   return (
     <div>
       <PageHeader
@@ -35,15 +54,47 @@ function RouteComponent() {
 
       <Separator className="my-5" />
 
-      <SummariesPlatformLayout>
-        <div></div>
+      {isLoading && (
+        <SummariesPlatformLayout>
+          <div className="flex flex-col gap-3">
+            <Skeleton className="h-6 w-48" />
+            <Skeleton className="h-4 w-64" />
+            <Skeleton className="h-32 w-full" />
+          </div>
 
-        <PlatformSettingsCard
-          title="Edit this summary platform"
-          form={<EditPlatformForm platformChatId={platformId} />}
-          deleteModal={<DeletePlatformModal platformChatId={platformId} />}
-        />
-      </SummariesPlatformLayout>
+          <Skeleton className="h-40 w-full" />
+        </SummariesPlatformLayout>
+      )}
+
+      {isError && (
+        <p className="text-red-500 mt-4">Failed to load platform data.</p>
+      )}
+
+      {!isLoading && !isError && !platformChat && (
+        <p className="text-muted-foreground mt-4">Platform not found.</p>
+      )}
+
+      {!isLoading && !isError && platformChat && (
+        <SummariesPlatformLayout>
+          <div>
+            {summaries.length === 0 ? (
+              <p className="text-muted-foreground">
+                No summaries yet for this platform.
+              </p>
+            ) : (
+              <div>summaries data goes here</div>
+            )}
+          </div>
+
+          <PlatformSettingsCard
+            title="Edit this summary platform"
+            form={<EditPlatformForm platformData={platformChat} />}
+            deleteModal={
+              <DeletePlatformModal platformChatId={platformChat._id} />
+            }
+          />
+        </SummariesPlatformLayout>
+      )}
     </div>
   );
 }
