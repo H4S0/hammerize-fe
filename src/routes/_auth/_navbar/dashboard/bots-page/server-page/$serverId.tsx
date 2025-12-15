@@ -3,6 +3,7 @@ import PlatformSettingsCard from '@/components/card/platform-settings-card';
 import EditServerForm from '@/components/forms/edit-server-form';
 import SummariesPlatformLayout from '@/components/layout/summaries-platform-layout';
 import DeleteServerModal from '@/components/modal/delete-server-modal';
+import ErrorParagraph from '@/components/typography/error-paragraph';
 import PageHeader from '@/components/typography/page-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlatformCardSkeleton } from '@/components/ui/platform-card-skeleton';
@@ -55,12 +56,10 @@ function RouteComponent() {
         </div>
       )}
 
-      {isError && (
-        <p className="text-red-500 mt-4">Failed to load server data.</p>
-      )}
+      {isError && <ErrorParagraph text="Failed to load server data." />}
 
       {!isLoading && !isError && !server && (
-        <p className="text-muted-foreground">No server found.</p>
+        <ErrorParagraph text="No server found." />
       )}
 
       {!isLoading && !isError && server && (

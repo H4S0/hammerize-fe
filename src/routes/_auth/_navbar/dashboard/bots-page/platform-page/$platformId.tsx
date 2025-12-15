@@ -2,6 +2,7 @@ import PlatformSettingsCard from '@/components/card/platform-settings-card';
 import EditPlatformForm from '@/components/forms/edit-platform-form';
 import SummariesPlatformLayout from '@/components/layout/summaries-platform-layout';
 import DeletePlatformModal from '@/components/modal/delete-platform-modal';
+import ErrorParagraph from '@/components/typography/error-paragraph';
 import PageHeader from '@/components/typography/page-header';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -66,12 +67,10 @@ function RouteComponent() {
         </SummariesPlatformLayout>
       )}
 
-      {isError && (
-        <p className="text-red-500 mt-4">Failed to load platform data.</p>
-      )}
+      {isError && <ErrorParagraph text="Failed to load platform data" />}
 
       {!isLoading && !isError && !platformChat && (
-        <p className="text-muted-foreground mt-4">Platform not found.</p>
+        <ErrorParagraph text="Platform not found" />
       )}
 
       {!isLoading && !isError && platformChat && (
