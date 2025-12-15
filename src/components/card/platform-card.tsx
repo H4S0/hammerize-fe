@@ -43,6 +43,10 @@ const PlatformCard = ({ platformChat }: { platformChat: Platform }) => {
               <Separator orientation="vertical" className="py-3" />
 
               <CardDescription>{platformChat.platform}</CardDescription>
+              <Separator orientation="vertical" className="py-3" />
+              <CardDescription>
+                summaries count: {platformChat.summariesCount || 0}
+              </CardDescription>
             </div>
           </div>
         </div>

@@ -25,6 +25,7 @@ export type Platform = {
   lastProcessAt: Date;
   adminUserId: string;
   summaryMode: SummaryMode;
+  summariesCount: number;
 };
 
 export type Server = {
