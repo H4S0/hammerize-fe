@@ -25,6 +25,6 @@ export const inviteUrlsOptions = queryOptions({
 
 export const platformChatOptions = (id: string) =>
   queryOptions({
-    queryKey: ['user-platform-chat'],
+    queryKey: ['platformById', id],
     queryFn: () => fetchPlatformById(id),
   });

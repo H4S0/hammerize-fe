@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { platformChatOptions } from '@/utils/queries/platform';
 import { summariesByChatIdOptions } from '@/utils/queries/summaries';
-import { useQueries } from '@tanstack/react-query';
+import { useQueries, useSuspenseQueries } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { TextInitial } from 'lucide-react';
 
@@ -30,7 +30,7 @@ export const Route = createFileRoute(
 function RouteComponent() {
   const { platformId } = Route.useParams();
 
-  const [summariesQuery, platformChatQuery] = useQueries({
+  const [summariesQuery, platformChatQuery] = useSuspenseQueries({
     queries: [
       summariesByChatIdOptions(platformId),
       platformChatOptions(platformId),

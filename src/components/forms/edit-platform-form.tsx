@@ -41,7 +41,7 @@ const EditPlatformForm = ({ platformData }: { platformData: Platform }) => {
       const res = await updatePlatform(platformData._id, data);
       toast.success(res.message);
       queryClient.invalidateQueries({
-        queryKey: ['server', platformData._id],
+        queryKey: ['platformById', platformData._id],
       });
     } catch (err) {
       if (isApiResponse(err)) {
