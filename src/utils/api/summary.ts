@@ -1,10 +1,12 @@
 import { api } from '../axios-config/axios';
 
-type SummaryRes = {
+export type SummaryRes = {
   _id: string;
   chatId: string;
   summaryText: string;
   messageCount: number;
+  crucialThemes: string[];
+  crucialWords: string[];
   createdAt: Date;
 };
 

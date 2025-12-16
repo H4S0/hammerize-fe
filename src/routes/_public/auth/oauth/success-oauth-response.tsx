@@ -30,7 +30,6 @@ function RouteComponent() {
   const search = Route.useSearch();
   const navigate = useNavigate();
 
-  console.log('search', search);
   useEffect(() => {
     if (!search?.accessToken || !search.user) return;
 
@@ -39,8 +38,6 @@ function RouteComponent() {
       accessToken: search.accessToken,
     });
 
-    console.log('search', search);
-    console.log('search', search);
     navigate({ to: '/dashboard' });
   }, []);
 

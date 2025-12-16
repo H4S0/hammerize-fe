@@ -1,4 +1,5 @@
 import PlatformSettingsCard from '@/components/card/platform-settings-card';
+import SummaryCard from '@/components/card/summary-card';
 import EditPlatformForm from '@/components/forms/edit-platform-form';
 import SummariesPlatformLayout from '@/components/layout/summaries-platform-layout';
 import DeletePlatformModal from '@/components/modal/delete-platform-modal';
@@ -81,7 +82,11 @@ function RouteComponent() {
                 No summaries yet for this platform.
               </p>
             ) : (
-              <div>summaries data goes here</div>
+              <div className="flex flex-col gap-3">
+                {summaries.map((summary) => (
+                  <SummaryCard summary={summary} />
+                ))}
+              </div>
             )}
           </div>
 
