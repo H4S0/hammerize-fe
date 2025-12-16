@@ -9,25 +9,41 @@ import {
   CardTitle,
 } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { CalendarDays, RectangleEllipsis, ScrollText } from 'lucide-react';
+import {
+  CalendarDays,
+  Lightbulb,
+  RectangleEllipsis,
+  ScrollText,
+} from 'lucide-react';
 import { Separator } from '../ui/separator';
 import SummaryIconCard from '../ui/summary-icon-card';
+import SummaryActionDropdown from '../dropdown/summary-action-dropdown';
 
 const SummaryCard = ({ summary }: { summary: SummaryRes }) => {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Crucial Themes</CardTitle>
-        <div className="flex items-center gap-2">
-          {summary.crucialThemes.map((theme) => (
-            <Badge>{theme}</Badge>
-          ))}
+      <CardHeader className="flex-row items-center justify-between">
+        <div className="flex flex-col items-start gap-3">
+          <CardTitle className="flex items-center gap-2 font-normal">
+            <Lightbulb />
+            Crucial Themes
+          </CardTitle>
+          <div className="flex items-center gap-2">
+            {summary.crucialThemes.map((theme) => (
+              <Badge>{theme}</Badge>
+            ))}
+          </div>
         </div>
+
+        <SummaryActionDropdown
+          summaryId={summary._id}
+          chatId={summary.chatId}
+        />
       </CardHeader>
       <CardContent>
         <CardDescription>{summary.summaryText}</CardDescription>
         <div className="flex flex-col items-start gap-3 mt-5">
-          <CardDescription className="flex items-center gap-2">
+          <CardDescription className="flex items-center gap-2 text-white">
             <RectangleEllipsis />
             Crucial Words
           </CardDescription>
