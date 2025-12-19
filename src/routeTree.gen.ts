@@ -22,6 +22,7 @@ import { Route as PublicAuthOauthErrorOauthResponseRouteImport } from './routes/
 import { Route as AuthNavbarDashboardUserSettingsRouteImport } from './routes/_auth/_navbar/dashboard/user-settings'
 import { Route as AuthNavbarDashboardSummariesRouteImport } from './routes/_auth/_navbar/dashboard/summaries'
 import { Route as AuthNavbarDashboardOverviewRouteImport } from './routes/_auth/_navbar/dashboard/overview'
+import { Route as AuthNavbarDashboardWorkspaceIndexRouteImport } from './routes/_auth/_navbar/dashboard/workspace/index'
 import { Route as AuthNavbarDashboardBotsPageBotsRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/bots'
 import { Route as AuthNavbarDashboardBotsPageServerPageServerIdRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
 import { Route as AuthNavbarDashboardBotsPagePlatformPagePlatformIdRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/platform-page/$platformId'
@@ -96,6 +97,12 @@ const AuthNavbarDashboardOverviewRoute =
     path: '/dashboard/overview',
     getParentRoute: () => AuthNavbarRoute,
   } as any)
+const AuthNavbarDashboardWorkspaceIndexRoute =
+  AuthNavbarDashboardWorkspaceIndexRouteImport.update({
+    id: '/dashboard/workspace/',
+    path: '/dashboard/workspace/',
+    getParentRoute: () => AuthNavbarRoute,
+  } as any)
 const AuthNavbarDashboardBotsPageBotsRoute =
   AuthNavbarDashboardBotsPageBotsRouteImport.update({
     id: '/dashboard/bots-page/bots',
@@ -127,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/dashboard': typeof AuthNavbarDashboardIndexRoute
   '/dashboard/bots-page/bots': typeof AuthNavbarDashboardBotsPageBotsRoute
+  '/dashboard/workspace': typeof AuthNavbarDashboardWorkspaceIndexRoute
   '/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   '/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
 }
@@ -142,6 +150,7 @@ export interface FileRoutesByTo {
   '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/dashboard': typeof AuthNavbarDashboardIndexRoute
   '/dashboard/bots-page/bots': typeof AuthNavbarDashboardBotsPageBotsRoute
+  '/dashboard/workspace': typeof AuthNavbarDashboardWorkspaceIndexRoute
   '/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   '/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
 }
@@ -161,6 +170,7 @@ export interface FileRoutesById {
   '/_public/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/_auth/_navbar/dashboard/': typeof AuthNavbarDashboardIndexRoute
   '/_auth/_navbar/dashboard/bots-page/bots': typeof AuthNavbarDashboardBotsPageBotsRoute
+  '/_auth/_navbar/dashboard/workspace/': typeof AuthNavbarDashboardWorkspaceIndexRoute
   '/_auth/_navbar/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   '/_auth/_navbar/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
 }
@@ -178,6 +188,7 @@ export interface FileRouteTypes {
     | '/auth/oauth/success-oauth-response'
     | '/dashboard'
     | '/dashboard/bots-page/bots'
+    | '/dashboard/workspace'
     | '/dashboard/bots-page/platform-page/$platformId'
     | '/dashboard/bots-page/server-page/$serverId'
   fileRoutesByTo: FileRoutesByTo
@@ -193,6 +204,7 @@ export interface FileRouteTypes {
     | '/auth/oauth/success-oauth-response'
     | '/dashboard'
     | '/dashboard/bots-page/bots'
+    | '/dashboard/workspace'
     | '/dashboard/bots-page/platform-page/$platformId'
     | '/dashboard/bots-page/server-page/$serverId'
   id:
@@ -211,6 +223,7 @@ export interface FileRouteTypes {
     | '/_public/auth/oauth/success-oauth-response'
     | '/_auth/_navbar/dashboard/'
     | '/_auth/_navbar/dashboard/bots-page/bots'
+    | '/_auth/_navbar/dashboard/workspace/'
     | '/_auth/_navbar/dashboard/bots-page/platform-page/$platformId'
     | '/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
   fileRoutesById: FileRoutesById
@@ -313,6 +326,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthNavbarDashboardOverviewRouteImport
       parentRoute: typeof AuthNavbarRoute
     }
+    '/_auth/_navbar/dashboard/workspace/': {
+      id: '/_auth/_navbar/dashboard/workspace/'
+      path: '/dashboard/workspace'
+      fullPath: '/dashboard/workspace'
+      preLoaderRoute: typeof AuthNavbarDashboardWorkspaceIndexRouteImport
+      parentRoute: typeof AuthNavbarRoute
+    }
     '/_auth/_navbar/dashboard/bots-page/bots': {
       id: '/_auth/_navbar/dashboard/bots-page/bots'
       path: '/dashboard/bots-page/bots'
@@ -343,6 +363,7 @@ interface AuthNavbarRouteChildren {
   AuthNavbarDashboardUserSettingsRoute: typeof AuthNavbarDashboardUserSettingsRoute
   AuthNavbarDashboardIndexRoute: typeof AuthNavbarDashboardIndexRoute
   AuthNavbarDashboardBotsPageBotsRoute: typeof AuthNavbarDashboardBotsPageBotsRoute
+  AuthNavbarDashboardWorkspaceIndexRoute: typeof AuthNavbarDashboardWorkspaceIndexRoute
   AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute: typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   AuthNavbarDashboardBotsPageServerPageServerIdRoute: typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
 }
@@ -353,6 +374,8 @@ const AuthNavbarRouteChildren: AuthNavbarRouteChildren = {
   AuthNavbarDashboardUserSettingsRoute: AuthNavbarDashboardUserSettingsRoute,
   AuthNavbarDashboardIndexRoute: AuthNavbarDashboardIndexRoute,
   AuthNavbarDashboardBotsPageBotsRoute: AuthNavbarDashboardBotsPageBotsRoute,
+  AuthNavbarDashboardWorkspaceIndexRoute:
+    AuthNavbarDashboardWorkspaceIndexRoute,
   AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute:
     AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute,
   AuthNavbarDashboardBotsPageServerPageServerIdRoute:
