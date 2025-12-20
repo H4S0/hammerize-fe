@@ -7,6 +7,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
+import CreateWorkspaceForm from '../forms/create-workspace-form';
 
 const CreateWorkspaceModal = () => {
   return (
@@ -24,6 +25,8 @@ const CreateWorkspaceModal = () => {
             account and remove your data from our servers.
           </DialogDescription>
         </DialogHeader>
+
+        <CreateWorkspaceForm />
       </DialogContent>
     </Dialog>
   );

@@ -11,8 +11,21 @@ import { Platform } from '@/utils/api/platform';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import PlatformSettingsDropdown from '../dropdown/platform-settings-dropdown';
 import { Separator } from '../ui/separator';
+import { Checkbox } from '../ui/checkbox';
 
-const PlatformCard = ({ platformChat }: { platformChat: Platform }) => {
+type PlatformCardProps = {
+  platformChat: Platform;
+  checkbox?: boolean;
+  checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
+};
+
+const PlatformCard = ({
+  platformChat,
+  checkbox,
+  checked,
+  onCheckedChange,
+}: PlatformCardProps) => {
   const isLinked = !!platformChat.adminUserId;
 
   return (
@@ -51,7 +64,15 @@ const PlatformCard = ({ platformChat }: { platformChat: Platform }) => {
           </div>
         </div>
 
-        <PlatformSettingsDropdown platformChatId={platformChat._id} />
+        {checkbox ? (
+          <Checkbox
+            className="p-2"
+            checked={checked}
+            onCheckedChange={onCheckedChange}
+          />
+        ) : (
+          <PlatformSettingsDropdown platformChatId={platformChat._id} />
+        )}
       </CardContent>
     </Card>
   );
