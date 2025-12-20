@@ -12,3 +12,16 @@ export async function createWorkspace(
   const res = await api.post('/workspace/create-workspace', data);
   return res.data;
 }
+
+type WorkspaceRes = {
+  _id: string;
+  ownerId: string;
+  name: string;
+
+  //TO-DO: add other fields when necessary
+};
+
+export async function getWorkspaces() {
+  const res = await api.get<WorkspaceRes[]>('/workspace/get-workspaces');
+  return res.data;
+}

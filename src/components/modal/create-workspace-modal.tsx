@@ -8,10 +8,13 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
 import CreateWorkspaceForm from '../forms/create-workspace-form';
+import { useState } from 'react';
 
 const CreateWorkspaceModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
           Create new workspace
@@ -26,7 +29,7 @@ const CreateWorkspaceModal = () => {
           </DialogDescription>
         </DialogHeader>
 
-        <CreateWorkspaceForm />
+        <CreateWorkspaceForm setIsOpen={setIsOpen} />
       </DialogContent>
     </Dialog>
   );

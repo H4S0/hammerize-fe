@@ -1,14 +1,21 @@
 import CreateWorkspaceModal from '@/components/modal/create-workspace-modal';
 import PageHeader from '@/components/typography/page-header';
 import { Separator } from '@/components/ui/separator';
+import { workspacesOptions } from '@/utils/queries/workspace';
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { CirclePlus, Network } from 'lucide-react';
 
 export const Route = createFileRoute('/_auth/_navbar/dashboard/workspace/')({
   component: RouteComponent,
+  loader: ({ context }) => {
+    return context.queryClient.ensureQueryData(workspacesOptions);
+  },
 });
 
 function RouteComponent() {
+  const workspacesQuery = useQuery(workspacesOptions);
+
   return (
     <div>
       <PageHeader
@@ -28,6 +35,10 @@ function RouteComponent() {
       </div>
 
       <Separator className="my-5" />
+
+      {workspacesQuery.data?.data?.map((workspace) => (
+        <div>{workspace.name}</div>
+      ))}
     </div>
   );
 }

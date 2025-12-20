@@ -14,7 +14,11 @@ import { ScrollArea } from '../ui/scroll-area';
 import { toast } from 'sonner';
 import { isApiResponse } from '@/utils/axios-config/axios';
 
-const CreateWorkspaceForm = () => {
+const CreateWorkspaceForm = ({
+  setIsOpen,
+}: {
+  setIsOpen: (open: boolean) => void;
+}) => {
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof CreateWorkspaceSchema>>({
     resolver: zodResolver(CreateWorkspaceSchema),
@@ -29,6 +33,7 @@ const CreateWorkspaceForm = () => {
 
       toast.success(res.message);
       queryClient.invalidateQueries({ queryKey: ['workspaces'] });
+      setIsOpen(false);
     } catch (err) {
       if (isApiResponse(err)) {
         const apiError = err;
