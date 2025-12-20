@@ -24,6 +24,7 @@ import { Route as AuthNavbarDashboardSummariesRouteImport } from './routes/_auth
 import { Route as AuthNavbarDashboardOverviewRouteImport } from './routes/_auth/_navbar/dashboard/overview'
 import { Route as AuthNavbarDashboardWorkspaceIndexRouteImport } from './routes/_auth/_navbar/dashboard/workspace/index'
 import { Route as AuthNavbarDashboardBotsPageBotsRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/bots'
+import { Route as AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRouteImport } from './routes/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId'
 import { Route as AuthNavbarDashboardBotsPageServerPageServerIdRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
 import { Route as AuthNavbarDashboardBotsPagePlatformPagePlatformIdRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/platform-page/$platformId'
 
@@ -109,6 +110,12 @@ const AuthNavbarDashboardBotsPageBotsRoute =
     path: '/dashboard/bots-page/bots',
     getParentRoute: () => AuthNavbarRoute,
   } as any)
+const AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute =
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRouteImport.update({
+    id: '/dashboard/workspace/certain-workspace/$workspaceId',
+    path: '/dashboard/workspace/certain-workspace/$workspaceId',
+    getParentRoute: () => AuthNavbarRoute,
+  } as any)
 const AuthNavbarDashboardBotsPageServerPageServerIdRoute =
   AuthNavbarDashboardBotsPageServerPageServerIdRouteImport.update({
     id: '/dashboard/bots-page/server-page/$serverId',
@@ -137,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/workspace': typeof AuthNavbarDashboardWorkspaceIndexRoute
   '/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   '/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
+  '/dashboard/workspace/certain-workspace/$workspaceId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute
 }
 export interface FileRoutesByTo {
   '/init-forget-password': typeof PublicInitForgetPasswordRoute
@@ -153,6 +161,7 @@ export interface FileRoutesByTo {
   '/dashboard/workspace': typeof AuthNavbarDashboardWorkspaceIndexRoute
   '/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   '/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
+  '/dashboard/workspace/certain-workspace/$workspaceId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -173,6 +182,7 @@ export interface FileRoutesById {
   '/_auth/_navbar/dashboard/workspace/': typeof AuthNavbarDashboardWorkspaceIndexRoute
   '/_auth/_navbar/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   '/_auth/_navbar/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
+  '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -191,6 +201,7 @@ export interface FileRouteTypes {
     | '/dashboard/workspace'
     | '/dashboard/bots-page/platform-page/$platformId'
     | '/dashboard/bots-page/server-page/$serverId'
+    | '/dashboard/workspace/certain-workspace/$workspaceId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/init-forget-password'
@@ -207,6 +218,7 @@ export interface FileRouteTypes {
     | '/dashboard/workspace'
     | '/dashboard/bots-page/platform-page/$platformId'
     | '/dashboard/bots-page/server-page/$serverId'
+    | '/dashboard/workspace/certain-workspace/$workspaceId'
   id:
     | '__root__'
     | '/_auth'
@@ -226,6 +238,7 @@ export interface FileRouteTypes {
     | '/_auth/_navbar/dashboard/workspace/'
     | '/_auth/_navbar/dashboard/bots-page/platform-page/$platformId'
     | '/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
+    | '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -340,6 +353,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthNavbarDashboardBotsPageBotsRouteImport
       parentRoute: typeof AuthNavbarRoute
     }
+    '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId': {
+      id: '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId'
+      path: '/dashboard/workspace/certain-workspace/$workspaceId'
+      fullPath: '/dashboard/workspace/certain-workspace/$workspaceId'
+      preLoaderRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRouteImport
+      parentRoute: typeof AuthNavbarRoute
+    }
     '/_auth/_navbar/dashboard/bots-page/server-page/$serverId': {
       id: '/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
       path: '/dashboard/bots-page/server-page/$serverId'
@@ -366,6 +386,7 @@ interface AuthNavbarRouteChildren {
   AuthNavbarDashboardWorkspaceIndexRoute: typeof AuthNavbarDashboardWorkspaceIndexRoute
   AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute: typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   AuthNavbarDashboardBotsPageServerPageServerIdRoute: typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute
 }
 
 const AuthNavbarRouteChildren: AuthNavbarRouteChildren = {
@@ -380,6 +401,8 @@ const AuthNavbarRouteChildren: AuthNavbarRouteChildren = {
     AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute,
   AuthNavbarDashboardBotsPageServerPageServerIdRoute:
     AuthNavbarDashboardBotsPageServerPageServerIdRoute,
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute:
+    AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute,
 }
 
 const AuthNavbarRouteWithChildren = AuthNavbarRoute._addFileChildren(

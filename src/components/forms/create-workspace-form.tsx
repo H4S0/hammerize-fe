@@ -13,6 +13,7 @@ import PlatformCard from '../card/platform-card';
 import { ScrollArea } from '../ui/scroll-area';
 import { toast } from 'sonner';
 import { isApiResponse } from '@/utils/axios-config/axios';
+import { Textarea } from '../ui/textarea';
 
 const CreateWorkspaceForm = ({
   setIsOpen,
@@ -63,6 +64,21 @@ const CreateWorkspaceForm = ({
         />
 
         <Controller
+          name="description"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>Description</FieldLabel>
+              <Textarea
+                placeholder="this workspace is about finance company field"
+                {...field}
+              />
+              <InstantFieldError fieldState={fieldState} />
+            </Field>
+          )}
+        />
+
+        <Controller
           name="platformChatIds"
           control={form.control}
           render={({ field, fieldState }) => (
@@ -103,7 +119,12 @@ const CreateWorkspaceForm = ({
         />
       </FieldGroup>
 
-      <Button className="mt-5 w-32" type="submit" form="form-rhf-link">
+      <Button
+        className="mt-5 w-32"
+        size="sm"
+        type="submit"
+        form="form-rhf-link"
+      >
         Submit
       </Button>
     </form>

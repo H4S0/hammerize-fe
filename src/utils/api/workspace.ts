@@ -3,6 +3,7 @@ import { api } from '../axios-config/axios';
 
 export const CreateWorkspaceSchema = z.object({
   name: z.string(),
+  description: z.string(),
   platformChatIds: z.array(z.string()).optional(),
 });
 
@@ -13,7 +14,7 @@ export async function createWorkspace(
   return res.data;
 }
 
-type WorkspaceRes = {
+export type WorkspaceRes = {
   _id: string;
   ownerId: string;
   name: string;
