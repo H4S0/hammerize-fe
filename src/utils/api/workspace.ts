@@ -36,3 +36,16 @@ export async function getWorkspaceById(workspaceId: string) {
 
   return res.data;
 }
+
+export const InviteMemberSchema = z.object({
+  email: z.email(),
+  role: z.enum(['member', 'admin']),
+});
+
+export async function inviteMemeberToWorkspace(
+  workspaceId: string,
+  data: z.infer<typeof InviteMemberSchema>
+) {
+  const res = await api.put(`/workspace/invite-member/${workspaceId}`, data);
+  return res.data;
+}
