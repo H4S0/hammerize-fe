@@ -30,7 +30,7 @@ const PlatformCard = ({
 
   return (
     <Card>
-      <CardContent className="flex flex-row p-3 justify-between items-center">
+      <CardContent className="flex flex-row p-2 justify-between items-center">
         <div className="flex flex-row items-center gap-3">
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" />
@@ -58,7 +58,7 @@ const PlatformCard = ({
               <CardDescription>{platformChat.platform}</CardDescription>
               <Separator orientation="vertical" className="py-3" />
               <CardDescription>
-                summaries count: {platformChat.summariesCount || 0}
+                {platformChat.summariesCount || 0}
               </CardDescription>
             </div>
           </div>

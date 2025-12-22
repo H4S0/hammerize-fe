@@ -63,3 +63,17 @@ export async function cancleInvitation(id: string) {
   const res = await api.put(`/workspace/remove-invite/${id}`);
   return res.data;
 }
+
+export const UpdateWorkspaceSchema = z.object({
+  name: z.string().optional(),
+  description: z.string().optional(),
+  platformChatIds: z.array(z.string()).optional(),
+});
+
+export async function updateWorkspace(
+  id: string,
+  data: z.infer<typeof UpdateWorkspaceSchema>
+) {
+  const res = await api.put(`/workspace/update-workspace/${id}`, data);
+  return res.data;
+}

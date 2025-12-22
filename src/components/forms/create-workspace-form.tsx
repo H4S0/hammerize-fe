@@ -70,7 +70,7 @@ const CreateWorkspaceForm = ({
             <Field>
               <FieldLabel>Description</FieldLabel>
               <Textarea
-                placeholder="this workspace is about finance company field"
+                placeholder="This workspace is about finance company field"
                 {...field}
               />
               <InstantFieldError fieldState={fieldState} />

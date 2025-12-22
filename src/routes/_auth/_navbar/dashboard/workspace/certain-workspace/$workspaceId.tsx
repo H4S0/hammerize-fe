@@ -1,10 +1,12 @@
 import InvitedMemberCard from '@/components/card/invited-member-card';
+import UpdateWorkspaceForm from '@/components/forms/update-workspace-form';
 import SummariesPlatformLayout from '@/components/layout/summaries-platform-layout';
 import InviteMemberModal from '@/components/modal/invite-member-modal';
 import PageHeader from '@/components/typography/page-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import CustomEmptyCard from '@/components/ui/custom-empty-card';
 import { Separator } from '@/components/ui/separator';
+import { platformChatsOptions } from '@/utils/queries/platform';
 import { workspaceByIdOptions } from '@/utils/queries/workspace';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
@@ -15,26 +17,51 @@ export const Route = createFileRoute(
 )({
   component: RouteComponent,
   loader: ({ context, params }) => {
-    return context.queryClient.ensureQueryData(
-      workspaceByIdOptions(params.workspaceId)
-    );
+    return Promise.all([
+      context.queryClient.ensureQueryData(
+        workspaceByIdOptions(params.workspaceId)
+      ),
+      context.queryClient.ensureQueryData(platformChatsOptions),
+    ]);
   },
 });
 
 function RouteComponent() {
   const { workspaceId } = Route.useParams();
-  const workspaceQuery = useQuery(workspaceByIdOptions(workspaceId));
 
-  const acceptedMembers = workspaceQuery.data?.data?.invitedMembers.filter(
-    (m) => m.status === 'accepted'
-  );
+  const {
+    data: workspaceRes,
+    isLoading: isWorkspaceLoading,
+    isError: isWorkspaceError,
+  } = useQuery(workspaceByIdOptions(workspaceId));
 
-  console.log(workspaceQuery.data?.data);
+  const { data: platformsRes, isLoading: isPlatformsLoading } =
+    useQuery(platformChatsOptions);
+
+  if (isWorkspaceLoading || isPlatformsLoading) {
+    return <WorkspaceSkeleton />;
+  }
+
+  if (isWorkspaceError || !workspaceRes?.data) {
+    return (
+      <CustomEmptyCard
+        title="Workspace not found"
+        description="Unable to load workspace data."
+        icon={<Network />}
+      />
+    );
+  }
+
+  const workspace = workspaceRes.data;
+  const platforms = platformsRes?.data;
+  const acceptedMembers =
+    workspace.invitedMembers?.filter((m) => m.status === 'accepted') ?? [];
+
   return (
     <div>
       <PageHeader
         icon={<Network size={20} />}
-        iconLabel="Workspac"
+        iconLabel="Workspace"
         title="Manage Your Workspace"
       />
 
@@ -50,22 +77,32 @@ function RouteComponent() {
 
       <SummariesPlatformLayout>
         <div>left</div>
-        <div>
+
+        <div className="space-y-4">
           <Card>
-            <CardHeader>
-              <CardTitle className="px-3 py-3">Workspace settings</CardTitle>
+            <CardHeader className="px-3 py-3">
+              <CardTitle>Workspace settings</CardTitle>
             </CardHeader>
-            <CardContent></CardContent>
+            <CardContent className="p-3">
+              <UpdateWorkspaceForm
+                workspaceId={workspaceId}
+                name={workspace.name}
+                description={workspace.description}
+                platforms={platforms?.others ?? []}
+                platformChatIds={workspace.platformChatIds.map((p) => p)}
+              />
+            </CardContent>
           </Card>
-          {workspaceQuery.data?.data?.invitedMembers.length > 0 ? (
+
+          {workspace.invitedMembers.length > 0 ? (
             <Card>
               <CardHeader className="px-3 py-3">
                 <CardTitle>
-                  Members limit ({acceptedMembers?.length}/3)
+                  Members limit ({acceptedMembers.length}/3)
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-2">
-                {workspaceQuery.data?.data?.invitedMembers.map((invMember) => (
+                {workspace.invitedMembers.map((invMember) => (
                   <InvitedMemberCard
                     key={invMember._id}
                     member={invMember}
@@ -76,14 +113,24 @@ function RouteComponent() {
             </Card>
           ) : (
             <CustomEmptyCard
-              title="No platform linked"
-              description="Invite you bot and link your first platform, to recive amaizing summaries"
+              title="No members yet"
+              description="Invite your first teammate to collaborate."
               button={<InviteMemberModal workspaceId={workspaceId} />}
               icon={<UserPlus />}
             />
           )}
         </div>
       </SummariesPlatformLayout>
+    </div>
+  );
+}
+
+function WorkspaceSkeleton() {
+  return (
+    <div className="space-y-6">
+      <div className="h-8 w-64 bg-muted rounded-md animate-pulse" />
+      <div className="h-48 bg-muted rounded-xl animate-pulse" />
+      <div className="h-48 bg-muted rounded-xl animate-pulse" />
     </div>
   );
 }
