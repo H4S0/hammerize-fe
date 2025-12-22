@@ -1,5 +1,8 @@
+import InvitedMemberCard from '@/components/card/invited-member-card';
+import SummariesPlatformLayout from '@/components/layout/summaries-platform-layout';
 import InviteMemberModal from '@/components/modal/invite-member-modal';
 import PageHeader from '@/components/typography/page-header';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { workspaceByIdOptions } from '@/utils/queries/workspace';
 import { useQuery } from '@tanstack/react-query';
@@ -21,6 +24,11 @@ function RouteComponent() {
   const { workspaceId } = Route.useParams();
   const workspaceQuery = useQuery(workspaceByIdOptions(workspaceId));
 
+  const acceptedMembers = workspaceQuery.data?.data?.invitedMembers.filter(
+    (m) => m.status === 'accepted'
+  );
+
+  console.log(workspaceQuery.data?.data);
   return (
     <div>
       <PageHeader
@@ -38,6 +46,27 @@ function RouteComponent() {
       </div>
 
       <Separator className="my-3" />
+
+      <SummariesPlatformLayout>
+        <div>left</div>
+        <div>
+          <div>workspace settings</div>
+          <Card>
+            <CardHeader className="px-3 py-3">
+              <CardTitle>Members limit ({acceptedMembers?.length}/3)</CardTitle>
+            </CardHeader>
+            <CardContent className="p-2">
+              {workspaceQuery.data?.data?.invitedMembers.map((invMember) => (
+                <InvitedMemberCard
+                  key={invMember.id}
+                  member={invMember}
+                  workspaceId={workspaceId}
+                />
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      </SummariesPlatformLayout>
     </div>
   );
 }

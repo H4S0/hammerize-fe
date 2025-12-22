@@ -14,6 +14,14 @@ export async function createWorkspace(
   return res.data;
 }
 
+export type InvitedMembers = {
+  id: string;
+  email: string;
+  role: 'admin' | 'member';
+  status: 'pending' | 'accepted' | 'declined';
+  createdAt: Date;
+};
+
 export type WorkspaceRes = {
   _id: string;
   ownerId: string;
@@ -22,6 +30,7 @@ export type WorkspaceRes = {
   memberIds: string[];
   platformChatIds: string[];
   createdAt: Date;
+  invitedMembers: InvitedMembers[];
 };
 
 export async function getWorkspaces() {
@@ -47,5 +56,10 @@ export async function inviteMemeberToWorkspace(
   data: z.infer<typeof InviteMemberSchema>
 ) {
   const res = await api.put(`/workspace/invite-member/${workspaceId}`, data);
+  return res.data;
+}
+
+export async function cancleInvitation(id: string) {
+  const res = await api.put(`/workspace/remove-invite/${id}`);
   return res.data;
 }

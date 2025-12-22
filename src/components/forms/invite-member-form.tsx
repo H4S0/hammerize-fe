@@ -18,8 +18,10 @@ import {
 import InstantFieldError from './instant-field-error';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { Input } from '../ui/input';
+import { useQueryClient } from '@tanstack/react-query';
 
 const InviteMemberForm = ({ workspaceId }: { workspaceId: string }) => {
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof InviteMemberSchema>>({
     resolver: zodResolver(InviteMemberSchema),
   });
@@ -30,6 +32,7 @@ const InviteMemberForm = ({ workspaceId }: { workspaceId: string }) => {
     try {
       const res = await inviteMemeberToWorkspace(workspaceId, data);
       toast.success(res.message);
+      queryClient.invalidateQueries({ queryKey: ['workspace', workspaceId] });
     } catch (err) {
       if (isApiResponse(err)) {
         const apiError = err;
@@ -44,7 +47,7 @@ const InviteMemberForm = ({ workspaceId }: { workspaceId: string }) => {
   };
 
   return (
-    <form id='form-rhf-invite"'>
+    <form id="form-rhf-invite" onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup>
         <Controller
           name="email"
@@ -75,8 +78,8 @@ const InviteMemberForm = ({ workspaceId }: { workspaceId: string }) => {
                 onValueChange={field.onChange}
               >
                 <Field orientation="horizontal">
-                  <RadioGroupItem value="slack" />
-                  <FieldLabel className="member">Member</FieldLabel>
+                  <RadioGroupItem value="member" />
+                  <FieldLabel className="font-normal">Member</FieldLabel>
                 </Field>
                 <Field orientation="horizontal">
                   <RadioGroupItem value="admin" />
