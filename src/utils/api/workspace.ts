@@ -15,7 +15,7 @@ export async function createWorkspace(
 }
 
 export type InvitedMembers = {
-  id: string;
+  _id: string;
   email: string;
   role: 'admin' | 'member';
   status: 'pending' | 'accepted' | 'declined';

@@ -16,7 +16,6 @@ const InvitedMemberCard = ({
   workspaceId: string;
 }) => {
   const queryClient = useQueryClient();
-
   return (
     <Card>
       <CardContent className="py-2 flex flex-row justify-between items-center px-2">
@@ -46,7 +45,7 @@ const InvitedMemberCard = ({
             size="sm"
             onClick={async () => {
               try {
-                const res = await cancleInvitation(member.id);
+                const res = await cancleInvitation(member._id);
                 toast.success(res.message);
                 queryClient.invalidateQueries({
                   queryKey: ['workspace', workspaceId],

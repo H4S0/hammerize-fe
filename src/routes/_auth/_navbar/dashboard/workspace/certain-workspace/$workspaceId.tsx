@@ -3,11 +3,12 @@ import SummariesPlatformLayout from '@/components/layout/summaries-platform-layo
 import InviteMemberModal from '@/components/modal/invite-member-modal';
 import PageHeader from '@/components/typography/page-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import CustomEmptyCard from '@/components/ui/custom-empty-card';
 import { Separator } from '@/components/ui/separator';
 import { workspaceByIdOptions } from '@/utils/queries/workspace';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { CirclePlus, Network } from 'lucide-react';
+import { CirclePlus, Network, UserPlus } from 'lucide-react';
 
 export const Route = createFileRoute(
   '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId'
@@ -50,21 +51,37 @@ function RouteComponent() {
       <SummariesPlatformLayout>
         <div>left</div>
         <div>
-          <div>workspace settings</div>
           <Card>
-            <CardHeader className="px-3 py-3">
-              <CardTitle>Members limit ({acceptedMembers?.length}/3)</CardTitle>
+            <CardHeader>
+              <CardTitle className="px-3 py-3">Workspace settings</CardTitle>
             </CardHeader>
-            <CardContent className="p-2">
-              {workspaceQuery.data?.data?.invitedMembers.map((invMember) => (
-                <InvitedMemberCard
-                  key={invMember.id}
-                  member={invMember}
-                  workspaceId={workspaceId}
-                />
-              ))}
-            </CardContent>
+            <CardContent></CardContent>
           </Card>
+          {workspaceQuery.data?.data?.invitedMembers.length > 0 ? (
+            <Card>
+              <CardHeader className="px-3 py-3">
+                <CardTitle>
+                  Members limit ({acceptedMembers?.length}/3)
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-2">
+                {workspaceQuery.data?.data?.invitedMembers.map((invMember) => (
+                  <InvitedMemberCard
+                    key={invMember._id}
+                    member={invMember}
+                    workspaceId={workspaceId}
+                  />
+                ))}
+              </CardContent>
+            </Card>
+          ) : (
+            <CustomEmptyCard
+              title="No platform linked"
+              description="Invite you bot and link your first platform, to recive amaizing summaries"
+              button={<InviteMemberModal workspaceId={workspaceId} />}
+              icon={<UserPlus />}
+            />
+          )}
         </div>
       </SummariesPlatformLayout>
     </div>
