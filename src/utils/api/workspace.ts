@@ -18,11 +18,21 @@ export type WorkspaceRes = {
   _id: string;
   ownerId: string;
   name: string;
-
-  //TO-DO: add other fields when necessary
+  description: string;
+  memberIds: string[];
+  platformChatIds: string[];
+  createdAt: Date;
 };
 
 export async function getWorkspaces() {
   const res = await api.get<WorkspaceRes[]>('/workspace/get-workspaces');
+  return res.data;
+}
+
+export async function getWorkspaceById(workspaceId: string) {
+  const res = await api.get<WorkspaceRes>(
+    `/workspace/get-workspace/${workspaceId}`
+  );
+
   return res.data;
 }
