@@ -8,10 +8,13 @@ import {
 } from '@/components/ui/dialog';
 import InviteMemberForm from '../forms/invite-member-form';
 import { Button } from '../ui/button';
+import { useState } from 'react';
 
 const InviteMemberModal = ({ workspaceId }: { workspaceId: string }) => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="sm" variant="outline">
           Invite members
@@ -25,7 +28,7 @@ const InviteMemberModal = ({ workspaceId }: { workspaceId: string }) => {
             account and remove your data from our servers.
           </DialogDescription>
         </DialogHeader>
-        <InviteMemberForm workspaceId={workspaceId} />
+        <InviteMemberForm workspaceId={workspaceId} setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );

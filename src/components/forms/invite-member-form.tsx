@@ -20,7 +20,13 @@ import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { Input } from '../ui/input';
 import { useQueryClient } from '@tanstack/react-query';
 
-const InviteMemberForm = ({ workspaceId }: { workspaceId: string }) => {
+const InviteMemberForm = ({
+  workspaceId,
+  setOpen,
+}: {
+  workspaceId: string;
+  setOpen: (open: boolean) => void;
+}) => {
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof InviteMemberSchema>>({
     resolver: zodResolver(InviteMemberSchema),
@@ -33,6 +39,7 @@ const InviteMemberForm = ({ workspaceId }: { workspaceId: string }) => {
       const res = await inviteMemeberToWorkspace(workspaceId, data);
       toast.success(res.message);
       queryClient.invalidateQueries({ queryKey: ['workspace', workspaceId] });
+      setOpen(false);
     } catch (err) {
       if (isApiResponse(err)) {
         const apiError = err;

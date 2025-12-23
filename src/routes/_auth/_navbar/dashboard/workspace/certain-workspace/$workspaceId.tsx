@@ -122,6 +122,7 @@ function RouteComponent() {
                     role={member.role}
                     populatedData={member.id}
                     _id={member._id}
+                    workspaceId={workspaceId}
                     userWorkspaceRole={userWorkspaceRole}
                   />
                 ))}
