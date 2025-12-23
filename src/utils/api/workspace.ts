@@ -77,3 +77,18 @@ export async function updateWorkspace(
   const res = await api.put(`/workspace/update-workspace/${id}`, data);
   return res.data;
 }
+
+const UpdateInvitationStatusSchema = z.object({
+  status: z.enum(['accepted', 'declined']),
+});
+
+export async function updateWorkspaceInvitationStatus(
+  token: string,
+  data: z.infer<typeof UpdateInvitationStatusSchema>
+) {
+  const res = await api.put(
+    `/workspace/update-invitation-status/${token}`,
+    data
+  );
+  return res.data;
+}

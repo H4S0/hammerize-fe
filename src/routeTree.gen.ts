@@ -16,6 +16,7 @@ import { Route as PublicLoginRouteImport } from './routes/_public/login'
 import { Route as PublicInitForgetPasswordRouteImport } from './routes/_public/init-forget-password'
 import { Route as AuthNavbarRouteImport } from './routes/_auth/_navbar'
 import { Route as PublicPasswordResetTokenRouteImport } from './routes/_public/password-reset/$token'
+import { Route as AuthWorkspaceInvitationTokenRouteImport } from './routes/_auth/workspace-invitation/$token'
 import { Route as AuthNavbarDashboardIndexRouteImport } from './routes/_auth/_navbar/dashboard/index'
 import { Route as PublicAuthOauthSuccessOauthResponseRouteImport } from './routes/_public/auth/oauth/success-oauth-response'
 import { Route as PublicAuthOauthErrorOauthResponseRouteImport } from './routes/_public/auth/oauth/error-oauth-response'
@@ -61,6 +62,12 @@ const PublicPasswordResetTokenRoute =
     id: '/password-reset/$token',
     path: '/password-reset/$token',
     getParentRoute: () => PublicRoute,
+  } as any)
+const AuthWorkspaceInvitationTokenRoute =
+  AuthWorkspaceInvitationTokenRouteImport.update({
+    id: '/workspace-invitation/$token',
+    path: '/workspace-invitation/$token',
+    getParentRoute: () => AuthRoute,
   } as any)
 const AuthNavbarDashboardIndexRoute =
   AuthNavbarDashboardIndexRouteImport.update({
@@ -133,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/init-forget-password': typeof PublicInitForgetPasswordRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
+  '/workspace-invitation/$token': typeof AuthWorkspaceInvitationTokenRoute
   '/password-reset/$token': typeof PublicPasswordResetTokenRoute
   '/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
@@ -150,6 +158,7 @@ export interface FileRoutesByTo {
   '/init-forget-password': typeof PublicInitForgetPasswordRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
+  '/workspace-invitation/$token': typeof AuthWorkspaceInvitationTokenRoute
   '/password-reset/$token': typeof PublicPasswordResetTokenRoute
   '/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
@@ -171,6 +180,7 @@ export interface FileRoutesById {
   '/_public/init-forget-password': typeof PublicInitForgetPasswordRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/register': typeof PublicRegisterRoute
+  '/_auth/workspace-invitation/$token': typeof AuthWorkspaceInvitationTokenRoute
   '/_public/password-reset/$token': typeof PublicPasswordResetTokenRoute
   '/_auth/_navbar/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/_auth/_navbar/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
@@ -190,6 +200,7 @@ export interface FileRouteTypes {
     | '/init-forget-password'
     | '/login'
     | '/register'
+    | '/workspace-invitation/$token'
     | '/password-reset/$token'
     | '/dashboard/overview'
     | '/dashboard/summaries'
@@ -207,6 +218,7 @@ export interface FileRouteTypes {
     | '/init-forget-password'
     | '/login'
     | '/register'
+    | '/workspace-invitation/$token'
     | '/password-reset/$token'
     | '/dashboard/overview'
     | '/dashboard/summaries'
@@ -227,6 +239,7 @@ export interface FileRouteTypes {
     | '/_public/init-forget-password'
     | '/_public/login'
     | '/_public/register'
+    | '/_auth/workspace-invitation/$token'
     | '/_public/password-reset/$token'
     | '/_auth/_navbar/dashboard/overview'
     | '/_auth/_navbar/dashboard/summaries'
@@ -296,6 +309,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/password-reset/$token'
       preLoaderRoute: typeof PublicPasswordResetTokenRouteImport
       parentRoute: typeof PublicRoute
+    }
+    '/_auth/workspace-invitation/$token': {
+      id: '/_auth/workspace-invitation/$token'
+      path: '/workspace-invitation/$token'
+      fullPath: '/workspace-invitation/$token'
+      preLoaderRoute: typeof AuthWorkspaceInvitationTokenRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/_auth/_navbar/dashboard/': {
       id: '/_auth/_navbar/dashboard/'
@@ -411,10 +431,12 @@ const AuthNavbarRouteWithChildren = AuthNavbarRoute._addFileChildren(
 
 interface AuthRouteChildren {
   AuthNavbarRoute: typeof AuthNavbarRouteWithChildren
+  AuthWorkspaceInvitationTokenRoute: typeof AuthWorkspaceInvitationTokenRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthNavbarRoute: AuthNavbarRouteWithChildren,
+  AuthWorkspaceInvitationTokenRoute: AuthWorkspaceInvitationTokenRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
