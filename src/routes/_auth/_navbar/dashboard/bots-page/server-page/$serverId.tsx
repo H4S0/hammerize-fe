@@ -77,7 +77,11 @@ function RouteComponent() {
                 </p>
               ) : (
                 channels.map((channel) => (
-                  <PlatformCard key={channel._id} platformChat={channel} />
+                  <PlatformCard
+                    key={channel._id}
+                    platformChat={channel}
+                    canManage={true}
+                  />
                 ))
               )}
             </div>

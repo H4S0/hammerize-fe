@@ -74,6 +74,7 @@ function RouteComponent() {
               <PlatformCard
                 key={platformChat._id}
                 platformChat={platformChat}
+                canManage={true}
               />
             ))
           ) : (

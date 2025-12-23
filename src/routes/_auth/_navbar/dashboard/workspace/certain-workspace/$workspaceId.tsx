@@ -1,5 +1,6 @@
 import InvitedMemberCard from '@/components/card/invited-member-card';
 import MemberCard from '@/components/card/member-card';
+import PlatformCard from '@/components/card/platform-card';
 import UpdateWorkspaceForm from '@/components/forms/update-workspace-form';
 import SummariesPlatformLayout from '@/components/layout/summaries-platform-layout';
 import InviteMemberModal from '@/components/modal/invite-member-modal';
@@ -16,8 +17,11 @@ import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/utils/auth/auth';
 import { getWorkspaceRole } from '@/utils/helper/get-workspace-role';
 import { platformChatsOptions } from '@/utils/queries/platform';
-import { workspaceByIdOptions } from '@/utils/queries/workspace';
-import { useQuery } from '@tanstack/react-query';
+import {
+  platformByWorkspaceOptions,
+  workspaceByIdOptions,
+} from '@/utils/queries/workspace';
+import { useQueries } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { CirclePlus, Network, UserPlus } from 'lucide-react';
 
@@ -31,6 +35,9 @@ export const Route = createFileRoute(
         workspaceByIdOptions(params.workspaceId)
       ),
       context.queryClient.ensureQueryData(platformChatsOptions),
+      context.queryClient.ensureQueryData(
+        platformByWorkspaceOptions(params.workspaceId)
+      ),
     ]);
   },
 });
@@ -39,20 +46,30 @@ function RouteComponent() {
   const { workspaceId } = Route.useParams();
   const { user } = useAuth();
 
-  const {
-    data: workspaceRes,
-    isLoading: isWorkspaceLoading,
-    isError: isWorkspaceError,
-  } = useQuery(workspaceByIdOptions(workspaceId));
+  const [workspaceQuery, platformsQuery, platformsByWorkspaceQuery] =
+    useQueries({
+      queries: [
+        workspaceByIdOptions(workspaceId),
+        platformChatsOptions,
+        platformByWorkspaceOptions(workspaceId),
+      ],
+    });
 
-  const { data: platformsRes, isLoading: isPlatformsLoading } =
-    useQuery(platformChatsOptions);
+  const isLoading =
+    workspaceQuery.isLoading ||
+    platformsQuery.isLoading ||
+    platformsByWorkspaceQuery.isLoading;
 
-  if (isWorkspaceLoading || isPlatformsLoading) {
+  const isError =
+    workspaceQuery.isError ||
+    platformsQuery.isError ||
+    platformsByWorkspaceQuery.isError;
+
+  if (isLoading) {
     return <WorkspaceSkeleton />;
   }
 
-  if (isWorkspaceError || !workspaceRes?.data) {
+  if (isError || !workspaceQuery.data?.data) {
     return (
       <CustomEmptyCard
         title="Workspace not found"
@@ -62,13 +79,16 @@ function RouteComponent() {
     );
   }
 
-  const workspace = workspaceRes.data;
-  const platforms = platformsRes?.data;
+  const workspace = workspaceQuery.data.data;
+  const platforms = platformsQuery.data?.data;
+  const platformsByWorkspace = platformsByWorkspaceQuery.data?.data;
   const acceptedMembers =
     workspace.invitedMembers?.filter((m) => m.status === 'accepted') ?? [];
   const notAccepted =
     workspace.invitedMembers?.filter((m) => m.status !== 'accepted') ?? [];
   const userWorkspaceRole = getWorkspaceRole(workspace, user?._id);
+
+  console.log(platformsByWorkspace);
 
   return (
     <div>
@@ -83,13 +103,20 @@ function RouteComponent() {
           <CirclePlus size={20} />
           <p className="text-2xl font-medium">Invite new members (max 3)</p>
         </div>
-        <InviteMemberModal workspaceId={workspaceId} />
+
+        {userWorkspaceRole !== 'member' && (
+          <InviteMemberModal workspaceId={workspaceId} />
+        )}
       </div>
 
       <Separator className="my-3" />
 
       <SummariesPlatformLayout>
-        <div>left</div>
+        <div>
+          {platformsByWorkspace?.platformChatIds.map((platform) => (
+            <PlatformCard key={platform._id} platformChat={platform} />
+          ))}
+        </div>
 
         <div className="space-y-4">
           <Card>
@@ -102,7 +129,7 @@ function RouteComponent() {
                 name={workspace.name}
                 description={workspace.description}
                 platforms={platforms?.others ?? []}
-                platformChatIds={workspace.platformChatIds.map((p) => p)}
+                platformChatIds={workspace.platformChatIds}
                 userWorkspaceRole={userWorkspaceRole}
               />
             </CardContent>
@@ -126,6 +153,7 @@ function RouteComponent() {
                     userWorkspaceRole={userWorkspaceRole}
                   />
                 ))}
+
                 {notAccepted.length > 0 && (
                   <>
                     <Separator className="my-2" />
@@ -148,7 +176,11 @@ function RouteComponent() {
             <CustomEmptyCard
               title="No members yet"
               description="Invite your first teammate to collaborate."
-              button={<InviteMemberModal workspaceId={workspaceId} />}
+              button={
+                userWorkspaceRole !== 'member' ? (
+                  <InviteMemberModal workspaceId={workspaceId} />
+                ) : null
+              }
               icon={<UserPlus />}
             />
           )}

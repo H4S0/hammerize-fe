@@ -1,5 +1,6 @@
 import z from 'zod';
 import { api } from '../axios-config/axios';
+import { Platform } from './platform';
 
 export const CreateWorkspaceSchema = z.object({
   name: z.string(),
@@ -107,5 +108,16 @@ export async function updateWorkspaceInvitationStatus(
 
 export async function removeMemberFromWorkspace(id: string) {
   const res = await api.put(`/workspace/remove-member/${id}`);
+  return res.data;
+}
+
+type PlatformsByWorkspaceRes = Omit<WorkspaceRes, 'platformChatIds'> & {
+  platformChatIds: Platform[];
+};
+
+export async function getPlatformsByWorkspaceId(workspaceId: string) {
+  const res = await api.get<PlatformsByWorkspaceRes>(
+    `/workspace/platform/${workspaceId}`
+  );
   return res.data;
 }
