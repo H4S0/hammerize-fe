@@ -24,7 +24,7 @@ export type InvitedMembers = {
   createdAt: Date;
 };
 
-type PopulatedMemberIds = {
+export type PopulatedMemberIds = {
   _id: string;
   email: string;
   username: string;
@@ -72,7 +72,7 @@ export async function inviteMemeberToWorkspace(
 }
 
 export async function cancleInvitation(id: string) {
-  const res = await api.put(`/workspace/remove-invite/${id}`);
+  const res = await api.put(`/workspace/cancel-invite/${id}`);
   return res.data;
 }
 
@@ -102,5 +102,10 @@ export async function updateWorkspaceInvitationStatus(
     `/workspace/update-invitation-status/${token}`,
     data
   );
+  return res.data;
+}
+
+export async function removeMemberFromWorkspace(id: string) {
+  const res = await api.put(`/workspace/remove-member/${id}`);
   return res.data;
 }

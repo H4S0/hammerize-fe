@@ -1,9 +1,16 @@
 import InvitedMemberCard from '@/components/card/invited-member-card';
+import MemberCard from '@/components/card/member-card';
 import UpdateWorkspaceForm from '@/components/forms/update-workspace-form';
 import SummariesPlatformLayout from '@/components/layout/summaries-platform-layout';
 import InviteMemberModal from '@/components/modal/invite-member-modal';
 import PageHeader from '@/components/typography/page-header';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import CustomEmptyCard from '@/components/ui/custom-empty-card';
 import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/utils/auth/auth';
@@ -59,6 +66,8 @@ function RouteComponent() {
   const platforms = platformsRes?.data;
   const acceptedMembers =
     workspace.invitedMembers?.filter((m) => m.status === 'accepted') ?? [];
+  const notAccepted =
+    workspace.invitedMembers?.filter((m) => m.status !== 'accepted') ?? [];
   const userWorkspaceRole = getWorkspaceRole(workspace, user?._id);
 
   return (
@@ -107,14 +116,31 @@ function RouteComponent() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-2">
-                {workspace.invitedMembers.map((invMember) => (
-                  <InvitedMemberCard
-                    key={invMember._id}
-                    member={invMember}
-                    workspaceId={workspaceId}
+                {workspace.memberIds.map((member) => (
+                  <MemberCard
+                    key={member._id}
+                    role={member.role}
+                    populatedData={member.id}
+                    _id={member._id}
                     userWorkspaceRole={userWorkspaceRole}
                   />
                 ))}
+                {notAccepted.length > 0 && (
+                  <>
+                    <Separator className="my-2" />
+                    <CardDescription className="mb-1">
+                      Invited members
+                    </CardDescription>
+                    {notAccepted.map((invMember) => (
+                      <InvitedMemberCard
+                        key={invMember._id}
+                        member={invMember}
+                        workspaceId={workspaceId}
+                        userWorkspaceRole={userWorkspaceRole}
+                      />
+                    ))}
+                  </>
+                )}
               </CardContent>
             </Card>
           ) : (
