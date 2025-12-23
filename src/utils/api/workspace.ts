@@ -14,12 +14,20 @@ export async function createWorkspace(
   return res.data;
 }
 
+export type Role = 'admin' | 'member';
+
 export type InvitedMembers = {
   _id: string;
   email: string;
-  role: 'admin' | 'member';
+  role: Role;
   status: 'pending' | 'accepted' | 'declined';
   createdAt: Date;
+};
+
+type PopulatedMemberIds = {
+  _id: string;
+  email: string;
+  username: string;
 };
 
 export type WorkspaceRes = {
@@ -27,7 +35,11 @@ export type WorkspaceRes = {
   ownerId: string;
   name: string;
   description: string;
-  memberIds: string[];
+  memberIds: {
+    id: PopulatedMemberIds;
+    _id: string;
+    role: Role;
+  }[];
   platformChatIds: string[];
   createdAt: Date;
   invitedMembers: InvitedMembers[];

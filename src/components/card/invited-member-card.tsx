@@ -1,4 +1,4 @@
-import { cancleInvitation, InvitedMembers } from '@/utils/api/workspace';
+import { cancleInvitation, InvitedMembers, Role } from '@/utils/api/workspace';
 import { Card, CardContent, CardDescription, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { cn } from '@/lib/utils';
@@ -11,9 +11,11 @@ import { useQueryClient } from '@tanstack/react-query';
 const InvitedMemberCard = ({
   member,
   workspaceId,
+  userWorkspaceRole,
 }: {
   member: InvitedMembers;
   workspaceId: string;
+  userWorkspaceRole: Role;
 }) => {
   const queryClient = useQueryClient();
   return (
@@ -40,33 +42,36 @@ const InvitedMemberCard = ({
           >
             {member.status}
           </Badge>
-          <Button
-            variant="destructive"
-            size="sm"
-            onClick={async () => {
-              try {
-                const res = await cancleInvitation(member._id);
-                toast.success(res.message);
-                queryClient.invalidateQueries({
-                  queryKey: ['workspace', workspaceId],
-                });
-              } catch (err) {
-                if (isApiResponse(err)) {
-                  const apiError = err;
+          {userWorkspaceRole === 'admin' && (
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={async () => {
+                try {
+                  const res = await cancleInvitation(member._id);
+                  toast.success(res.message);
+                  queryClient.invalidateQueries({
+                    queryKey: ['workspace', workspaceId],
+                  });
+                } catch (err) {
+                  if (isApiResponse(err)) {
+                    const apiError = err;
 
-                  toast.error(
-                    apiError.message || 'Something went wrong please try again'
-                  );
-                } else {
-                  toast.error(
-                    'Something went wrong please,check your connection'
-                  );
+                    toast.error(
+                      apiError.message ||
+                        'Something went wrong please try again'
+                    );
+                  } else {
+                    toast.error(
+                      'Something went wrong please,check your connection'
+                    );
+                  }
                 }
-              }
-            }}
-          >
-            <Trash2 />
-          </Button>
+              }}
+            >
+              <Trash2 />
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>

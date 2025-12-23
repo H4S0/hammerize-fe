@@ -1,4 +1,8 @@
-import { updateWorkspace, UpdateWorkspaceSchema } from '@/utils/api/workspace';
+import {
+  Role,
+  updateWorkspace,
+  UpdateWorkspaceSchema,
+} from '@/utils/api/workspace';
 import { isApiResponse } from '@/utils/axios-config/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -12,6 +16,8 @@ import PlatformCard from '../card/platform-card';
 import { ScrollArea } from '../ui/scroll-area';
 import { Platform } from '@/utils/api/platform';
 import { Button } from '../ui/button';
+import { useAuth } from '@/utils/auth/auth';
+import { getWorkspaceRole } from '@/utils/helper/get-workspace-role';
 
 type UpdateWorkspaceFormProps = {
   workspaceId: string;
@@ -19,6 +25,7 @@ type UpdateWorkspaceFormProps = {
   description: string;
   platforms: Platform[];
   platformChatIds: string[];
+  userWorkspaceRole: Role;
 };
 
 const UpdateWorkspaceForm = ({
@@ -27,6 +34,7 @@ const UpdateWorkspaceForm = ({
   description,
   platforms,
   platformChatIds,
+  userWorkspaceRole,
 }: UpdateWorkspaceFormProps) => {
   const form = useForm<z.infer<typeof UpdateWorkspaceSchema>>({
     resolver: zodResolver(UpdateWorkspaceSchema),
@@ -52,6 +60,8 @@ const UpdateWorkspaceForm = ({
     }
   };
 
+  const canManagePlatform = userWorkspaceRole === 'admin';
+
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <FieldGroup>
@@ -61,7 +71,11 @@ const UpdateWorkspaceForm = ({
           render={({ field, fieldState }) => (
             <Field>
               <FieldLabel>Name</FieldLabel>
-              <Input placeholder="Workspace name" {...field} />
+              <Input
+                placeholder="Workspace name"
+                {...field}
+                disabled={userWorkspaceRole === 'member'}
+              />
               <InstantFieldError fieldState={fieldState} />
             </Field>
           )}
@@ -73,7 +87,11 @@ const UpdateWorkspaceForm = ({
           render={({ field, fieldState }) => (
             <Field>
               <FieldLabel>Description</FieldLabel>
-              <Input placeholder="This workspace is about finance" {...field} />
+              <Input
+                placeholder="This workspace is about finance"
+                {...field}
+                disabled={userWorkspaceRole === 'member'}
+              />
               <InstantFieldError fieldState={fieldState} />
             </Field>
           )}
@@ -105,6 +123,7 @@ const UpdateWorkspaceForm = ({
                         platformChat={platform}
                         checkbox
                         checked={isChecked}
+                        canManage={canManagePlatform}
                         onCheckedChange={(checked) => {
                           const current = field.value ?? [];
 
@@ -126,9 +145,11 @@ const UpdateWorkspaceForm = ({
         />
       </FieldGroup>
 
-      <Button type="submit" disabled={form.formState.isSubmitting}>
-        {form.formState.isSubmitting ? 'Saving...' : 'Save changes'}
-      </Button>
+      {userWorkspaceRole === 'admin' && (
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? 'Saving...' : 'Save changes'}
+        </Button>
+      )}
     </form>
   );
 };

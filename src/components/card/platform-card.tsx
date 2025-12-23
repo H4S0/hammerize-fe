@@ -18,6 +18,7 @@ type PlatformCardProps = {
   checkbox?: boolean;
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
+  canManage?: boolean;
 };
 
 const PlatformCard = ({
@@ -25,6 +26,7 @@ const PlatformCard = ({
   checkbox,
   checked,
   onCheckedChange,
+  canManage,
 }: PlatformCardProps) => {
   const isLinked = !!platformChat.adminUserId;
 
@@ -64,15 +66,16 @@ const PlatformCard = ({
           </div>
         </div>
 
-        {checkbox ? (
-          <Checkbox
-            className="p-2"
-            checked={checked}
-            onCheckedChange={onCheckedChange}
-          />
-        ) : (
-          <PlatformSettingsDropdown platformChatId={platformChat._id} />
-        )}
+        {canManage &&
+          (checkbox ? (
+            <Checkbox
+              className="p-2"
+              checked={checked}
+              onCheckedChange={onCheckedChange}
+            />
+          ) : (
+            <PlatformSettingsDropdown platformChatId={platformChat._id} />
+          ))}
       </CardContent>
     </Card>
   );

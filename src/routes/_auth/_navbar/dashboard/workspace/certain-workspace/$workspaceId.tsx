@@ -6,6 +6,8 @@ import PageHeader from '@/components/typography/page-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import CustomEmptyCard from '@/components/ui/custom-empty-card';
 import { Separator } from '@/components/ui/separator';
+import { useAuth } from '@/utils/auth/auth';
+import { getWorkspaceRole } from '@/utils/helper/get-workspace-role';
 import { platformChatsOptions } from '@/utils/queries/platform';
 import { workspaceByIdOptions } from '@/utils/queries/workspace';
 import { useQuery } from '@tanstack/react-query';
@@ -28,6 +30,7 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const { workspaceId } = Route.useParams();
+  const { user } = useAuth();
 
   const {
     data: workspaceRes,
@@ -56,6 +59,7 @@ function RouteComponent() {
   const platforms = platformsRes?.data;
   const acceptedMembers =
     workspace.invitedMembers?.filter((m) => m.status === 'accepted') ?? [];
+  const userWorkspaceRole = getWorkspaceRole(workspace, user?._id);
 
   return (
     <div>
@@ -90,6 +94,7 @@ function RouteComponent() {
                 description={workspace.description}
                 platforms={platforms?.others ?? []}
                 platformChatIds={workspace.platformChatIds.map((p) => p)}
+                userWorkspaceRole={userWorkspaceRole}
               />
             </CardContent>
           </Card>
@@ -107,6 +112,7 @@ function RouteComponent() {
                     key={invMember._id}
                     member={invMember}
                     workspaceId={workspaceId}
+                    userWorkspaceRole={userWorkspaceRole}
                   />
                 ))}
               </CardContent>
