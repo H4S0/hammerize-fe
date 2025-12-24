@@ -1,6 +1,7 @@
 import z from 'zod';
 import { api } from '../axios-config/axios';
 import { Platform } from './platform';
+import { User } from '../auth/auth-storage';
 
 export const CreateWorkspaceSchema = z.object({
   name: z.string(),
@@ -33,7 +34,7 @@ export type PopulatedMemberIds = {
 
 export type WorkspaceRes = {
   _id: string;
-  ownerId: string;
+  ownerId: Pick<User, '_id' | 'username' | 'email'>;
   name: string;
   description: string;
   memberIds: {

@@ -22,7 +22,8 @@ const WorkspaceCard = ({ workspace }: { workspace: WorkspaceRes }) => {
           <CardTitle>{workspace.name}</CardTitle>
           <CardDescription>{workspace.description}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <Separator />
+        <CardContent className="p-3">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 text-sm">
               <Users size={15} /> {workspace.memberIds.length}
@@ -31,6 +32,10 @@ const WorkspaceCard = ({ workspace }: { workspace: WorkspaceRes }) => {
             <div className="flex items-center gap-2 text-sm">
               <Folder size={15} /> {workspace.platformChatIds.length}
             </div>
+            <Separator orientation="vertical" className="py-3" />
+            <CardDescription>
+              Owner: {workspace.ownerId.username}
+            </CardDescription>
           </div>
         </CardContent>
       </Card>
