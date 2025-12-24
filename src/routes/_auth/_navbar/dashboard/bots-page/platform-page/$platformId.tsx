@@ -84,7 +84,7 @@ function RouteComponent() {
             ) : (
               <div className="flex flex-col gap-3">
                 {summaries.map((summary) => (
-                  <SummaryCard summary={summary} />
+                  <SummaryCard summary={summary} canDelete />
                 ))}
               </div>
             )}

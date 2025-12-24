@@ -16,15 +16,19 @@ import { Route as PublicLoginRouteImport } from './routes/_public/login'
 import { Route as PublicInitForgetPasswordRouteImport } from './routes/_public/init-forget-password'
 import { Route as AuthNavbarRouteImport } from './routes/_auth/_navbar'
 import { Route as PublicPasswordResetTokenRouteImport } from './routes/_public/password-reset/$token'
+import { Route as AuthWorkspaceInvitationTokenRouteImport } from './routes/_auth/workspace-invitation/$token'
 import { Route as AuthNavbarDashboardIndexRouteImport } from './routes/_auth/_navbar/dashboard/index'
 import { Route as PublicAuthOauthSuccessOauthResponseRouteImport } from './routes/_public/auth/oauth/success-oauth-response'
 import { Route as PublicAuthOauthErrorOauthResponseRouteImport } from './routes/_public/auth/oauth/error-oauth-response'
 import { Route as AuthNavbarDashboardUserSettingsRouteImport } from './routes/_auth/_navbar/dashboard/user-settings'
 import { Route as AuthNavbarDashboardSummariesRouteImport } from './routes/_auth/_navbar/dashboard/summaries'
 import { Route as AuthNavbarDashboardOverviewRouteImport } from './routes/_auth/_navbar/dashboard/overview'
+import { Route as AuthNavbarDashboardWorkspaceIndexRouteImport } from './routes/_auth/_navbar/dashboard/workspace/index'
 import { Route as AuthNavbarDashboardBotsPageBotsRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/bots'
 import { Route as AuthNavbarDashboardBotsPageServerPageServerIdRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
 import { Route as AuthNavbarDashboardBotsPagePlatformPagePlatformIdRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/platform-page/$platformId'
+import { Route as AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRouteImport } from './routes/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+import { Route as AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRouteImport } from './routes/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -59,6 +63,12 @@ const PublicPasswordResetTokenRoute =
     id: '/password-reset/$token',
     path: '/password-reset/$token',
     getParentRoute: () => PublicRoute,
+  } as any)
+const AuthWorkspaceInvitationTokenRoute =
+  AuthWorkspaceInvitationTokenRouteImport.update({
+    id: '/workspace-invitation/$token',
+    path: '/workspace-invitation/$token',
+    getParentRoute: () => AuthRoute,
   } as any)
 const AuthNavbarDashboardIndexRoute =
   AuthNavbarDashboardIndexRouteImport.update({
@@ -96,6 +106,12 @@ const AuthNavbarDashboardOverviewRoute =
     path: '/dashboard/overview',
     getParentRoute: () => AuthNavbarRoute,
   } as any)
+const AuthNavbarDashboardWorkspaceIndexRoute =
+  AuthNavbarDashboardWorkspaceIndexRouteImport.update({
+    id: '/dashboard/workspace/',
+    path: '/dashboard/workspace/',
+    getParentRoute: () => AuthNavbarRoute,
+  } as any)
 const AuthNavbarDashboardBotsPageBotsRoute =
   AuthNavbarDashboardBotsPageBotsRouteImport.update({
     id: '/dashboard/bots-page/bots',
@@ -114,11 +130,28 @@ const AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute =
     path: '/dashboard/bots-page/platform-page/$platformId',
     getParentRoute: () => AuthNavbarRoute,
   } as any)
+const AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute =
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRouteImport.update(
+    {
+      id: '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId',
+      path: '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId',
+      getParentRoute: () => AuthNavbarRoute,
+    } as any,
+  )
+const AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute =
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRouteImport.update(
+    {
+      id: '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId',
+      path: '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId',
+      getParentRoute: () => AuthNavbarRoute,
+    } as any,
+  )
 
 export interface FileRoutesByFullPath {
   '/init-forget-password': typeof PublicInitForgetPasswordRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
+  '/workspace-invitation/$token': typeof AuthWorkspaceInvitationTokenRoute
   '/password-reset/$token': typeof PublicPasswordResetTokenRoute
   '/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
@@ -127,13 +160,17 @@ export interface FileRoutesByFullPath {
   '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/dashboard': typeof AuthNavbarDashboardIndexRoute
   '/dashboard/bots-page/bots': typeof AuthNavbarDashboardBotsPageBotsRoute
+  '/dashboard/workspace': typeof AuthNavbarDashboardWorkspaceIndexRoute
   '/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   '/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
+  '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute
+  '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute
 }
 export interface FileRoutesByTo {
   '/init-forget-password': typeof PublicInitForgetPasswordRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
+  '/workspace-invitation/$token': typeof AuthWorkspaceInvitationTokenRoute
   '/password-reset/$token': typeof PublicPasswordResetTokenRoute
   '/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
@@ -142,8 +179,11 @@ export interface FileRoutesByTo {
   '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/dashboard': typeof AuthNavbarDashboardIndexRoute
   '/dashboard/bots-page/bots': typeof AuthNavbarDashboardBotsPageBotsRoute
+  '/dashboard/workspace': typeof AuthNavbarDashboardWorkspaceIndexRoute
   '/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   '/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
+  '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute
+  '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -153,6 +193,7 @@ export interface FileRoutesById {
   '/_public/init-forget-password': typeof PublicInitForgetPasswordRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/register': typeof PublicRegisterRoute
+  '/_auth/workspace-invitation/$token': typeof AuthWorkspaceInvitationTokenRoute
   '/_public/password-reset/$token': typeof PublicPasswordResetTokenRoute
   '/_auth/_navbar/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/_auth/_navbar/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
@@ -161,8 +202,11 @@ export interface FileRoutesById {
   '/_public/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/_auth/_navbar/dashboard/': typeof AuthNavbarDashboardIndexRoute
   '/_auth/_navbar/dashboard/bots-page/bots': typeof AuthNavbarDashboardBotsPageBotsRoute
+  '/_auth/_navbar/dashboard/workspace/': typeof AuthNavbarDashboardWorkspaceIndexRoute
   '/_auth/_navbar/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   '/_auth/_navbar/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
+  '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute
+  '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -170,6 +214,7 @@ export interface FileRouteTypes {
     | '/init-forget-password'
     | '/login'
     | '/register'
+    | '/workspace-invitation/$token'
     | '/password-reset/$token'
     | '/dashboard/overview'
     | '/dashboard/summaries'
@@ -178,13 +223,17 @@ export interface FileRouteTypes {
     | '/auth/oauth/success-oauth-response'
     | '/dashboard'
     | '/dashboard/bots-page/bots'
+    | '/dashboard/workspace'
     | '/dashboard/bots-page/platform-page/$platformId'
     | '/dashboard/bots-page/server-page/$serverId'
+    | '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+    | '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/init-forget-password'
     | '/login'
     | '/register'
+    | '/workspace-invitation/$token'
     | '/password-reset/$token'
     | '/dashboard/overview'
     | '/dashboard/summaries'
@@ -193,8 +242,11 @@ export interface FileRouteTypes {
     | '/auth/oauth/success-oauth-response'
     | '/dashboard'
     | '/dashboard/bots-page/bots'
+    | '/dashboard/workspace'
     | '/dashboard/bots-page/platform-page/$platformId'
     | '/dashboard/bots-page/server-page/$serverId'
+    | '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+    | '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
   id:
     | '__root__'
     | '/_auth'
@@ -203,6 +255,7 @@ export interface FileRouteTypes {
     | '/_public/init-forget-password'
     | '/_public/login'
     | '/_public/register'
+    | '/_auth/workspace-invitation/$token'
     | '/_public/password-reset/$token'
     | '/_auth/_navbar/dashboard/overview'
     | '/_auth/_navbar/dashboard/summaries'
@@ -211,8 +264,11 @@ export interface FileRouteTypes {
     | '/_public/auth/oauth/success-oauth-response'
     | '/_auth/_navbar/dashboard/'
     | '/_auth/_navbar/dashboard/bots-page/bots'
+    | '/_auth/_navbar/dashboard/workspace/'
     | '/_auth/_navbar/dashboard/bots-page/platform-page/$platformId'
     | '/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
+    | '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+    | '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -271,6 +327,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicPasswordResetTokenRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_auth/workspace-invitation/$token': {
+      id: '/_auth/workspace-invitation/$token'
+      path: '/workspace-invitation/$token'
+      fullPath: '/workspace-invitation/$token'
+      preLoaderRoute: typeof AuthWorkspaceInvitationTokenRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/_navbar/dashboard/': {
       id: '/_auth/_navbar/dashboard/'
       path: '/dashboard'
@@ -313,6 +376,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthNavbarDashboardOverviewRouteImport
       parentRoute: typeof AuthNavbarRoute
     }
+    '/_auth/_navbar/dashboard/workspace/': {
+      id: '/_auth/_navbar/dashboard/workspace/'
+      path: '/dashboard/workspace'
+      fullPath: '/dashboard/workspace'
+      preLoaderRoute: typeof AuthNavbarDashboardWorkspaceIndexRouteImport
+      parentRoute: typeof AuthNavbarRoute
+    }
     '/_auth/_navbar/dashboard/bots-page/bots': {
       id: '/_auth/_navbar/dashboard/bots-page/bots'
       path: '/dashboard/bots-page/bots'
@@ -334,6 +404,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRouteImport
       parentRoute: typeof AuthNavbarRoute
     }
+    '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId': {
+      id: '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+      path: '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+      fullPath: '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+      preLoaderRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRouteImport
+      parentRoute: typeof AuthNavbarRoute
+    }
+    '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId': {
+      id: '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
+      path: '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
+      fullPath: '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
+      preLoaderRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRouteImport
+      parentRoute: typeof AuthNavbarRoute
+    }
   }
 }
 
@@ -343,8 +427,11 @@ interface AuthNavbarRouteChildren {
   AuthNavbarDashboardUserSettingsRoute: typeof AuthNavbarDashboardUserSettingsRoute
   AuthNavbarDashboardIndexRoute: typeof AuthNavbarDashboardIndexRoute
   AuthNavbarDashboardBotsPageBotsRoute: typeof AuthNavbarDashboardBotsPageBotsRoute
+  AuthNavbarDashboardWorkspaceIndexRoute: typeof AuthNavbarDashboardWorkspaceIndexRoute
   AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute: typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   AuthNavbarDashboardBotsPageServerPageServerIdRoute: typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute
 }
 
 const AuthNavbarRouteChildren: AuthNavbarRouteChildren = {
@@ -353,10 +440,16 @@ const AuthNavbarRouteChildren: AuthNavbarRouteChildren = {
   AuthNavbarDashboardUserSettingsRoute: AuthNavbarDashboardUserSettingsRoute,
   AuthNavbarDashboardIndexRoute: AuthNavbarDashboardIndexRoute,
   AuthNavbarDashboardBotsPageBotsRoute: AuthNavbarDashboardBotsPageBotsRoute,
+  AuthNavbarDashboardWorkspaceIndexRoute:
+    AuthNavbarDashboardWorkspaceIndexRoute,
   AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute:
     AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute,
   AuthNavbarDashboardBotsPageServerPageServerIdRoute:
     AuthNavbarDashboardBotsPageServerPageServerIdRoute,
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute:
+    AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute,
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute:
+    AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute,
 }
 
 const AuthNavbarRouteWithChildren = AuthNavbarRoute._addFileChildren(
@@ -365,10 +458,12 @@ const AuthNavbarRouteWithChildren = AuthNavbarRoute._addFileChildren(
 
 interface AuthRouteChildren {
   AuthNavbarRoute: typeof AuthNavbarRouteWithChildren
+  AuthWorkspaceInvitationTokenRoute: typeof AuthWorkspaceInvitationTokenRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthNavbarRoute: AuthNavbarRouteWithChildren,
+  AuthWorkspaceInvitationTokenRoute: AuthWorkspaceInvitationTokenRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)

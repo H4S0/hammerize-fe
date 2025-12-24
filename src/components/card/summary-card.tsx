@@ -19,7 +19,12 @@ import { Separator } from '../ui/separator';
 import SummaryIconCard from '../ui/summary-icon-card';
 import SummaryActionDropdown from '../dropdown/summary-action-dropdown';
 
-const SummaryCard = ({ summary }: { summary: SummaryRes }) => {
+type SummaryCardProps = {
+  summary: SummaryRes;
+  canDelete?: boolean;
+};
+
+const SummaryCard = ({ summary, canDelete }: SummaryCardProps) => {
   return (
     <Card>
       <CardHeader className="flex-row items-center justify-between">
@@ -38,6 +43,7 @@ const SummaryCard = ({ summary }: { summary: SummaryRes }) => {
         <SummaryActionDropdown
           summaryId={summary._id}
           chatId={summary.chatId}
+          canDelete={canDelete}
         />
       </CardHeader>
       <CardContent>

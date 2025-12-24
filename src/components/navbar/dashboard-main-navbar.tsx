@@ -5,6 +5,7 @@ import {
   Bot,
   LayoutPanelLeft,
   MessageSquareMore,
+  Network,
   Settings,
 } from 'lucide-react';
 
@@ -27,9 +28,9 @@ const dashboardMainNavbarItems: NavbarItemsOptions[] = [
   },
   { icon: <Bot size={18} />, label: 'Bots', link: '/dashboard/bots-page/bots' },
   {
-    icon: <Settings size={18} />,
-    label: 'Settings',
-    link: '/dashboard/user-settings',
+    icon: <Network size={18} />,
+    label: 'Workspace',
+    link: '/dashboard/workspace',
   },
 ];
 

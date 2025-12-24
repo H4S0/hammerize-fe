@@ -23,7 +23,7 @@ const CustomEmptyCard = ({
   button,
 }: CustomEmptyCardProps) => {
   return (
-    <Empty>
+    <Empty className="border">
       <EmptyHeader>
         {icon && <EmptyMedia variant="icon">{icon}</EmptyMedia>}
         <EmptyTitle>{title}</EmptyTitle>

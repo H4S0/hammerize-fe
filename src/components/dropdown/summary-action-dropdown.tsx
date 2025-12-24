@@ -17,9 +17,11 @@ import { isApiResponse } from '@/utils/axios-config/axios';
 const SummaryActionDropdown = ({
   summaryId,
   chatId,
+  canDelete,
 }: {
   summaryId: string;
   chatId: string;
+  canDelete?: boolean;
 }) => {
   const queryClient = useQueryClient();
 
@@ -36,32 +38,34 @@ const SummaryActionDropdown = ({
         <DropdownMenuItem className="justify-between">
           Copy summary text <Copy />
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className="justify-between"
-          onClick={async () => {
-            try {
-              const res = await deleteSummary(summaryId);
-              toast.success(res.message);
-              queryClient.invalidateQueries({
-                queryKey: ['summaries-by-chat', chatId],
-              });
-            } catch (err) {
-              if (isApiResponse(err)) {
-                const apiError = err;
+        {canDelete && (
+          <DropdownMenuItem
+            className="justify-between"
+            onClick={async () => {
+              try {
+                const res = await deleteSummary(summaryId);
+                toast.success(res.message);
+                queryClient.invalidateQueries({
+                  queryKey: ['summaries-by-chat', chatId],
+                });
+              } catch (err) {
+                if (isApiResponse(err)) {
+                  const apiError = err;
 
-                toast.error(
-                  apiError.message || 'Something went wrong please try again'
-                );
-              } else {
-                toast.error(
-                  'Something went wrong please,check your connection'
-                );
+                  toast.error(
+                    apiError.message || 'Something went wrong please try again'
+                  );
+                } else {
+                  toast.error(
+                    'Something went wrong please,check your connection'
+                  );
+                }
               }
-            }
-          }}
-        >
-          Delete summary <Trash />
-        </DropdownMenuItem>
+            }}
+          >
+            Delete summary <Trash />
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

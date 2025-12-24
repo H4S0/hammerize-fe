@@ -4,20 +4,38 @@ import {
   CardDescription,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Trash2, MessageSquare, Bot, AlertTriangle, Link } from 'lucide-react';
+
+import { LinkIcon } from 'lucide-react';
 import { Platform } from '@/utils/api/platform';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import PlatformSettingsDropdown from '../dropdown/platform-settings-dropdown';
 import { Separator } from '../ui/separator';
+import { Checkbox } from '../ui/checkbox';
+import { Link } from '@tanstack/react-router';
+import { Button } from '../ui/button';
 
-const PlatformCard = ({ platformChat }: { platformChat: Platform }) => {
-  const isLinked = !!platformChat.adminUserId;
+type PlatformCardProps = {
+  platformChat: Platform;
+  checkbox?: boolean;
+  checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
+  canManage?: boolean;
+  view?: boolean;
+  workspaceId?: string;
+};
 
+const PlatformCard = ({
+  platformChat,
+  checkbox,
+  checked,
+  onCheckedChange,
+  canManage,
+  view,
+  workspaceId,
+}: PlatformCardProps) => {
   return (
     <Card>
-      <CardContent className="flex flex-row p-3 justify-between items-center">
+      <CardContent className="flex flex-row p-2 justify-between items-center">
         <div className="flex flex-row items-center gap-3">
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" />
@@ -27,31 +45,36 @@ const PlatformCard = ({ platformChat }: { platformChat: Platform }) => {
             <CardTitle>{platformChat.chatName}</CardTitle>
 
             <div className="flex items-center gap-2">
-              {isLinked ? (
-                <Badge className="bg-green-500 text-white">Active</Badge>
-              ) : (
-                <Badge className="bg-yellow-500 text-white">Pending</Badge>
-              )}
-
-              {!isLinked && (
-                <div className="flex items-center gap-2 text-yellow-700 text-xs mt-1">
-                  <AlertTriangle className="w-3 h-3" />
-                  Needs linking
-                </div>
-              )}
-
-              <Separator orientation="vertical" className="py-3" />
-
               <CardDescription>{platformChat.platform}</CardDescription>
               <Separator orientation="vertical" className="py-3" />
               <CardDescription>
-                summaries count: {platformChat.summariesCount || 0}
+                {platformChat.summariesCount || 0}
               </CardDescription>
             </div>
           </div>
         </div>
 
-        <PlatformSettingsDropdown platformChatId={platformChat._id} />
+        {canManage &&
+          (checkbox ? (
+            <Checkbox
+              className="p-2"
+              checked={checked}
+              onCheckedChange={onCheckedChange}
+            />
+          ) : (
+            <PlatformSettingsDropdown platformChatId={platformChat._id} />
+          ))}
+
+        {view && (
+          <Link
+            to="/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId"
+            params={{ platformId: platformChat._id, workspaceId: workspaceId! }}
+          >
+            <Button size="sm" variant="outline">
+              <LinkIcon />
+            </Button>
+          </Link>
+        )}
       </CardContent>
     </Card>
   );
