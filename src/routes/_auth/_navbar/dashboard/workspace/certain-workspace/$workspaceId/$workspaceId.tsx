@@ -112,15 +112,23 @@ function RouteComponent() {
       <Separator className="my-3" />
 
       <SummariesPlatformLayout>
-        <div>
-          {platformsByWorkspace?.platformChatIds.map((platform) => (
-            <PlatformCard
-              key={platform._id}
-              platformChat={platform}
-              workspaceId={workspaceId}
-              view
+        <div className="space-y-3">
+          {platformsByWorkspace?.platformChatIds.length === 0 ? (
+            <CustomEmptyCard
+              title="No platforms connected"
+              description="This workspace does not have any platforms yet. Connect a platform to start generating summaries."
+              icon={<Network />}
             />
-          ))}
+          ) : (
+            platformsByWorkspace?.platformChatIds.map((platform) => (
+              <PlatformCard
+                key={platform._id}
+                platformChat={platform}
+                workspaceId={workspaceId}
+                view
+              />
+            ))
+          )}
         </div>
 
         <div className="space-y-4">

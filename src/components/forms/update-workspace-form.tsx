@@ -18,6 +18,7 @@ import { Platform } from '@/utils/api/platform';
 import { Button } from '../ui/button';
 import { useAuth } from '@/utils/auth/auth';
 import { getWorkspaceRole } from '@/utils/helper/get-workspace-role';
+import { useQueryClient } from '@tanstack/react-query';
 
 type UpdateWorkspaceFormProps = {
   workspaceId: string;
@@ -36,6 +37,7 @@ const UpdateWorkspaceForm = ({
   platformChatIds,
   userWorkspaceRole,
 }: UpdateWorkspaceFormProps) => {
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof UpdateWorkspaceSchema>>({
     resolver: zodResolver(UpdateWorkspaceSchema),
     defaultValues: {
@@ -51,6 +53,9 @@ const UpdateWorkspaceForm = ({
     try {
       const res = await updateWorkspace(workspaceId, data);
       toast.success(res.message);
+      queryClient.invalidateQueries({
+        queryKey: ['workspace-platforms', workspaceId],
+      });
     } catch (err) {
       if (isApiResponse(err)) {
         toast.error(err.message || 'Something went wrong');
