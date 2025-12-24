@@ -4,14 +4,15 @@ import {
   CardDescription,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Trash2, MessageSquare, Bot, AlertTriangle, Link } from 'lucide-react';
+
+import { LinkIcon } from 'lucide-react';
 import { Platform } from '@/utils/api/platform';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import PlatformSettingsDropdown from '../dropdown/platform-settings-dropdown';
 import { Separator } from '../ui/separator';
 import { Checkbox } from '../ui/checkbox';
+import { Link } from '@tanstack/react-router';
+import { Button } from '../ui/button';
 
 type PlatformCardProps = {
   platformChat: Platform;
@@ -19,6 +20,7 @@ type PlatformCardProps = {
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   canManage?: boolean;
+  view?: boolean;
 };
 
 const PlatformCard = ({
@@ -27,9 +29,8 @@ const PlatformCard = ({
   checked,
   onCheckedChange,
   canManage,
+  view,
 }: PlatformCardProps) => {
-  const isLinked = !!platformChat.adminUserId;
-
   return (
     <Card>
       <CardContent className="flex flex-row p-2 justify-between items-center">
@@ -42,21 +43,6 @@ const PlatformCard = ({
             <CardTitle>{platformChat.chatName}</CardTitle>
 
             <div className="flex items-center gap-2">
-              {isLinked ? (
-                <Badge className="bg-green-500 text-white">Active</Badge>
-              ) : (
-                <Badge className="bg-yellow-500 text-white">Pending</Badge>
-              )}
-
-              {!isLinked && (
-                <div className="flex items-center gap-2 text-yellow-700 text-xs mt-1">
-                  <AlertTriangle className="w-3 h-3" />
-                  Needs linking
-                </div>
-              )}
-
-              <Separator orientation="vertical" className="py-3" />
-
               <CardDescription>{platformChat.platform}</CardDescription>
               <Separator orientation="vertical" className="py-3" />
               <CardDescription>
@@ -76,6 +62,17 @@ const PlatformCard = ({
           ) : (
             <PlatformSettingsDropdown platformChatId={platformChat._id} />
           ))}
+
+        {view && (
+          <Link
+            to="/dashboard/workspace/certain-workspace/certain-platform/$platformId"
+            params={{ platformId: platformChat._id }}
+          >
+            <Button size="sm" variant="outline">
+              <LinkIcon />
+            </Button>
+          </Link>
+        )}
       </CardContent>
     </Card>
   );

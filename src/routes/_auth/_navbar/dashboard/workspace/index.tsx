@@ -19,8 +19,6 @@ function RouteComponent() {
   const { data, isPending, isError } = useQuery(workspacesOptions);
   const workspaces = data?.data || [];
 
-  console.log('workspaces', workspaces);
-
   return (
     <div className="container mx-auto pb-10">
       <PageHeader

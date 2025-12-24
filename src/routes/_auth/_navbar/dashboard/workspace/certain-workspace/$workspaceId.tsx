@@ -114,7 +114,7 @@ function RouteComponent() {
       <SummariesPlatformLayout>
         <div>
           {platformsByWorkspace?.platformChatIds.map((platform) => (
-            <PlatformCard key={platform._id} platformChat={platform} />
+            <PlatformCard key={platform._id} platformChat={platform} view />
           ))}
         </div>
 
