@@ -21,6 +21,7 @@ type PlatformCardProps = {
   onCheckedChange?: (checked: boolean) => void;
   canManage?: boolean;
   view?: boolean;
+  workspaceId?: string;
 };
 
 const PlatformCard = ({
@@ -30,6 +31,7 @@ const PlatformCard = ({
   onCheckedChange,
   canManage,
   view,
+  workspaceId,
 }: PlatformCardProps) => {
   return (
     <Card>
@@ -65,8 +67,8 @@ const PlatformCard = ({
 
         {view && (
           <Link
-            to="/dashboard/workspace/certain-workspace/certain-platform/$platformId"
-            params={{ platformId: platformChat._id }}
+            to="/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId"
+            params={{ platformId: platformChat._id, workspaceId: workspaceId! }}
           >
             <Button size="sm" variant="outline">
               <LinkIcon />

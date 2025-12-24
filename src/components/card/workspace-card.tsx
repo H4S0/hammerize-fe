@@ -14,7 +14,7 @@ import { Link } from '@tanstack/react-router';
 const WorkspaceCard = ({ workspace }: { workspace: WorkspaceRes }) => {
   return (
     <Link
-      to="/dashboard/workspace/certain-workspace/$workspaceId"
+      to="/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId"
       params={{ workspaceId: workspace._id }}
     >
       <Card className="hover:border-primary">

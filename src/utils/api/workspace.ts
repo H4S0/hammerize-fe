@@ -2,6 +2,7 @@ import z from 'zod';
 import { api } from '../axios-config/axios';
 import { Platform } from './platform';
 import { User } from '../auth/auth-storage';
+import { SummaryRes } from './summary';
 
 export const CreateWorkspaceSchema = z.object({
   name: z.string(),
@@ -119,6 +120,21 @@ type PlatformsByWorkspaceRes = Omit<WorkspaceRes, 'platformChatIds'> & {
 export async function getPlatformsByWorkspaceId(workspaceId: string) {
   const res = await api.get<PlatformsByWorkspaceRes>(
     `/workspace/platform/${workspaceId}`
+  );
+  return res.data;
+}
+
+type WorkspaceSummariesRes = {
+  platform: Platform;
+  summaries: SummaryRes[];
+};
+
+export async function fetchWorkspaceSummariesByPlatform(
+  platformChatId: string,
+  workspaceId: string
+) {
+  const res = await api.get<WorkspaceSummariesRes>(
+    `/workspace/platform/${workspaceId}/${platformChatId}`
   );
   return res.data;
 }

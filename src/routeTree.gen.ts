@@ -25,10 +25,10 @@ import { Route as AuthNavbarDashboardSummariesRouteImport } from './routes/_auth
 import { Route as AuthNavbarDashboardOverviewRouteImport } from './routes/_auth/_navbar/dashboard/overview'
 import { Route as AuthNavbarDashboardWorkspaceIndexRouteImport } from './routes/_auth/_navbar/dashboard/workspace/index'
 import { Route as AuthNavbarDashboardBotsPageBotsRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/bots'
-import { Route as AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRouteImport } from './routes/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId'
 import { Route as AuthNavbarDashboardBotsPageServerPageServerIdRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
 import { Route as AuthNavbarDashboardBotsPagePlatformPagePlatformIdRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/platform-page/$platformId'
-import { Route as AuthNavbarDashboardWorkspaceCertainWorkspaceCertainPlatformPlatformIdRouteImport } from './routes/_auth/_navbar/dashboard/workspace/certain-workspace/certain-platform/$platformId'
+import { Route as AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRouteImport } from './routes/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+import { Route as AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRouteImport } from './routes/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -118,12 +118,6 @@ const AuthNavbarDashboardBotsPageBotsRoute =
     path: '/dashboard/bots-page/bots',
     getParentRoute: () => AuthNavbarRoute,
   } as any)
-const AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute =
-  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRouteImport.update({
-    id: '/dashboard/workspace/certain-workspace/$workspaceId',
-    path: '/dashboard/workspace/certain-workspace/$workspaceId',
-    getParentRoute: () => AuthNavbarRoute,
-  } as any)
 const AuthNavbarDashboardBotsPageServerPageServerIdRoute =
   AuthNavbarDashboardBotsPageServerPageServerIdRouteImport.update({
     id: '/dashboard/bots-page/server-page/$serverId',
@@ -136,11 +130,19 @@ const AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute =
     path: '/dashboard/bots-page/platform-page/$platformId',
     getParentRoute: () => AuthNavbarRoute,
   } as any)
-const AuthNavbarDashboardWorkspaceCertainWorkspaceCertainPlatformPlatformIdRoute =
-  AuthNavbarDashboardWorkspaceCertainWorkspaceCertainPlatformPlatformIdRouteImport.update(
+const AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute =
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRouteImport.update(
     {
-      id: '/dashboard/workspace/certain-workspace/certain-platform/$platformId',
-      path: '/dashboard/workspace/certain-workspace/certain-platform/$platformId',
+      id: '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId',
+      path: '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId',
+      getParentRoute: () => AuthNavbarRoute,
+    } as any,
+  )
+const AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute =
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRouteImport.update(
+    {
+      id: '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId',
+      path: '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId',
       getParentRoute: () => AuthNavbarRoute,
     } as any,
   )
@@ -161,8 +163,8 @@ export interface FileRoutesByFullPath {
   '/dashboard/workspace': typeof AuthNavbarDashboardWorkspaceIndexRoute
   '/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   '/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
-  '/dashboard/workspace/certain-workspace/$workspaceId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute
-  '/dashboard/workspace/certain-workspace/certain-platform/$platformId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceCertainPlatformPlatformIdRoute
+  '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute
+  '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute
 }
 export interface FileRoutesByTo {
   '/init-forget-password': typeof PublicInitForgetPasswordRoute
@@ -180,8 +182,8 @@ export interface FileRoutesByTo {
   '/dashboard/workspace': typeof AuthNavbarDashboardWorkspaceIndexRoute
   '/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   '/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
-  '/dashboard/workspace/certain-workspace/$workspaceId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute
-  '/dashboard/workspace/certain-workspace/certain-platform/$platformId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceCertainPlatformPlatformIdRoute
+  '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute
+  '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -203,8 +205,8 @@ export interface FileRoutesById {
   '/_auth/_navbar/dashboard/workspace/': typeof AuthNavbarDashboardWorkspaceIndexRoute
   '/_auth/_navbar/dashboard/bots-page/platform-page/$platformId': typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   '/_auth/_navbar/dashboard/bots-page/server-page/$serverId': typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
-  '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute
-  '/_auth/_navbar/dashboard/workspace/certain-workspace/certain-platform/$platformId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceCertainPlatformPlatformIdRoute
+  '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute
+  '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -224,8 +226,8 @@ export interface FileRouteTypes {
     | '/dashboard/workspace'
     | '/dashboard/bots-page/platform-page/$platformId'
     | '/dashboard/bots-page/server-page/$serverId'
-    | '/dashboard/workspace/certain-workspace/$workspaceId'
-    | '/dashboard/workspace/certain-workspace/certain-platform/$platformId'
+    | '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+    | '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/init-forget-password'
@@ -243,8 +245,8 @@ export interface FileRouteTypes {
     | '/dashboard/workspace'
     | '/dashboard/bots-page/platform-page/$platformId'
     | '/dashboard/bots-page/server-page/$serverId'
-    | '/dashboard/workspace/certain-workspace/$workspaceId'
-    | '/dashboard/workspace/certain-workspace/certain-platform/$platformId'
+    | '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+    | '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
   id:
     | '__root__'
     | '/_auth'
@@ -265,8 +267,8 @@ export interface FileRouteTypes {
     | '/_auth/_navbar/dashboard/workspace/'
     | '/_auth/_navbar/dashboard/bots-page/platform-page/$platformId'
     | '/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
-    | '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId'
-    | '/_auth/_navbar/dashboard/workspace/certain-workspace/certain-platform/$platformId'
+    | '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+    | '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -388,13 +390,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthNavbarDashboardBotsPageBotsRouteImport
       parentRoute: typeof AuthNavbarRoute
     }
-    '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId': {
-      id: '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId'
-      path: '/dashboard/workspace/certain-workspace/$workspaceId'
-      fullPath: '/dashboard/workspace/certain-workspace/$workspaceId'
-      preLoaderRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRouteImport
-      parentRoute: typeof AuthNavbarRoute
-    }
     '/_auth/_navbar/dashboard/bots-page/server-page/$serverId': {
       id: '/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
       path: '/dashboard/bots-page/server-page/$serverId'
@@ -409,11 +404,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRouteImport
       parentRoute: typeof AuthNavbarRoute
     }
-    '/_auth/_navbar/dashboard/workspace/certain-workspace/certain-platform/$platformId': {
-      id: '/_auth/_navbar/dashboard/workspace/certain-workspace/certain-platform/$platformId'
-      path: '/dashboard/workspace/certain-workspace/certain-platform/$platformId'
-      fullPath: '/dashboard/workspace/certain-workspace/certain-platform/$platformId'
-      preLoaderRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceCertainPlatformPlatformIdRouteImport
+    '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId': {
+      id: '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+      path: '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+      fullPath: '/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
+      preLoaderRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRouteImport
+      parentRoute: typeof AuthNavbarRoute
+    }
+    '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId': {
+      id: '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
+      path: '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
+      fullPath: '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId'
+      preLoaderRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRouteImport
       parentRoute: typeof AuthNavbarRoute
     }
   }
@@ -428,8 +430,8 @@ interface AuthNavbarRouteChildren {
   AuthNavbarDashboardWorkspaceIndexRoute: typeof AuthNavbarDashboardWorkspaceIndexRoute
   AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute: typeof AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute
   AuthNavbarDashboardBotsPageServerPageServerIdRoute: typeof AuthNavbarDashboardBotsPageServerPageServerIdRoute
-  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute
-  AuthNavbarDashboardWorkspaceCertainWorkspaceCertainPlatformPlatformIdRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceCertainPlatformPlatformIdRoute
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute: typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute
 }
 
 const AuthNavbarRouteChildren: AuthNavbarRouteChildren = {
@@ -444,10 +446,10 @@ const AuthNavbarRouteChildren: AuthNavbarRouteChildren = {
     AuthNavbarDashboardBotsPagePlatformPagePlatformIdRoute,
   AuthNavbarDashboardBotsPageServerPageServerIdRoute:
     AuthNavbarDashboardBotsPageServerPageServerIdRoute,
-  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute:
-    AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdRoute,
-  AuthNavbarDashboardWorkspaceCertainWorkspaceCertainPlatformPlatformIdRoute:
-    AuthNavbarDashboardWorkspaceCertainWorkspaceCertainPlatformPlatformIdRoute,
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute:
+    AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdWorkspaceIdRoute,
+  AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute:
+    AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute,
 }
 
 const AuthNavbarRouteWithChildren = AuthNavbarRoute._addFileChildren(

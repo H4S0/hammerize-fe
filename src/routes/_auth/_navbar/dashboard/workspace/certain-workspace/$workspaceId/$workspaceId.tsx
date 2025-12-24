@@ -26,7 +26,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { CirclePlus, Network, UserPlus } from 'lucide-react';
 
 export const Route = createFileRoute(
-  '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId'
+  '/_auth/_navbar/dashboard/workspace/certain-workspace/$workspaceId/$workspaceId'
 )({
   component: RouteComponent,
   loader: ({ context, params }) => {
@@ -114,7 +114,12 @@ function RouteComponent() {
       <SummariesPlatformLayout>
         <div>
           {platformsByWorkspace?.platformChatIds.map((platform) => (
-            <PlatformCard key={platform._id} platformChat={platform} view />
+            <PlatformCard
+              key={platform._id}
+              platformChat={platform}
+              workspaceId={workspaceId}
+              view
+            />
           ))}
         </div>
 
