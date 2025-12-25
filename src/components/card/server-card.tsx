@@ -26,7 +26,6 @@ type ServerCardProps = {
   checked: boolean;
   indeterminate?: boolean;
   onToggleServer: (checked: boolean) => void;
-  onOpenChannels: () => void;
 };
 
 const ServerCard = ({
@@ -35,8 +34,9 @@ const ServerCard = ({
   checked,
   indeterminate,
   onToggleServer,
-  onOpenChannels,
 }: ServerCardProps) => {
+  const checkboxState = indeterminate ? 'indeterminate' : checked;
+
   return (
     <Card>
       <CardContent className="flex flex-row p-3 justify-between items-center">
@@ -66,24 +66,22 @@ const ServerCard = ({
               </Button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent>
+            <DropdownMenuContent align="end">
               <DropdownMenuLabel>Server options</DropdownMenuLabel>
               <DropdownMenuSeparator />
 
-              {/* OPTION A */}
               <DropdownMenuCheckboxItem
-                checked={indeterminate ? 'indeterminate' : checked}
-                onCheckedChange={(v) => onToggleServer(Boolean(v))}
+                checked={checkboxState}
+                onSelect={(e) => e.preventDefault()} // 🔑 CRITICAL
+                onCheckedChange={(value) => {
+                  onToggleServer(value === true);
+                }}
               >
                 Add server to workspace
               </DropdownMenuCheckboxItem>
 
-              {/* OPTION B */}
-              <DropdownMenuItem
-                className="justify-between"
-                onClick={onOpenChannels}
-              >
-                <Rows3 />
+              <DropdownMenuItem className="gap-2">
+                <Rows3 size={16} />
                 Manage channels
               </DropdownMenuItem>
             </DropdownMenuContent>

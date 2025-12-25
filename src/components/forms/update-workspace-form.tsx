@@ -67,6 +67,7 @@ const UpdateWorkspaceForm = ({
 
   const canManagePlatform = userWorkspaceRole === 'admin';
 
+  console.log('data', form.getValues('platformChatIds'));
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <FieldGroup>
@@ -116,15 +117,12 @@ const UpdateWorkspaceForm = ({
               field.onChange(value.filter((id) => !ids.includes(id)));
             };
 
-            //TO-DO:add platformChatIds to server schema
             const serverState = (server: Server) => {
-              const selected = server.platformChatIds.filter((id) =>
-                value.includes(id)
-              );
+              const ids = server.platformChatIds ?? [];
+              const selected = ids.filter((id) => value.includes(id));
 
               if (selected.length === 0) return 'unchecked';
-              if (selected.length === server.platformChatIds.length)
-                return 'checked';
+              if (selected.length === ids.length) return 'checked';
               return 'indeterminate';
             };
 
@@ -188,8 +186,8 @@ const UpdateWorkspaceForm = ({
                             indeterminate={state === 'indeterminate'}
                             onToggleServer={(checked) =>
                               checked
-                                ? addMany(server.platformChatIds)
-                                : removeMany(server.platformChatIds)
+                                ? addMany(server.platformChatIds ?? [])
+                                : removeMany(server.platformChatIds ?? [])
                             }
                             canManage
                           />

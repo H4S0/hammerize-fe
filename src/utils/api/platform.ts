@@ -35,6 +35,7 @@ export type Server = {
   serverImage: string;
   members: number;
   channelCount: number;
+  platformChatIds: string[];
 };
 
 type PlatformsChatRes = {
