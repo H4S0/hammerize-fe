@@ -108,6 +108,26 @@ const UpdateWorkspaceForm = ({
           render={({ field, fieldState }) => {
             const value = field.value ?? [];
 
+            const addMany = (ids: string[]) => {
+              field.onChange(Array.from(new Set([...value, ...ids])));
+            };
+
+            const removeMany = (ids: string[]) => {
+              field.onChange(value.filter((id) => !ids.includes(id)));
+            };
+
+            //TO-DO:add platformChatIds to server schema
+            const serverState = (server: Server) => {
+              const selected = server.platformChatIds.filter((id) =>
+                value.includes(id)
+              );
+
+              if (selected.length === 0) return 'unchecked';
+              if (selected.length === server.platformChatIds.length)
+                return 'checked';
+              return 'indeterminate';
+            };
+
             const toggle = (id: string, checked: boolean) => {
               field.onChange(
                 checked ? [...value, id] : value.filter((v) => v !== id)
@@ -158,9 +178,23 @@ const UpdateWorkspaceForm = ({
                         No servers available
                       </p>
                     ) : (
-                      servers.map((server) => (
-                        <ServerCard key={server._id} server={server} />
-                      ))
+                      servers.map((server) => {
+                        const state = serverState(server);
+                        return (
+                          <ServerCard
+                            key={server._id}
+                            server={server}
+                            checked={state === 'checked'}
+                            indeterminate={state === 'indeterminate'}
+                            onToggleServer={(checked) =>
+                              checked
+                                ? addMany(server.platformChatIds)
+                                : removeMany(server.platformChatIds)
+                            }
+                            canManage
+                          />
+                        );
+                      })
                     )}
                   </div>
                 </ScrollArea>
