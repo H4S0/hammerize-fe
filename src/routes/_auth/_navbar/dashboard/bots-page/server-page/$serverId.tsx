@@ -26,7 +26,6 @@ export const Route = createFileRoute(
 function RouteComponent() {
   const { serverId } = Route.useParams();
   const { data, isLoading, isError } = useQuery(serverOptions(serverId));
-
   const server = data?.data?.server;
   const channels = data?.data?.channels ?? [];
 

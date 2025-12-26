@@ -88,8 +88,6 @@ function RouteComponent() {
     workspace.invitedMembers?.filter((m) => m.status !== 'accepted') ?? [];
   const userWorkspaceRole = getWorkspaceRole(workspace, user?._id);
 
-  console.log(platformsByWorkspace);
-
   return (
     <div>
       <PageHeader
@@ -142,6 +140,7 @@ function RouteComponent() {
                 name={workspace.name}
                 description={workspace.description}
                 platforms={platforms?.others ?? []}
+                servers={platforms?.servers ?? []}
                 platformChatIds={workspace.platformChatIds}
                 userWorkspaceRole={userWorkspaceRole}
               />
