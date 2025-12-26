@@ -14,32 +14,38 @@ import {
 } from '@/components/ui/dropdown-menu';
 import CheckingServerModal from '../modal/checking-server-modal';
 
-type ServerCardProps = {
+type ServerCardBaseProps = {
   server: Server;
   canManage?: boolean;
+};
 
-  /** RHF-controlled state */
+type ServerCardSelectableProps = {
   selectedIds: string[];
-
-  /** mutations coming from form */
   onAddMany: (ids: string[]) => void;
   onRemoveMany: (ids: string[]) => void;
   onToggleOne: (id: string, checked: boolean) => void;
 };
 
-const ServerCard = ({
-  server,
-  canManage,
-  selectedIds,
-  onAddMany,
-  onRemoveMany,
-  onToggleOne,
-}: ServerCardProps) => {
-  /** all channel ids belonging to this server */
-  const ids = server.platformChatIds ?? [];
+type ServerCardProps =
+  | (ServerCardBaseProps & ServerCardSelectableProps)
+  | ServerCardBaseProps;
 
-  /** derive checkbox state */
-  const selected = ids.filter((id) => selectedIds.includes(id));
+const isSelectable = (
+  props: ServerCardProps
+): props is ServerCardBaseProps & ServerCardSelectableProps => {
+  return 'selectedIds' in props;
+};
+
+const ServerCard = (props: ServerCardProps) => {
+  const { server, canManage } = props;
+
+  const ids = server.platformChatIds ?? [];
+  const selectable = isSelectable(props);
+
+  const selected = selectable
+    ? ids.filter((id) => props.selectedIds.includes(id))
+    : [];
+
   const checked = ids.length > 0 && selected.length === ids.length;
   const indeterminate = selected.length > 0 && !checked;
 
@@ -76,26 +82,30 @@ const ServerCard = ({
               <DropdownMenuLabel>Server options</DropdownMenuLabel>
               <DropdownMenuSeparator />
 
-              <DropdownMenuCheckboxItem
-                checked={indeterminate ? 'indeterminate' : checked}
-                onSelect={(e) => e.preventDefault()}
-                onCheckedChange={(value) => {
-                  if (value === true) {
-                    onAddMany(ids);
-                  } else {
-                    onRemoveMany(ids);
-                  }
-                }}
-              >
-                Add server to workspace
-              </DropdownMenuCheckboxItem>
+              {selectable && (
+                <>
+                  <DropdownMenuCheckboxItem
+                    checked={indeterminate ? 'indeterminate' : checked}
+                    onSelect={(e) => e.preventDefault()}
+                    onCheckedChange={(value) => {
+                      if (value === true) {
+                        props.onAddMany(ids);
+                      } else {
+                        props.onRemoveMany(ids);
+                      }
+                    }}
+                  >
+                    Add server to workspace
+                  </DropdownMenuCheckboxItem>
 
-              <CheckingServerModal
-                serverName={server.serverName}
-                serverId={server.serverId}
-                selectedIds={selectedIds}
-                onToggleOne={onToggleOne}
-              />
+                  <CheckingServerModal
+                    serverName={server.serverName}
+                    serverId={server.serverId}
+                    selectedIds={props.selectedIds}
+                    onToggleOne={props.onToggleOne}
+                  />
+                </>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (

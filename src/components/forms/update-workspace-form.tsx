@@ -17,6 +17,7 @@ import { Platform, Server } from '@/utils/api/platform';
 import { Button } from '../ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import ServerCard from '../card/server-card';
+import { useWorkspacePlatforms } from '@/hooks/use-workspace-platform';
 
 type UpdateWorkspaceFormProps = {
   workspaceId: string;
@@ -107,23 +108,10 @@ const UpdateWorkspaceForm = ({
           name="platformChatIds"
           control={form.control}
           render={({ field, fieldState }) => {
-            const selectedIds = field.value ?? [];
-
-            const addMany = (ids: string[]) => {
-              field.onChange(Array.from(new Set([...selectedIds, ...ids])));
-            };
-
-            const removeMany = (ids: string[]) => {
-              field.onChange(selectedIds.filter((id) => !ids.includes(id)));
-            };
-
-            const toggleOne = (id: string, checked: boolean) => {
-              field.onChange(
-                checked
-                  ? [...selectedIds, id]
-                  : selectedIds.filter((v) => v !== id)
-              );
-            };
+            const platformState = useWorkspacePlatforms(
+              field.value,
+              field.onChange
+            );
 
             return (
               <Field>
@@ -135,52 +123,42 @@ const UpdateWorkspaceForm = ({
 
                 <ScrollArea className="h-56 p-2">
                   <div className="space-y-2">
-                    <p className="text-xs font-semibold uppercase text-muted-foreground px-1">
+                    <p className="px-1 text-xs font-semibold uppercase text-muted-foreground">
                       Platforms
                     </p>
 
-                    {platforms.length === 0 ? (
-                      <p className="text-sm text-muted-foreground px-2">
-                        No platforms available
-                      </p>
-                    ) : (
-                      platforms.map((platform) => (
-                        <PlatformCard
-                          key={platform._id}
-                          platformChat={platform}
-                          checkbox
-                          checked={selectedIds.includes(platform._id)}
-                          canManage={canManage}
-                          onCheckedChange={(checked) =>
-                            toggleOne(platform._id, checked)
-                          }
-                        />
-                      ))
-                    )}
+                    {platforms.map((platform) => (
+                      <PlatformCard
+                        key={platform._id}
+                        platformChat={platform}
+                        checkbox
+                        canManage={canManage}
+                        checked={platformState.selectedIds.includes(
+                          platform._id
+                        )}
+                        onCheckedChange={(checked) =>
+                          platformState.toggleOne(platform._id, checked)
+                        }
+                      />
+                    ))}
                   </div>
 
-                  <div className="space-y-2 pt-4 border-t">
-                    <p className="text-xs font-semibold uppercase text-muted-foreground px-1">
+                  <div className="space-y-2 border-t pt-4">
+                    <p className="px-1 text-xs font-semibold uppercase text-muted-foreground">
                       Servers
                     </p>
 
-                    {servers.length === 0 ? (
-                      <p className="text-sm text-muted-foreground px-2">
-                        No servers available
-                      </p>
-                    ) : (
-                      servers.map((server) => (
-                        <ServerCard
-                          key={server.serverId}
-                          server={server}
-                          canManage={canManage}
-                          selectedIds={selectedIds}
-                          onAddMany={addMany}
-                          onRemoveMany={removeMany}
-                          onToggleOne={toggleOne}
-                        />
-                      ))
-                    )}
+                    {servers.map((server) => (
+                      <ServerCard
+                        key={server.serverId}
+                        server={server}
+                        canManage={canManage}
+                        selectedIds={platformState.selectedIds}
+                        onAddMany={platformState.addMany}
+                        onRemoveMany={platformState.removeMany}
+                        onToggleOne={platformState.toggleOne}
+                      />
+                    ))}
                   </div>
                 </ScrollArea>
 
