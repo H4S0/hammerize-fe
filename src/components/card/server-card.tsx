@@ -1,46 +1,52 @@
 import { Server } from '@/utils/api/platform';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '../ui/card';
+import { Card, CardContent, CardDescription, CardTitle } from '../ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Link } from '@tanstack/react-router';
 import { Button } from '../ui/button';
-import { Link2, Menu, Rows3 } from 'lucide-react';
+import { Link2, Menu } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import CheckingServerModal from '../modal/checking-server-modal';
 
 type ServerCardProps = {
   server: Server;
   canManage?: boolean;
-  checked: boolean;
-  indeterminate?: boolean;
-  onToggleServer: (checked: boolean) => void;
+
+  /** RHF-controlled state */
+  selectedIds: string[];
+
+  /** mutations coming from form */
+  onAddMany: (ids: string[]) => void;
+  onRemoveMany: (ids: string[]) => void;
+  onToggleOne: (id: string, checked: boolean) => void;
 };
 
 const ServerCard = ({
   server,
   canManage,
-  checked,
-  indeterminate,
-  onToggleServer,
+  selectedIds,
+  onAddMany,
+  onRemoveMany,
+  onToggleOne,
 }: ServerCardProps) => {
-  const checkboxState = indeterminate ? 'indeterminate' : checked;
+  /** all channel ids belonging to this server */
+  const ids = server.platformChatIds ?? [];
+
+  /** derive checkbox state */
+  const selected = ids.filter((id) => selectedIds.includes(id));
+  const checked = ids.length > 0 && selected.length === ids.length;
+  const indeterminate = selected.length > 0 && !checked;
 
   return (
     <Card>
-      <CardContent className="flex flex-row p-3 justify-between items-center">
-        <div className="flex flex-row items-center gap-2">
+      <CardContent className="flex items-center justify-between p-3">
+        <div className="flex items-center gap-2">
           <Avatar>
             <AvatarImage src={server.serverImage} />
             <AvatarFallback>
@@ -52,7 +58,7 @@ const ServerCard = ({
             </AvatarFallback>
           </Avatar>
 
-          <div className="flex flex-col gap-1 items-start">
+          <div className="flex flex-col items-start gap-1">
             <CardTitle>{server.serverName}</CardTitle>
             <CardDescription>{server.channelCount} channels</CardDescription>
           </div>
@@ -61,7 +67,7 @@ const ServerCard = ({
         {canManage ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button size="sm" variant="outline">
                 <Menu />
               </Button>
             </DropdownMenuTrigger>
@@ -71,19 +77,25 @@ const ServerCard = ({
               <DropdownMenuSeparator />
 
               <DropdownMenuCheckboxItem
-                checked={checkboxState}
-                onSelect={(e) => e.preventDefault()} // 🔑 CRITICAL
+                checked={indeterminate ? 'indeterminate' : checked}
+                onSelect={(e) => e.preventDefault()}
                 onCheckedChange={(value) => {
-                  onToggleServer(value === true);
+                  if (value === true) {
+                    onAddMany(ids);
+                  } else {
+                    onRemoveMany(ids);
+                  }
                 }}
               >
                 Add server to workspace
               </DropdownMenuCheckboxItem>
 
-              <DropdownMenuItem className="gap-2">
-                <Rows3 size={16} />
-                Manage channels
-              </DropdownMenuItem>
+              <CheckingServerModal
+                serverName={server.serverName}
+                serverId={server.serverId}
+                selectedIds={selectedIds}
+                onToggleOne={onToggleOne}
+              />
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (

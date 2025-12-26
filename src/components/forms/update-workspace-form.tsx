@@ -38,12 +38,13 @@ const UpdateWorkspaceForm = ({
   servers,
 }: UpdateWorkspaceFormProps) => {
   const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof UpdateWorkspaceSchema>>({
     resolver: zodResolver(UpdateWorkspaceSchema),
     defaultValues: {
-      name: name,
-      description: description,
-      platformChatIds: platformChatIds,
+      name,
+      description,
+      platformChatIds,
     },
   });
 
@@ -65,9 +66,8 @@ const UpdateWorkspaceForm = ({
     }
   };
 
-  const canManagePlatform = userWorkspaceRole === 'admin';
+  const canManage = userWorkspaceRole === 'admin';
 
-  console.log('data', form.getValues('platformChatIds'));
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <FieldGroup>
@@ -78,9 +78,9 @@ const UpdateWorkspaceForm = ({
             <Field>
               <FieldLabel>Name</FieldLabel>
               <Input
-                placeholder="Workspace name"
                 {...field}
-                disabled={userWorkspaceRole === 'member'}
+                disabled={!canManage}
+                placeholder="Workspace name"
               />
               <InstantFieldError fieldState={fieldState} />
             </Field>
@@ -94,9 +94,9 @@ const UpdateWorkspaceForm = ({
             <Field>
               <FieldLabel>Description</FieldLabel>
               <Input
-                placeholder="This workspace is about finance"
                 {...field}
-                disabled={userWorkspaceRole === 'member'}
+                disabled={!canManage}
+                placeholder="This workspace is about finance"
               />
               <InstantFieldError fieldState={fieldState} />
             </Field>
@@ -107,28 +107,21 @@ const UpdateWorkspaceForm = ({
           name="platformChatIds"
           control={form.control}
           render={({ field, fieldState }) => {
-            const value = field.value ?? [];
+            const selectedIds = field.value ?? [];
 
             const addMany = (ids: string[]) => {
-              field.onChange(Array.from(new Set([...value, ...ids])));
+              field.onChange(Array.from(new Set([...selectedIds, ...ids])));
             };
 
             const removeMany = (ids: string[]) => {
-              field.onChange(value.filter((id) => !ids.includes(id)));
+              field.onChange(selectedIds.filter((id) => !ids.includes(id)));
             };
 
-            const serverState = (server: Server) => {
-              const ids = server.platformChatIds ?? [];
-              const selected = ids.filter((id) => value.includes(id));
-
-              if (selected.length === 0) return 'unchecked';
-              if (selected.length === ids.length) return 'checked';
-              return 'indeterminate';
-            };
-
-            const toggle = (id: string, checked: boolean) => {
+            const toggleOne = (id: string, checked: boolean) => {
               field.onChange(
-                checked ? [...value, id] : value.filter((v) => v !== id)
+                checked
+                  ? [...selectedIds, id]
+                  : selectedIds.filter((v) => v !== id)
               );
             };
 
@@ -136,11 +129,11 @@ const UpdateWorkspaceForm = ({
               <Field>
                 <FieldLabel>Platforms & Servers</FieldLabel>
                 <FieldDescription>
-                  Select platforms and servers that should belong to this
+                  Select platforms and server channels that belong to this
                   workspace.
                 </FieldDescription>
 
-                <ScrollArea className="h-40 p-2 space-y-4">
+                <ScrollArea className="h-56 p-2">
                   <div className="space-y-2">
                     <p className="text-xs font-semibold uppercase text-muted-foreground px-1">
                       Platforms
@@ -156,17 +149,17 @@ const UpdateWorkspaceForm = ({
                           key={platform._id}
                           platformChat={platform}
                           checkbox
-                          checked={value.includes(platform._id)}
-                          canManage={canManagePlatform}
+                          checked={selectedIds.includes(platform._id)}
+                          canManage={canManage}
                           onCheckedChange={(checked) =>
-                            toggle(platform._id, checked)
+                            toggleOne(platform._id, checked)
                           }
                         />
                       ))
                     )}
                   </div>
 
-                  <div className="space-y-2 pt-2 border-t">
+                  <div className="space-y-2 pt-4 border-t">
                     <p className="text-xs font-semibold uppercase text-muted-foreground px-1">
                       Servers
                     </p>
@@ -176,23 +169,17 @@ const UpdateWorkspaceForm = ({
                         No servers available
                       </p>
                     ) : (
-                      servers.map((server) => {
-                        const state = serverState(server);
-                        return (
-                          <ServerCard
-                            key={server._id}
-                            server={server}
-                            checked={state === 'checked'}
-                            indeterminate={state === 'indeterminate'}
-                            onToggleServer={(checked) =>
-                              checked
-                                ? addMany(server.platformChatIds ?? [])
-                                : removeMany(server.platformChatIds ?? [])
-                            }
-                            canManage
-                          />
-                        );
-                      })
+                      servers.map((server) => (
+                        <ServerCard
+                          key={server.serverId}
+                          server={server}
+                          canManage={canManage}
+                          selectedIds={selectedIds}
+                          onAddMany={addMany}
+                          onRemoveMany={removeMany}
+                          onToggleOne={toggleOne}
+                        />
+                      ))
                     )}
                   </div>
                 </ScrollArea>
@@ -204,9 +191,9 @@ const UpdateWorkspaceForm = ({
         />
       </FieldGroup>
 
-      {userWorkspaceRole === 'admin' && (
+      {canManage && (
         <Button type="submit" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? 'Saving...' : 'Save changes'}
+          {form.formState.isSubmitting ? 'Saving…' : 'Save changes'}
         </Button>
       )}
     </form>
