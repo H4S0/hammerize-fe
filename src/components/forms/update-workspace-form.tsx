@@ -11,12 +11,13 @@ import z from 'zod';
 import { Field, FieldDescription, FieldGroup, FieldLabel } from '../ui/field';
 import InstantFieldError from './instant-field-error';
 import { Input } from '../ui/input';
-import PlatformCard from '../card/platform-card';
 import { ScrollArea } from '../ui/scroll-area';
-import { Platform, Server } from '@/utils/api/platform';
 import { Button } from '../ui/button';
-import { useQueryClient } from '@tanstack/react-query';
+import { Separator } from '../ui/separator';
+import PlatformCard from '../card/platform-card';
 import ServerCard from '../card/server-card';
+import { Platform, Server } from '@/utils/api/platform';
+import { useQueryClient } from '@tanstack/react-query';
 import { useWorkspacePlatforms } from '@/hooks/use-workspace-platform';
 
 type UpdateWorkspaceFormProps = {
@@ -34,11 +35,12 @@ const UpdateWorkspaceForm = ({
   name,
   description,
   platforms,
+  servers,
   platformChatIds,
   userWorkspaceRole,
-  servers,
 }: UpdateWorkspaceFormProps) => {
   const queryClient = useQueryClient();
+  const canManage = userWorkspaceRole === 'admin';
 
   const form = useForm<z.infer<typeof UpdateWorkspaceSchema>>({
     resolver: zodResolver(UpdateWorkspaceSchema),
@@ -67,7 +69,9 @@ const UpdateWorkspaceForm = ({
     }
   };
 
-  const canManage = userWorkspaceRole === 'admin';
+  const standalonePlatforms = platforms.filter(
+    (platform) => !platform.serverId
+  );
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -122,28 +126,34 @@ const UpdateWorkspaceForm = ({
                 </FieldDescription>
 
                 <ScrollArea className="h-56 p-2">
+                  {standalonePlatforms.length > 0 && (
+                    <>
+                      <div className="space-y-2">
+                        <p className="px-1 text-xs font-semibold uppercase text-muted-foreground">
+                          Platforms
+                        </p>
+
+                        {standalonePlatforms.map((platform) => (
+                          <PlatformCard
+                            key={platform._id}
+                            platformChat={platform}
+                            checkbox
+                            canManage={canManage}
+                            checked={platformState.selectedIds.includes(
+                              platform._id
+                            )}
+                            onCheckedChange={(checked) =>
+                              platformState.toggleOne(platform._id, checked)
+                            }
+                          />
+                        ))}
+                      </div>
+
+                      <Separator className="my-3" />
+                    </>
+                  )}
+
                   <div className="space-y-2">
-                    <p className="px-1 text-xs font-semibold uppercase text-muted-foreground">
-                      Platforms
-                    </p>
-
-                    {platforms.map((platform) => (
-                      <PlatformCard
-                        key={platform._id}
-                        platformChat={platform}
-                        checkbox
-                        canManage={canManage}
-                        checked={platformState.selectedIds.includes(
-                          platform._id
-                        )}
-                        onCheckedChange={(checked) =>
-                          platformState.toggleOne(platform._id, checked)
-                        }
-                      />
-                    ))}
-                  </div>
-
-                  <div className="space-y-2 border-t pt-4">
                     <p className="px-1 text-xs font-semibold uppercase text-muted-foreground">
                       Servers
                     </p>

@@ -23,6 +23,7 @@ export type Platform = {
   chatName: string;
   isActive: boolean;
   lastProcessAt: Date;
+  serverId: string;
   adminUserId: string;
   summaryMode: SummaryMode;
   summariesCount: number;

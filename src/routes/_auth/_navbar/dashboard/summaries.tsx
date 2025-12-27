@@ -34,6 +34,7 @@ function RouteComponent() {
     allSummariesOptions({ search: search.search, platform: search.platform })
   );
   const summaries = summaryQuery.data?.data || [];
+
   const handleSearch = (value: string) => {
     navigate({
       search: (prev) => ({
@@ -85,6 +86,7 @@ function RouteComponent() {
           </SelectContent>
         </Select>
       </div>
+
       {summaryQuery.isPending && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(3)].map((_, i) => (
