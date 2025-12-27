@@ -16,6 +16,6 @@ export const allSummariesOptions = ({
   platform,
 }: FilteredSummariesOptions) =>
   queryOptions({
-    queryKey: ['all-summaries'],
+    queryKey: ['all-summaries', search, platform],
     queryFn: () => fetchAllSummaries({ search, platform }),
   });
