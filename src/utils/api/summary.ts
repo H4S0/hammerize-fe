@@ -19,3 +19,22 @@ export async function deleteSummary(id: string) {
   const res = await api.delete(`/summary/delete-summary/${id}`);
   return res.data;
 }
+
+export type FilteredSummariesOptions = {
+  search?: string;
+  platform?: 'discord' | 'telegram' | 'slack';
+};
+
+export async function fetchAllSummaries({
+  search,
+  platform,
+}: FilteredSummariesOptions) {
+  const res = await api.get<SummaryRes[]>('/summary/all-summaries', {
+    params: {
+      search,
+      platform,
+    },
+  });
+
+  return res.data;
+}

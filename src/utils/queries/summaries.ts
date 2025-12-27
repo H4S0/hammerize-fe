@@ -1,8 +1,21 @@
 import { queryOptions } from '@tanstack/react-query';
-import { fetchSummariesByPlatformChatId } from '../api/summary';
+import {
+  fetchAllSummaries,
+  fetchSummariesByPlatformChatId,
+  FilteredSummariesOptions,
+} from '../api/summary';
 
 export const summariesByChatIdOptions = (id: string) =>
   queryOptions({
     queryKey: ['summaries-by-chat', id],
     queryFn: () => fetchSummariesByPlatformChatId(id),
+  });
+
+export const allSummariesOptions = ({
+  search,
+  platform,
+}: FilteredSummariesOptions) =>
+  queryOptions({
+    queryKey: ['all-summaries'],
+    queryFn: () => fetchAllSummaries({ search, platform }),
   });
