@@ -4,8 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Ubuntu Mono"', 'ui-sans-serif', 'system-ui'],
-        mono: ['"Ubuntu Mono"', 'ui-monospace', 'SFMono-Regular'],
+        sans: ['var(--font-sans)'],
       },
     },
   },

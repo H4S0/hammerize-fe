@@ -5,7 +5,7 @@
     "": {
       "name": "hammerize-fe",
       "dependencies": {
-        "@fontsource/ubuntu-mono": "^5.2.8",
+        "@fontsource-variable/josefin-sans": "^5.2.8",
         "@hookform/resolvers": "^5.2.2",
         "@radix-ui/react-avatar": "^1.1.11",
         "@radix-ui/react-checkbox": "^1.3.3",
@@ -190,6 +190,10 @@
     "@floating-ui/react-dom": ["@floating-ui/react-dom@2.1.6", "", { "dependencies": { "@floating-ui/dom": "^1.7.4" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-4JX6rEatQEvlmgU80wZyq9RT96HZJa88q8hp0pBd+LrczeDI4o6uA2M+uvxngVHo4Ihr8uibXxH6+70zhAFrVw=="],
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.10", "", {}, "sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ=="],
+
+    "@fontsource-variable/josefin-sans": ["@fontsource-variable/josefin-sans@5.2.8", "", {}, "sha512-xt8EGt2/66JJV/mmWU2NxafIwXmDNdd1yi/bVZyRRMCtygHXPCldJrrjjDgOCJPyXbE7NWkc3g+5iE8uJJGbFA=="],
+
+    "@fontsource-variable/quicksand": ["@fontsource-variable/quicksand@5.2.10", "", {}, "sha512-1uzkzGDwWgtFnxquAXuD7fZV9wHkALb49UPzRXxGTVeeLsNrGnIU0O/pcz6m1U7RDtpHz2qx77JhCpKaq7FrUg=="],
 
     "@fontsource/ubuntu-mono": ["@fontsource/ubuntu-mono@5.2.8", "", {}, "sha512-N4nT8+GYWWcDODVSBLU4f3PycZQH9YIF6SypDI0rti3HrLqcXFS9u6wMvAd9vx1FmjAQkYv7Ld9CZ8XYTEOD0A=="],
 
