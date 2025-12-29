@@ -10,6 +10,7 @@ import { Button } from '../ui/button';
 import { toast } from 'sonner';
 import { isApiResponse } from '@/utils/axios-config/axios';
 import { useQueryClient } from '@tanstack/react-query';
+import { Spinner } from '../ui/spinner';
 
 type EditServerForm = {
   serverId: string;
@@ -69,8 +70,13 @@ const EditServerForm = ({
         />
       </FieldGroup>
 
-      <Button type="submit" size="sm" className="mt-3">
-        Update server name
+      <Button
+        type="submit"
+        size="sm"
+        className="mt-3"
+        disabled={form.formState.isSubmitting}
+      >
+        {form.formState.isSubmitting ? <Spinner /> : 'Update server name'}
       </Button>
     </form>
   );

@@ -19,6 +19,7 @@ import ServerCard from '../card/server-card';
 import { Platform, Server } from '@/utils/api/platform';
 import { useQueryClient } from '@tanstack/react-query';
 import { useWorkspacePlatforms } from '@/hooks/use-workspace-platform';
+import { Spinner } from '../ui/spinner';
 
 type UpdateWorkspaceFormProps = {
   workspaceId: string;
@@ -181,7 +182,7 @@ const UpdateWorkspaceForm = ({
 
       {canManage && (
         <Button type="submit" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? 'Saving…' : 'Save changes'}
+          {form.formState.isSubmitting ? <Spinner /> : 'Save changes'}
         </Button>
       )}
     </form>

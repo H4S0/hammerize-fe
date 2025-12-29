@@ -22,6 +22,7 @@ import { isApiResponse } from '@/utils/axios-config/axios';
 import { useQueryClient } from '@tanstack/react-query';
 import { Switch } from '../ui/switch';
 import { Separator } from '../ui/separator';
+import { Spinner } from '../ui/spinner';
 
 const EditPlatformForm = ({ platformData }: { platformData: Platform }) => {
   const queryClient = useQueryClient();
@@ -113,8 +114,13 @@ const EditPlatformForm = ({ platformData }: { platformData: Platform }) => {
         />
       </FieldGroup>
 
-      <Button type="submit" size="sm" className="mt-3">
-        Update platform chat
+      <Button
+        type="submit"
+        size="sm"
+        className="mt-3"
+        disabled={form.formState.isSubmitting}
+      >
+        {form.formState.isSubmitting ? <Spinner /> : 'Update platform chat'}
       </Button>
     </form>
   );

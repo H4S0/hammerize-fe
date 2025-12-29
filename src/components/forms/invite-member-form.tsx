@@ -19,6 +19,7 @@ import InstantFieldError from './instant-field-error';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { Input } from '../ui/input';
 import { useQueryClient } from '@tanstack/react-query';
+import { Spinner } from '../ui/spinner';
 
 const InviteMemberForm = ({
   workspaceId,
@@ -99,8 +100,13 @@ const InviteMemberForm = ({
         />
       </FieldGroup>
 
-      <Button className="mt-5 w-32" type="submit" form="form-rhf-invite">
-        Invite member
+      <Button
+        className="mt-5 w-32"
+        type="submit"
+        form="form-rhf-invite"
+        disabled={form.formState.isSubmitting}
+      >
+        {form.formState.isSubmitting ? <Spinner /> : 'Invite member'}
       </Button>
     </form>
   );

@@ -18,6 +18,7 @@ import ServerCard from '../card/server-card';
 import { useWorkspacePlatforms } from '@/hooks/use-workspace-platform';
 import { Separator } from '../ui/separator';
 import { Skeleton } from '../ui/skeleton';
+import { Spinner } from '../ui/spinner';
 
 const CreateWorkspaceForm = ({
   setIsOpen,
@@ -175,7 +176,7 @@ const CreateWorkspaceForm = ({
         type="submit"
         disabled={form.formState.isSubmitting}
       >
-        {form.formState.isSubmitting ? 'Creating...' : 'Submit'}
+        {form.formState.isSubmitting ? <Spinner /> : 'Create workspace'}
       </Button>
     </form>
   );

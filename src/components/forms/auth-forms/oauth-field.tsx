@@ -5,6 +5,7 @@ import DiscordWhiteLogo from '../../../../public/discord-white-icon.png';
 import { useState } from 'react';
 import { BE_URL } from '@/utils/axios-config/get-valid-token';
 import { useTheme } from '@/components/theme/theme-provider';
+import { Spinner } from '@/components/ui/spinner';
 
 const OAuthField = () => {
   const [loading, setLoading] = useState<'github' | 'discord' | null>(null);
@@ -23,7 +24,7 @@ const OAuthField = () => {
         onClick={() => handleOAuth('discord')}
         disabled={loading === 'discord'}
       >
-        {loading === 'discord' ? 'Connecting...' : 'Discord'}
+        {loading === 'discord' ? <Spinner /> : 'Discord'}
         <img
           src={theme === 'dark' ? DiscordWhiteLogo : DiscordBlackLogo}
           alt="discord"
@@ -37,7 +38,7 @@ const OAuthField = () => {
         onClick={() => handleOAuth('github')}
         disabled={loading === 'github'}
       >
-        {loading === 'github' ? 'Connecting...' : 'GitHub'}
+        {loading === 'github' ? <Spinner /> : 'GitHub'}
         <Github />
       </Button>
     </div>

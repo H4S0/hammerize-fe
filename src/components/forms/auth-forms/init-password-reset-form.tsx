@@ -9,6 +9,7 @@ import InstantFieldError from '../instant-field-error';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { isApiResponse } from '@/utils/axios-config/axios';
+import { Spinner } from '@/components/ui/spinner';
 
 const InitPasswordForgetForm = () => {
   const form = useForm<z.infer<typeof InitPasswordResetSchema>>({
@@ -57,7 +58,10 @@ const InitPasswordForgetForm = () => {
       </CardContent>
 
       <CardFooter>
-        <Button form="form-rhf-init">Send confirmation email</Button>
+        <Button form="form-rhf-init" disabled={form.formState.isSubmitting}>
+          {' '}
+          {form.formState.isSubmitting ? <Spinner /> : 'Send confirmation mail'}
+        </Button>
       </CardFooter>
     </Card>
   );

@@ -12,6 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import OAuthField from './oauth-field';
 import { toast } from 'sonner';
 import { isApiResponse } from '@/utils/axios-config/axios';
+import { Spinner } from '@/components/ui/spinner';
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -87,8 +88,12 @@ const RegisterForm = () => {
 
       <CardFooter>
         <div className="flex flex-col items-center w-full space-y-4">
-          <Button className="w-full" form="form-rhf">
-            Register
+          <Button
+            className="w-full"
+            form="form-rhf"
+            disabled={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting ? <Spinner /> : 'Register'}
           </Button>
 
           <div className="flex items-center w-full space-x-2">

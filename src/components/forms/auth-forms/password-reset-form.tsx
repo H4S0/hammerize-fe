@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { useNavigate } from '@tanstack/react-router';
 import { isApiResponse } from '@/utils/axios-config/axios';
+import { Spinner } from '@/components/ui/spinner';
 
 const PasswordResetForm = ({ token }: { token: string }) => {
   const navigate = useNavigate();
@@ -76,7 +77,13 @@ const PasswordResetForm = ({ token }: { token: string }) => {
       </CardContent>
 
       <CardFooter>
-        <Button form="form-rhf-new-password">Submit</Button>
+        <Button
+          form="form-rhf-new-password"
+          disabled={form.formState.isSubmitting}
+        >
+          {' '}
+          {form.formState.isSubmitting ? <Spinner /> : 'Submit'}
+        </Button>
       </CardFooter>
     </Card>
   );

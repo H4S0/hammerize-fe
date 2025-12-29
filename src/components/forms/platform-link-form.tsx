@@ -16,6 +16,7 @@ import { Button } from '../ui/button';
 import { toast } from 'sonner';
 import { isApiResponse } from '@/utils/axios-config/axios';
 import { useQueryClient } from '@tanstack/react-query';
+import { Spinner } from '../ui/spinner';
 
 const PlatformLinkForm = ({
   setIsModalOpen,
@@ -99,8 +100,13 @@ const PlatformLinkForm = ({
           />
         </FieldGroup>
 
-        <Button className="mt-5 w-32" type="submit" form="form-rhf-link">
-          Submit
+        <Button
+          className="mt-5 w-32"
+          type="submit"
+          form="form-rhf-link"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? <Spinner /> : 'Submit'}
         </Button>
       </form>
     </div>
