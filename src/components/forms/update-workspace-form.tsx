@@ -74,6 +74,9 @@ const UpdateWorkspaceForm = ({
     (platform) => !platform.serverId
   );
 
+  const hasPlatforms = standalonePlatforms.length > 0;
+  const hasServers = servers.length > 0;
+
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <FieldGroup>
@@ -127,7 +130,14 @@ const UpdateWorkspaceForm = ({
                 </FieldDescription>
 
                 <ScrollArea className="h-56 p-2">
-                  {standalonePlatforms.length > 0 && (
+                  {!hasPlatforms && !hasServers && (
+                    <p className="px-2 py-6 text-sm text-muted-foreground text-center">
+                      No platforms or servers are connected to this workspace
+                      yet.
+                    </p>
+                  )}
+
+                  {hasPlatforms && (
                     <>
                       <div className="space-y-2">
                         <p className="px-1 text-xs font-semibold uppercase text-muted-foreground">
@@ -154,23 +164,31 @@ const UpdateWorkspaceForm = ({
                     </>
                   )}
 
-                  <div className="space-y-2">
-                    <p className="px-1 text-xs font-semibold uppercase text-muted-foreground">
-                      Servers
-                    </p>
+                  {hasServers ? (
+                    <div className="space-y-2">
+                      <p className="px-1 text-xs font-semibold uppercase text-muted-foreground">
+                        Servers
+                      </p>
 
-                    {servers.map((server) => (
-                      <ServerCard
-                        key={server.serverId}
-                        server={server}
-                        canManage={canManage}
-                        selectedIds={platformState.selectedIds}
-                        onAddMany={platformState.addMany}
-                        onRemoveMany={platformState.removeMany}
-                        onToggleOne={platformState.toggleOne}
-                      />
-                    ))}
-                  </div>
+                      {servers.map((server) => (
+                        <ServerCard
+                          key={server.serverId}
+                          server={server}
+                          canManage={canManage}
+                          selectedIds={platformState.selectedIds}
+                          onAddMany={platformState.addMany}
+                          onRemoveMany={platformState.removeMany}
+                          onToggleOne={platformState.toggleOne}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    hasPlatforms && (
+                      <p className="px-2 py-4 text-sm text-muted-foreground">
+                        No servers connected.
+                      </p>
+                    )
+                  )}
                 </ScrollArea>
 
                 <InstantFieldError fieldState={fieldState} />
