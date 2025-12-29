@@ -6,7 +6,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
-import { Field, FieldGroup, FieldLabel } from '../ui/field';
+import { Field, FieldDescription, FieldGroup, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
 import InstantFieldError from './instant-field-error';
 import { Button } from '../ui/button';
@@ -32,6 +32,7 @@ const EditPlatformForm = ({ platformData }: { platformData: Platform }) => {
       chatName: platformData.chatName,
       modes: platformData.summaryMode,
       isActive: platformData.isActive,
+      summaryLanguage: platformData.summaryLanguage,
     },
   });
 
@@ -77,7 +78,7 @@ const EditPlatformForm = ({ platformData }: { platformData: Platform }) => {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field>
-              <FieldLabel>Server name</FieldLabel>
+              <FieldLabel>Summary mode</FieldLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <SelectTrigger>
                   <SelectValue placeholder="Modes" />
@@ -85,6 +86,36 @@ const EditPlatformForm = ({ platformData }: { platformData: Platform }) => {
                 <SelectContent>
                   <SelectItem value="short-term">Short term</SelectItem>
                   <SelectItem value="digest-mode">Digest mode</SelectItem>
+                </SelectContent>
+              </Select>
+              <InstantFieldError fieldState={fieldState} />
+              <FieldDescription>
+                Choose <strong>Short-term</strong> for a quick 2-3 sentence
+                overview of the main point, or <strong>Digest</strong> for a
+                detailed breakdown including key decisions, action items, and
+                full Markdown formatting.
+              </FieldDescription>
+            </Field>
+          )}
+        />
+
+        <Controller
+          name="summaryLanguage"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>Summary lanugage</FieldLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Language" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="English">English</SelectItem>
+                  <SelectItem value="Bosnian">Bosnian</SelectItem>
+                  <SelectItem value="German">German</SelectItem>
+                  <SelectItem value="Spanish">Spanish</SelectItem>
+                  <SelectItem value="French">French</SelectItem>
+                  <SelectItem value="Russian">Russian</SelectItem>
                 </SelectContent>
               </Select>
               <InstantFieldError fieldState={fieldState} />

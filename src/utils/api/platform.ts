@@ -15,6 +15,7 @@ export async function linkPlatform(data: z.infer<typeof LinkPlatformSchema>) {
 
 type PlatformSchema = z.infer<typeof PlatformSchema>;
 type SummaryMode = 'short-term' | 'digest-mode';
+type SummaryLanguage = z.infer<typeof summaryLanguage>;
 
 export type Platform = {
   _id: string;
@@ -27,6 +28,7 @@ export type Platform = {
   adminUserId: string;
   summaryMode: SummaryMode;
   summariesCount: number;
+  summaryLanguage: SummaryLanguage;
 };
 
 export type Server = {
@@ -105,10 +107,21 @@ export async function updateServer(
   return res.data;
 }
 
+export const modeEnum = z.enum(['short-term', 'digest-mode']);
+export const summaryLanguage = z.enum([
+  'English',
+  'Bosnian',
+  'German',
+  'Spanish',
+  'French',
+  'Russian',
+]);
+
 export const UpdatePlatformSchema = z.object({
   chatName: z.string().optional(),
   isActive: z.boolean().optional(),
-  modes: z.enum(['short-term', 'digest-mode']).optional(),
+  modes: modeEnum.optional(),
+  summaryLanguage: summaryLanguage.optional(),
 });
 
 export async function updatePlatform(
