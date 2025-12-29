@@ -2,6 +2,8 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/preflight.css" layer(custom-base);
 @import "tailwindcss/utilities.css" layer(custom-utilities);
+@import "@fontsource/ubuntu-mono/400.css";
+@import "@fontsource/ubuntu-mono/700.css";
 
 
 @custom-variant dark (&:is(.dark *));
