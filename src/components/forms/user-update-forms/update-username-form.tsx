@@ -11,9 +11,12 @@ import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 import { isApiResponse } from '@/utils/axios-config/axios';
 
-const UpdateUsernameForm = () => {
+const UpdateUsernameForm = ({ username }: { username: string }) => {
   const form = useForm<z.infer<typeof UsernameUpdateSchema>>({
     resolver: zodResolver(UsernameUpdateSchema),
+    defaultValues: {
+      username: username,
+    },
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof UsernameUpdateSchema>> = async (
