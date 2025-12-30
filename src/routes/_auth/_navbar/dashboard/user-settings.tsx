@@ -67,7 +67,7 @@ function RouteComponent() {
 
       <div className="grid grid-cols-1 gap-4 max-w-2xl">
         <UpdateUsernameForm username={user.data.username} />
-        <UpdateEmailForm />
+        <UpdateEmailForm currentEmail={user.data.email} />
         <UpdatePasswordForm />
       </div>
     </div>
