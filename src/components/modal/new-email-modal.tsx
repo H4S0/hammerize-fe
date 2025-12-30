@@ -21,6 +21,7 @@ import { Input } from '../ui/input';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CircleAlert } from 'lucide-react';
 import { DialogClose } from '@radix-ui/react-dialog';
+import NewPasswordModal from './new-password-modal';
 
 const NewEmailModal = () => {
   const form = useForm<z.infer<typeof EmailUpdateSchema>>({
@@ -93,15 +94,11 @@ const NewEmailModal = () => {
           </FieldGroup>
         </form>
         <DialogFooter>
-          <Button
-            form="form-rhf-new-email"
-            className="w-32"
-            size="sm"
-            type="submit"
-            disabled={form.formState.isSubmitting}
-          >
-            {form.formState.isSubmitting ? <Spinner /> : 'Update email'}
-          </Button>
+          <NewPasswordModal
+            title="Set password"
+            description="You need to set a password for your new email address."
+            triggerLabel="Next"
+          />
           <DialogClose asChild>
             <Button variant="outline" size="sm">
               Cancel

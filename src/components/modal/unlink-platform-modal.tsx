@@ -1,28 +1,42 @@
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Button } from '../ui/button';
+import { X } from 'lucide-react';
+import NewPasswordModal from './new-password-modal';
 
-type UnlinkPlatformModalProps = {
-  platform: 'github' | 'discord';
-};
-
-const UnlinkPlatformModal = ({ platform }: UnlinkPlatformModalProps) => {
+const UnlinkPlatformModal = () => {
   return (
     <Dialog>
-      <DialogTrigger>Open</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button size="sm" variant="outline">
+          <X />
+        </Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Set password</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            You need to set a password before unlinking your social provider.
           </DialogDescription>
         </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
+          <NewPasswordModal
+            title="Set password"
+            description="You need to set a password before unlinking your social provider."
+            triggerLabel="Yes,proceed"
+          />
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
