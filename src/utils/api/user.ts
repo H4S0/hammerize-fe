@@ -3,7 +3,7 @@ import { api } from '../axios-config/axios';
 import { createSHA512Hash } from '../auth/hashing';
 import { User } from '../auth/auth-storage';
 
-const RoleEnum = z.enum(['user', 'delivery']);
+const RoleEnum = z.enum(['user', 'admin']);
 
 export const UserSchema = z.object({
   _id: z.string(),
@@ -116,5 +116,14 @@ export async function updatePassword(
     newPassword: hashedNewPassword,
   });
 
+  return res.data;
+}
+
+type UserInfoRes = Omit<User, 'accessToken'> & {
+  provider: 'github' | 'discord';
+};
+
+export async function fetchUserInfo() {
+  const res = await api.get<UserInfoRes>('/user/user-info');
   return res.data;
 }
