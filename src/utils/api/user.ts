@@ -91,8 +91,8 @@ export async function updateUsername(
 }
 
 export const EmailUpdateSchema = z.object({
-  oldEmail: z.email(),
   newEmail: z.email(),
+  confirmNewEmail: z.email(),
 });
 
 export async function updateEmail(data: z.infer<typeof EmailUpdateSchema>) {

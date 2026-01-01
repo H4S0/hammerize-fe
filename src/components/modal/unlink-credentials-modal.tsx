@@ -14,12 +14,20 @@ import { isApiResponse } from '@/utils/axios-config/axios';
 import { toast } from 'sonner';
 import { useNavigate } from '@tanstack/react-router';
 import { useAuth } from '@/utils/auth/auth';
+import UpdateEmailForm, {
+  ProviderOpts,
+} from '../forms/user-update-forms/update-email-form';
+import UpdateUserEmailForm from '../forms/user-update-forms/update-user-email-form';
 
 export type UnlinkAndNewCredentialsFields = z.infer<
   typeof UnlinkAndChangeEmailSchema
 >;
 
-const UnlinkAndNewCredentialsModal = () => {
+const UnlinkAndNewCredentialsModal = ({
+  provider,
+}: {
+  provider: ProviderOpts;
+}) => {
   const [step, setStep] = useState<'email' | 'password'>('email');
   const [open, setOpen] = useState(false);
   const { logout } = useAuth();
@@ -71,18 +79,22 @@ const UnlinkAndNewCredentialsModal = () => {
         <Button variant="link">Change email</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-106.25">
-        {step === 'email' ? (
-          <NewEmailStepContent
-            onNext={handleEmailNext}
-            onCancel={() => setOpen(false)}
-            form={form}
-          />
+        {provider ? (
+          step === 'email' ? (
+            <NewEmailStepContent
+              onNext={handleEmailNext}
+              onCancel={() => setOpen(false)}
+              form={form}
+            />
+          ) : (
+            <NewPasswordStepContent
+              onBack={() => setStep('email')}
+              onSubmit={form.handleSubmit(onSubmit)}
+              form={form}
+            />
+          )
         ) : (
-          <NewPasswordStepContent
-            onBack={() => setStep('email')}
-            onSubmit={form.handleSubmit(onSubmit)}
-            form={form}
-          />
+          <UpdateUserEmailForm />
         )}
       </DialogContent>
     </Dialog>

@@ -14,9 +14,11 @@ import DiscordWhiteLogo from '../../../../public/discord-white-icon.png';
 import { useTheme } from '@/components/theme/theme-provider';
 import UnlinkPlatformModal from '@/components/modal/unlink-platform-modal';
 
+export type ProviderOpts = 'github' | 'discord';
+
 type UpdateEmailFormProps = {
   currentEmail: string;
-  provider: 'github' | 'discord';
+  provider: ProviderOpts;
 };
 
 const UpdateEmailForm = ({ currentEmail, provider }: UpdateEmailFormProps) => {
@@ -32,29 +34,35 @@ const UpdateEmailForm = ({ currentEmail, provider }: UpdateEmailFormProps) => {
         <Field className="gap-1">
           <div className="flex items-center justify-between">
             <FieldLabel>Current email</FieldLabel>
-            <UnlinkAndNewCredentialsModal />
+            <UnlinkAndNewCredentialsModal provider={provider} />
           </div>
           <Input placeholder="text@example.ha" value={currentEmail} disabled />
 
-          <h3 className="mt-2 font-semibold text-xl">Sign-in methods</h3>
-          <Card className="w-full max-w-xs mt-2">
-            <CardContent className="p-2 flex flex-row items-center justify-between">
-              <div className="flex flex-row gap-2 items-center">
-                {provider === 'github' ? (
-                  <Github />
-                ) : (
-                  <img
-                    src={theme === 'dark' ? DiscordWhiteLogo : DiscordBlackLogo}
-                    alt="discord"
-                    className="w-5 h-5"
-                  />
-                )}
+          {provider && (
+            <>
+              <h3 className="mt-2 font-semibold text-xl">Sign-in methods</h3>
+              <Card className="w-full max-w-xs mt-2">
+                <CardContent className="p-2 flex flex-row items-center justify-between">
+                  <div className="flex flex-row gap-2 items-center">
+                    {provider === 'github' ? (
+                      <Github />
+                    ) : (
+                      <img
+                        src={
+                          theme === 'dark' ? DiscordWhiteLogo : DiscordBlackLogo
+                        }
+                        alt="discord"
+                        className="w-5 h-5"
+                      />
+                    )}
 
-                <CardTitle> {currentEmail}</CardTitle>
-              </div>
-              <UnlinkPlatformModal />
-            </CardContent>
-          </Card>
+                    <CardTitle> {currentEmail}</CardTitle>
+                  </div>
+                  <UnlinkPlatformModal />
+                </CardContent>
+              </Card>
+            </>
+          )}
         </Field>
       </CardContent>
     </Card>
