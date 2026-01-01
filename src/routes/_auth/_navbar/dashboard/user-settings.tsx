@@ -65,7 +65,7 @@ function RouteComponent() {
 
       <Separator className="my-3" />
 
-      <div className="grid grid-cols-1 gap-4 max-w-2xl">
+      <div className="grid grid-cols-1 gap-4 max-w-2xl mx-auto">
         <UpdateUsernameForm username={user.data.username} />
         <EmailMethods
           currentEmail={user.data.email}
