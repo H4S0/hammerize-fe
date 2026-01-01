@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { useNavigate } from '@tanstack/react-router';
 import { isApiResponse } from '@/utils/axios-config/axios';
 import { Spinner } from '@/components/ui/spinner';
+import SharedPasswordFields from '../shared-fields/password-field';
 
 const PasswordResetForm = ({ token }: { token: string }) => {
   const navigate = useNavigate();
@@ -48,31 +49,7 @@ const PasswordResetForm = ({ token }: { token: string }) => {
           onSubmit={form.handleSubmit(handleSubmit)}
           id="form-rhf-new-password"
         >
-          <FieldGroup>
-            <Controller
-              name="password"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel>Password</FieldLabel>
-                  <Input {...field} placeholder="••••••••" type="password" />
-                  <InstantFieldError fieldState={fieldState} />
-                </Field>
-              )}
-            />
-
-            <Controller
-              name="confirmPassword"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel>Confirm password</FieldLabel>
-                  <Input {...field} placeholder="••••••••" type="password" />
-                  <InstantFieldError fieldState={fieldState} />
-                </Field>
-              )}
-            />
-          </FieldGroup>
+          <SharedPasswordFields form={form} />
         </form>
       </CardContent>
 

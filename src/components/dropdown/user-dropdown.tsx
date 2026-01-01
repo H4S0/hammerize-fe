@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,10 +8,11 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
-import { MonitorCog, Moon, Sun, User, UserCog } from 'lucide-react';
+import { User, UserCog } from 'lucide-react';
 import { useAuth } from '@/utils/auth/auth';
 import LogoutButton from '../buttons/logout-button';
 import ThemeToggle from '../theme/theme-toggle';
+import { Link } from '@tanstack/react-router';
 
 const UserDropdown = () => {
   const { user } = useAuth();
@@ -34,10 +34,12 @@ const UserDropdown = () => {
         <DropdownMenuSeparator />
         <ThemeToggle />
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="flex items-center justify-between">
-          <UserCog />
-          User settings
-        </DropdownMenuItem>
+        <Link to="/dashboard/user-settings">
+          <DropdownMenuItem className="flex items-center justify-between">
+            <UserCog />
+            User settings
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuSeparator />
         <LogoutButton />
       </DropdownMenuContent>
