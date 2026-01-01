@@ -71,7 +71,7 @@ function RouteComponent() {
           currentEmail={user.data.email}
           provider={user.data.provider}
         />
-        <UpdatePasswordForm />
+        {!user.data.provider && <UpdatePasswordForm />}
       </div>
     </div>
   );

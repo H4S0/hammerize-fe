@@ -1,110 +1,57 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { useState } from 'react';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { EmailUpdateSchema, updateEmail } from '@/utils/api/user';
 import z from 'zod';
+import {
+  EmailUpdateSchema,
+  UnlinkAndChangeEmailSchema,
+} from '@/utils/api/user';
+import NewPasswordStepContent from '../forms/user-update-forms/new-password-content';
+import NewEmailStepContent from '../forms/user-update-forms/new-email-content';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { isApiResponse } from '@/utils/axios-config/axios';
-import { toast } from 'sonner';
-import { Field, FieldGroup, FieldLabel } from '../ui/field';
-import InstantFieldError from '../forms/instant-field-error';
-import { Spinner } from '../ui/spinner';
-import { Input } from '../ui/input';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert } from 'lucide-react';
-import { DialogClose } from '@radix-ui/react-dialog';
-import NewPasswordModal from './new-password-modal';
+
+export type NewEmailFormFields = z.infer<typeof UnlinkAndChangeEmailSchema>;
 
 const NewEmailModal = () => {
-  const form = useForm<z.infer<typeof EmailUpdateSchema>>({
-    resolver: zodResolver(EmailUpdateSchema),
+  const [open, setOpen] = useState(false);
+  const [step, setStep] = useState<'email' | 'password'>('email');
+
+  const form = useForm<NewEmailFormFields>({
+    resolver: zodResolver(UnlinkAndChangeEmailSchema),
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof EmailUpdateSchema>> = async (
-    data
-  ) => {
-    try {
-      const res = await updateEmail(data);
-      toast.success(res.message);
-    } catch (err) {
-      if (isApiResponse(err)) {
-        const apiError = err;
-
-        toast.error(
-          apiError.message || 'Something went wrong please try again'
-        );
-      } else {
-        toast.error('Something went wrong please,check your connection');
-      }
+  const handleOpenChange = (val: boolean) => {
+    setOpen(val);
+    if (!val) {
+      setStep('email');
     }
   };
+
+  const handleFinalSubmit: SubmitHandler<NewEmailFormFields> = async (data) => {
+    console.log('data', data);
+    setOpen(false);
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="link">Change email</Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Set new email</DialogTitle>
-          <DialogDescription>
-            Enter you new email address below.
-          </DialogDescription>
-        </DialogHeader>
-        <Alert variant="destructive">
-          <CircleAlert />
-          <AlertTitle>Important!</AlertTitle>
-          <AlertDescription>
-            Changing your email will unlink your account from Google. You can
-            only use this new email to sign in going forward.
-          </AlertDescription>
-        </Alert>
-        <form id="form-rhf-new-email" onSubmit={form.handleSubmit(onSubmit)}>
-          <FieldGroup>
-            <Controller
-              name="oldEmail"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel>Current email</FieldLabel>
-                  <Input placeholder="text@example.ha" {...field} />
-                  <InstantFieldError fieldState={fieldState} />
-                </Field>
-              )}
-            />
-
-            <Controller
-              name="newEmail"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel>New email</FieldLabel>
-                  <Input placeholder="text@example.ha" {...field} />
-                  <InstantFieldError fieldState={fieldState} />
-                </Field>
-              )}
-            />
-          </FieldGroup>
-        </form>
-        <DialogFooter>
-          <NewPasswordModal
-            title="Set password"
-            description="You need to set a password for your new email address."
-            triggerLabel="Next"
+      <DialogContent className="sm:max-w-106.25">
+        {step === 'email' ? (
+          <NewEmailStepContent
+            onNext={() => setStep('password')}
+            onCancel={() => setOpen(false)}
+            form={form}
           />
-          <DialogClose asChild>
-            <Button variant="outline" size="sm">
-              Cancel
-            </Button>
-          </DialogClose>
-        </DialogFooter>
+        ) : (
+          <NewPasswordStepContent
+            onBack={() => setStep('email')}
+            onSubmit={handleFinalSubmit}
+            form={form}
+          />
+        )}
       </DialogContent>
     </Dialog>
   );

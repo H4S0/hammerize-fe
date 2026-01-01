@@ -105,15 +105,13 @@ export const PasswordUpdateSchema = z.object({
   newPassword: z.string(),
 });
 
-export async function updatePassword(
-  data: z.infer<typeof PasswordUpdateSchema>
-) {
-  const hashedOldPassword = await createSHA512Hash(data.oldPassword);
-  const hashedNewPassword = await createSHA512Hash(data.newPassword);
+export async function updatePassword(data: z.infer<typeof NewPasswordSchema>) {
+  const hashedOldPassword = await createSHA512Hash(data.password);
+  const hashedNewPassword = await createSHA512Hash(data.confirmPassword);
 
   const res = await api.put('/user/new-password', {
-    oldPassword: hashedOldPassword,
-    newPassword: hashedNewPassword,
+    password: hashedOldPassword,
+    confirmPassword: hashedNewPassword,
   });
 
   return res.data;
@@ -127,3 +125,10 @@ export async function fetchUserInfo() {
   const res = await api.get<UserInfoRes>('/user/user-info');
   return res.data;
 }
+
+export const UnlinkAndChangeEmailSchema = z.object({
+  email: z.email(),
+  confirmEmail: z.email(),
+  password: z.string(),
+  confirmPassword: z.string(),
+});
