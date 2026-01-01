@@ -1,18 +1,20 @@
 import { useState } from 'react';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
 import { X } from 'lucide-react';
-import NewPasswordStepContent from '../forms/user-update-forms/new-password-content';
 import UnlinkPasswordContent from '../forms/user-update-forms/unlink-password-content';
+import { ProviderOpts } from '../forms/user-update-forms/email-methods';
 
-const UnlinkPlatformModal = () => {
+const UnlinkPlatformModal = ({ provider }: { provider: ProviderOpts }) => {
   const [step, setStep] = useState<'confirm' | 'password'>('confirm');
   const [open, setOpen] = useState(false);
 
@@ -33,27 +35,34 @@ const UnlinkPlatformModal = () => {
         {step === 'confirm' ? (
           <>
             <DialogHeader>
+              <DialogTitle>Unlink social account</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to unlink {provider} from your account?
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline" size="sm">
+                  Cancel
+                </Button>
+              </DialogClose>
+
+              <Button onClick={() => setStep('password')} size="sm">
+                Yes, proceed
+              </Button>
+            </DialogFooter>
+          </>
+        ) : (
+          <>
+            <DialogHeader>
               <DialogTitle>Set password</DialogTitle>
               <DialogDescription>
                 You need to set a password before unlinking your social
                 provider.
               </DialogDescription>
             </DialogHeader>
-            <div className="flex justify-end gap-3 mt-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button onClick={() => setStep('password')} size="sm">
-                Yes, proceed
-              </Button>
-            </div>
+            <UnlinkPasswordContent setIsOpen={setOpen} />
           </>
-        ) : (
-          <UnlinkPasswordContent onCancle={() => setStep('confirm')} />
         )}
       </DialogContent>
     </Dialog>

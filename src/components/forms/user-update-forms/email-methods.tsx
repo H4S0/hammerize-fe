@@ -60,7 +60,7 @@ const EmailMethods = ({ currentEmail, provider }: EmailMethodsProps) => {
 
                     <CardTitle> {currentEmail}</CardTitle>
                   </div>
-                  <UnlinkPlatformModal />
+                  <UnlinkPlatformModal provider={provider} />
                 </CardContent>
               </Card>
             </>
