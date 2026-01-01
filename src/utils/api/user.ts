@@ -127,8 +127,23 @@ export async function fetchUserInfo() {
 }
 
 export const UnlinkAndChangeEmailSchema = z.object({
-  email: z.email(),
-  confirmEmail: z.email(),
-  password: z.string(),
-  confirmPassword: z.string(),
+  email: z.email({ error: 'This field is required ' }),
+  confirmEmail: z.email({ error: 'Email confirmation should match' }),
+  password: z.string({ error: 'This field is required ' }),
+  confirmPassword: z.string({ error: 'Password confirmation should match' }),
 });
+
+export async function unlinkAndChangeEmail(
+  data: z.infer<typeof UnlinkAndChangeEmailSchema>
+) {
+  const hashedPassword = await createSHA512Hash(data.password);
+  const hashedConfirmPassword = await createSHA512Hash(data.confirmPassword);
+
+  const res = await api.put('/user/unlink-change-email', {
+    ...data,
+    password: hashedPassword,
+    confirmPassword: hashedConfirmPassword,
+  });
+
+  return res.data;
+}

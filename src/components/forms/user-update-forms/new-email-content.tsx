@@ -17,10 +17,10 @@ import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import InstantFieldError from '../instant-field-error';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { NewEmailFormFields } from '@/components/modal/new-email-modal';
+import { UnlinkAndNewCredentialsFields } from '@/components/modal/unlink-credentials-modal';
 
 type NewEmailStepContentProps = {
-  form: UseFormReturn<NewEmailFormFields>;
+  form: UseFormReturn<UnlinkAndNewCredentialsFields>;
   onNext: () => void;
   onCancel: () => void;
 };
@@ -44,7 +44,8 @@ const NewEmailStepContent = ({
         <AlertTitle>Important!</AlertTitle>
         <AlertDescription>
           Changing your email will unlink your account from the current
-          platform.
+          platform. You are going to be logged out from current session and you
+          need to login again in order to user your account.
         </AlertDescription>
       </Alert>
 
@@ -55,7 +56,7 @@ const NewEmailStepContent = ({
             control={form.control}
             render={({ field, fieldState }) => (
               <Field>
-                <FieldLabel>Current email</FieldLabel>
+                <FieldLabel>New email address</FieldLabel>
                 <Input placeholder="text@example.com" {...field} />
                 <InstantFieldError fieldState={fieldState} />
               </Field>
@@ -67,7 +68,7 @@ const NewEmailStepContent = ({
             control={form.control}
             render={({ field, fieldState }) => (
               <Field>
-                <FieldLabel>New email</FieldLabel>
+                <FieldLabel>Confirm new email address</FieldLabel>
                 <Input placeholder="new@example.com" {...field} />
                 <InstantFieldError fieldState={fieldState} />
               </Field>

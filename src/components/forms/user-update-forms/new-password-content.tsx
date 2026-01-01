@@ -9,10 +9,10 @@ import {
 import { UseFormReturn, Controller } from 'react-hook-form';
 import InstantFieldError from '../instant-field-error';
 import { Spinner } from '@/components/ui/spinner';
-import { NewEmailFormFields } from '@/components/modal/new-email-modal';
+import { UnlinkAndNewCredentialsFields } from '@/components/modal/unlink-credentials-modal';
 
 interface BasePasswordStepProps {
-  form: UseFormReturn<NewEmailFormFields>;
+  form: UseFormReturn<UnlinkAndNewCredentialsFields>;
   onBack: () => void;
   onSubmit: () => void;
 }

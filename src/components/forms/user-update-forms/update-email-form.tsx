@@ -1,4 +1,4 @@
-import NewEmailModal from '@/components/modal/new-email-modal';
+import UnlinkAndNewCredentialsModal from '@/components/modal/unlink-credentials-modal';
 import {
   Card,
   CardContent,
@@ -12,7 +12,6 @@ import { Github, X } from 'lucide-react';
 import DiscordBlackLogo from '../../../../public/discord-icon-43736.png';
 import DiscordWhiteLogo from '../../../../public/discord-white-icon.png';
 import { useTheme } from '@/components/theme/theme-provider';
-import { Button } from '@/components/ui/button';
 import UnlinkPlatformModal from '@/components/modal/unlink-platform-modal';
 
 type UpdateEmailFormProps = {
@@ -33,7 +32,7 @@ const UpdateEmailForm = ({ currentEmail, provider }: UpdateEmailFormProps) => {
         <Field className="gap-1">
           <div className="flex items-center justify-between">
             <FieldLabel>Current email</FieldLabel>
-            <NewEmailModal />
+            <UnlinkAndNewCredentialsModal />
           </div>
           <Input placeholder="text@example.ha" value={currentEmail} disabled />
 
