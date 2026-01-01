@@ -16,19 +16,21 @@ import UnlinkPlatformModal from '@/components/modal/unlink-platform-modal';
 
 export type ProviderOpts = 'github' | 'discord';
 
-type UpdateEmailFormProps = {
+type EmailMethodsProps = {
   currentEmail: string;
   provider: ProviderOpts;
 };
 
-const UpdateEmailForm = ({ currentEmail, provider }: UpdateEmailFormProps) => {
+const EmailMethods = ({ currentEmail, provider }: EmailMethodsProps) => {
   const { theme } = useTheme();
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Email address</CardTitle>
-        <CardDescription>Update your email address</CardDescription>
+        <CardTitle>Email address and linking methods</CardTitle>
+        <CardDescription>
+          Update your email address and change linking methods
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Field className="gap-1">
@@ -69,4 +71,4 @@ const UpdateEmailForm = ({ currentEmail, provider }: UpdateEmailFormProps) => {
   );
 };
 
-export default UpdateEmailForm;
+export default EmailMethods;

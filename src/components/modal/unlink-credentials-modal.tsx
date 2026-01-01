@@ -16,7 +16,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { useAuth } from '@/utils/auth/auth';
 import UpdateEmailForm, {
   ProviderOpts,
-} from '../forms/user-update-forms/update-email-form';
+} from '../forms/user-update-forms/email-methods';
 import UpdateUserEmailForm from '../forms/user-update-forms/update-user-email-form';
 
 export type UnlinkAndNewCredentialsFields = z.infer<
@@ -94,7 +94,7 @@ const UnlinkAndNewCredentialsModal = ({
             />
           )
         ) : (
-          <UpdateUserEmailForm />
+          <UpdateUserEmailForm setIsOpen={setOpen} />
         )}
       </DialogContent>
     </Dialog>

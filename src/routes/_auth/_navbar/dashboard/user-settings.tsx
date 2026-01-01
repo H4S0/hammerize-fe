@@ -1,4 +1,4 @@
-import UpdateEmailForm from '@/components/forms/user-update-forms/update-email-form';
+import EmailMethods from '@/components/forms/user-update-forms/email-methods';
 import UpdatePasswordForm from '@/components/forms/user-update-forms/update-password-form';
 import UpdateUsernameForm from '@/components/forms/user-update-forms/update-username-form';
 import PageHeader from '@/components/typography/page-header';
@@ -67,7 +67,7 @@ function RouteComponent() {
 
       <div className="grid grid-cols-1 gap-4 max-w-2xl">
         <UpdateUsernameForm username={user.data.username} />
-        <UpdateEmailForm
+        <EmailMethods
           currentEmail={user.data.email}
           provider={user.data.provider}
         />

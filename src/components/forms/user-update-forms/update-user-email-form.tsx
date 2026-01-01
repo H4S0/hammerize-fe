@@ -16,8 +16,17 @@ import { EmailUpdateSchema, updateEmail } from '@/utils/api/user';
 import z from 'zod';
 import { toast } from 'sonner';
 import { isApiResponse } from '@/utils/axios-config/axios';
+import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useAuth } from '@/utils/auth/auth';
 
-const UpdateUserEmailForm = () => {
+const UpdateUserEmailForm = ({
+  setIsOpen,
+}: {
+  setIsOpen: (open: boolean) => void;
+}) => {
+  const queryClient = useQueryClient();
+  const { refetchUser } = useAuth();
   const form = useForm<z.infer<typeof EmailUpdateSchema>>({
     resolver: zodResolver(EmailUpdateSchema),
   });
@@ -28,6 +37,10 @@ const UpdateUserEmailForm = () => {
     try {
       const res = await updateEmail(data);
       toast.success(res.message);
+      form.reset();
+      queryClient.invalidateQueries({ queryKey: ['user-info'] });
+      setIsOpen(false);
+      await refetchUser();
     } catch (err) {
       if (isApiResponse(err)) {
         const apiError = err;
@@ -50,9 +63,13 @@ const UpdateUserEmailForm = () => {
         </DialogDescription>
       </DialogHeader>
 
-      <form id="update-email-form" className="space-y-4 py-4">
+      <form
+        id="update-email-form"
+        className="space-y-4 py-4"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <Controller
-          name="newEmail"
+          name="email"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field>
@@ -64,7 +81,7 @@ const UpdateUserEmailForm = () => {
         />
 
         <Controller
-          name="confirmNewEmail"
+          name="confirmEmail"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field>
@@ -88,7 +105,7 @@ const UpdateUserEmailForm = () => {
           size="sm"
           form="update-email-form"
         >
-          {form.formState.isSubmitting ? <Spinner /> : 'Save & Unlink'}
+          {form.formState.isSubmitting ? <Spinner /> : 'Update email address'}
         </Button>
       </DialogFooter>
     </div>

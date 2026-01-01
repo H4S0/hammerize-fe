@@ -10,8 +10,12 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 import { isApiResponse } from '@/utils/axios-config/axios';
+import { useQueryClient } from '@tanstack/react-query';
+import { useAuth } from '@/utils/auth/auth';
 
 const UpdateUsernameForm = ({ username }: { username: string }) => {
+  const queryClient = useQueryClient();
+  const { refetchUser } = useAuth();
   const form = useForm<z.infer<typeof UsernameUpdateSchema>>({
     resolver: zodResolver(UsernameUpdateSchema),
     defaultValues: {
@@ -25,6 +29,8 @@ const UpdateUsernameForm = ({ username }: { username: string }) => {
     try {
       const res = await updateUsername(data);
       toast.success(res.message);
+      queryClient.invalidateQueries({ queryKey: ['user-info'] });
+      await refetchUser();
     } catch (err) {
       if (isApiResponse(err)) {
         const apiError = err;

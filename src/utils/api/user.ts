@@ -86,13 +86,13 @@ export const UsernameUpdateSchema = z.object({
 export async function updateUsername(
   data: z.infer<typeof UsernameUpdateSchema>
 ) {
-  const res = await api.put('/user/username-update', data);
+  const res = await api.put('/user/update-username', data);
   return res.data;
 }
 
 export const EmailUpdateSchema = z.object({
-  newEmail: z.email(),
-  confirmNewEmail: z.email(),
+  email: z.email(),
+  confirmEmail: z.email(),
 });
 
 export async function updateEmail(data: z.infer<typeof EmailUpdateSchema>) {
