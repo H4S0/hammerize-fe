@@ -100,18 +100,23 @@ export async function updateEmail(data: z.infer<typeof EmailUpdateSchema>) {
   return res.data;
 }
 
-export const PasswordUpdateSchema = z.object({
+export const UpdatingPasswordSchema = z.object({
   oldPassword: z.string(),
-  newPassword: z.string(),
+  password: z.string(),
+  confirmPassword: z.string(),
 });
 
-export async function updatePassword(data: z.infer<typeof NewPasswordSchema>) {
-  const hashedOldPassword = await createSHA512Hash(data.password);
-  const hashedNewPassword = await createSHA512Hash(data.confirmPassword);
+export async function updatePassword(
+  data: z.infer<typeof UpdatingPasswordSchema>
+) {
+  const hashedOldPassword = await createSHA512Hash(data.oldPassword);
+  const hashedNewPassword = await createSHA512Hash(data.password);
+  const hashedNewConfirmPassword = await createSHA512Hash(data.confirmPassword);
 
   const res = await api.put('/user/new-password', {
-    password: hashedOldPassword,
-    confirmPassword: hashedNewPassword,
+    oldPassword: hashedOldPassword,
+    password: hashedNewPassword,
+    confirmPassword: hashedNewConfirmPassword,
   });
 
   return res.data;
@@ -141,6 +146,20 @@ export async function unlinkAndChangeEmail(
 
   const res = await api.put('/user/unlink-change-email', {
     ...data,
+    password: hashedPassword,
+    confirmPassword: hashedConfirmPassword,
+  });
+
+  return res.data;
+}
+
+export async function unlinkAndSetPassword(
+  data: z.infer<typeof NewPasswordSchema>
+) {
+  const hashedPassword = await createSHA512Hash(data.password);
+  const hashedConfirmPassword = await createSHA512Hash(data.confirmPassword);
+
+  const res = await api.put('/user/unlink-set-password', {
     password: hashedPassword,
     confirmPassword: hashedConfirmPassword,
   });

@@ -3,26 +3,22 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
-import {
-  NewPasswordSchema,
-  PasswordUpdateSchema,
-  updatePassword,
-} from '@/utils/api/user';
+import { updatePassword, UpdatingPasswordSchema } from '@/utils/api/user';
 import { isApiResponse } from '@/utils/axios-config/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
-import SharedPasswordFields from '../shared-fields/password-field';
+import InstantFieldError from '../instant-field-error';
 
 const UpdatePasswordForm = () => {
-  const form = useForm<z.infer<typeof NewPasswordSchema>>({
-    resolver: zodResolver(NewPasswordSchema),
+  const form = useForm<z.infer<typeof UpdatingPasswordSchema>>({
+    resolver: zodResolver(UpdatingPasswordSchema),
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof NewPasswordSchema>> = async (
-    data
-  ) => {
+  const onSubmit: SubmitHandler<
+    z.infer<typeof UpdatingPasswordSchema>
+  > = async (data) => {
     try {
       const res = await updatePassword(data);
       toast.success(res.message);
@@ -46,7 +42,43 @@ const UpdatePasswordForm = () => {
       </CardHeader>
       <CardContent>
         <form id="form-rhf-link" onSubmit={form.handleSubmit(onSubmit)}>
-          <SharedPasswordFields form={form} />
+          <FieldGroup>
+            <Controller
+              name="oldPassword"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Current password</FieldLabel>
+                  <Input {...field} placeholder="••••••••" type="password" />
+                  <InstantFieldError fieldState={fieldState} />
+                </Field>
+              )}
+            />
+
+            <Controller
+              name="password"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>New password</FieldLabel>
+                  <Input {...field} placeholder="••••••••" type="password" />
+                  <InstantFieldError fieldState={fieldState} />
+                </Field>
+              )}
+            />
+
+            <Controller
+              name="confirmPassword"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Confirm new password</FieldLabel>
+                  <Input {...field} placeholder="••••••••" type="password" />
+                  <InstantFieldError fieldState={fieldState} />
+                </Field>
+              )}
+            />
+          </FieldGroup>
 
           <Button
             className="mt-5 w-32"
