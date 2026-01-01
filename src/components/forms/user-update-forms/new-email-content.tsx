@@ -61,6 +61,7 @@ const NewEmailStepContent = ({
               </Field>
             )}
           />
+
           <Controller
             name="confirmEmail"
             control={form.control}

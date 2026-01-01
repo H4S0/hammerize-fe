@@ -28,9 +28,19 @@ const NewEmailModal = () => {
     }
   };
 
+  const handleEmailNext = async () => {
+    const isValid = await form.trigger(['email', 'confirmEmail']);
+
+    if (!isValid) return;
+
+    setStep('password');
+  };
+
   const handleFinalSubmit: SubmitHandler<NewEmailFormFields> = async (data) => {
     console.log('data', data);
     setOpen(false);
+    form.reset();
+    setStep('email');
   };
 
   return (
@@ -41,14 +51,14 @@ const NewEmailModal = () => {
       <DialogContent className="sm:max-w-106.25">
         {step === 'email' ? (
           <NewEmailStepContent
-            onNext={() => setStep('password')}
+            onNext={handleEmailNext}
             onCancel={() => setOpen(false)}
             form={form}
           />
         ) : (
           <NewPasswordStepContent
             onBack={() => setStep('email')}
-            onSubmit={handleFinalSubmit}
+            onSubmit={form.handleSubmit(handleFinalSubmit)}
             form={form}
           />
         )}
