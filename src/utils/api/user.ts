@@ -14,13 +14,16 @@ export const UserSchema = z.object({
 });
 
 export const RegisterSchema = z.object({
-  username: z.string(),
-  email: z.email(),
-  password: z.string(),
+  username: z.string({ error: 'This field is required' }),
+  email: z.email({ error: 'This field is required' }),
+  password: z
+    .string({ error: 'This field is required' })
+    .min(8, { error: 'Password must be at least 8 characters' }),
 });
 
 export async function register(data: z.infer<typeof RegisterSchema>) {
   const hashedPassword = await createSHA512Hash(data.password);
+
   const res = await api.post('/auth/register', {
     ...data,
     password: hashedPassword,
@@ -31,12 +34,10 @@ export async function register(data: z.infer<typeof RegisterSchema>) {
 
 export const LoginSchema = z.object({
   email: z.email('Please enter a valid email address'),
-  password: z.string('Password is required').min(1),
+  password: z
+    .string('Password is required')
+    .min(8, { error: 'Password must be at least 8 characters' }),
 });
-
-export interface LoginResponse {
-  data: User;
-}
 
 export async function login(data: z.infer<typeof LoginSchema>) {
   const hashedPassword = await createSHA512Hash(data.password);
@@ -50,7 +51,7 @@ export async function login(data: z.infer<typeof LoginSchema>) {
 }
 
 export const InitPasswordResetSchema = z.object({
-  email: z.email(),
+  email: z.email({ error: 'This field is required' }),
 });
 
 export async function initPasswordReset(
@@ -60,10 +61,20 @@ export async function initPasswordReset(
   return res.data;
 }
 
-export const NewPasswordSchema = z.object({
-  password: z.string(),
-  confirmPassword: z.string(),
-});
+export const NewPasswordSchema = z
+  .object({
+    password: z
+      .string({ error: 'This field is required' })
+      .min(8, { error: 'Password must be at least 8 characters' }),
+
+    confirmPassword: z
+      .string({ error: 'This field is required' })
+      .min(8, { error: 'Password must be at least 8 characters' }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'Passwords do not match',
+  });
 
 export async function newPassword(
   token: string,
@@ -76,6 +87,7 @@ export async function newPassword(
     password: hashedPassword,
     confirmPassword: hashedConfirmPassword,
   });
+
   return res.data;
 }
 
@@ -90,21 +102,39 @@ export async function updateUsername(
   return res.data;
 }
 
-export const EmailUpdateSchema = z.object({
-  email: z.email(),
-  confirmEmail: z.email(),
-});
+export const EmailUpdateSchema = z
+  .object({
+    email: z.email({ error: 'This field is required' }),
+    confirmEmail: z.email({ error: 'Email confirmation is required' }),
+  })
+  .refine((data) => data.email === data.confirmEmail, {
+    path: ['confirmEmail'],
+    message: 'Emails do not match',
+  });
 
 export async function updateEmail(data: z.infer<typeof EmailUpdateSchema>) {
   const res = await api.put('/user/email-update', data);
   return res.data;
 }
 
-export const UpdatingPasswordSchema = z.object({
-  oldPassword: z.string(),
-  password: z.string(),
-  confirmPassword: z.string(),
-});
+export const UpdatingPasswordSchema = z
+  .object({
+    oldPassword: z
+      .string({ error: 'This field is required' })
+      .min(8, { error: 'Password must be at least 8 characters' }),
+
+    password: z
+      .string({ error: 'This field is required' })
+      .min(8, { error: 'Password must be at least 8 characters' }),
+
+    confirmPassword: z
+      .string({ error: 'This field is required' })
+      .min(8, { error: 'Password must be at least 8 characters' }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'Passwords do not match',
+  });
 
 export async function updatePassword(
   data: z.infer<typeof UpdatingPasswordSchema>
@@ -131,12 +161,36 @@ export async function fetchUserInfo() {
   return res.data;
 }
 
-export const UnlinkAndChangeEmailSchema = z.object({
-  email: z.email({ error: 'This field is required ' }),
-  confirmEmail: z.email({ error: 'Email confirmation should match' }),
-  password: z.string({ error: 'This field is required ' }),
-  confirmPassword: z.string({ error: 'Password confirmation should match' }),
-});
+export const UnlinkAndChangeEmailSchema = z
+  .object({
+    email: z.email({ error: 'This field is required' }),
+    confirmEmail: z.email({ error: 'Email confirmation is required' }),
+
+    password: z
+      .string({ error: 'This field is required' })
+      .min(8, { error: 'Password must be at least 8 characters' }),
+
+    confirmPassword: z
+      .string({ error: 'Password confirmation is required' })
+      .min(8, { error: 'Password must be at least 8 characters' }),
+  })
+  .superRefine((data, ctx) => {
+    if (data.email !== data.confirmEmail) {
+      ctx.addIssue({
+        path: ['confirmEmail'],
+        message: 'Emails do not match',
+        code: z.ZodIssueCode.custom,
+      });
+    }
+
+    if (data.password !== data.confirmPassword) {
+      ctx.addIssue({
+        path: ['confirmPassword'],
+        message: 'Passwords do not match',
+        code: z.ZodIssueCode.custom,
+      });
+    }
+  });
 
 export async function unlinkAndChangeEmail(
   data: z.infer<typeof UnlinkAndChangeEmailSchema>
