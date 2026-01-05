@@ -1,6 +1,6 @@
 import { api } from '../axios-config/axios';
 
-type TaskAssignmentProps = {
+export type TaskAssignmentProps = {
   mention: string;
   task: string;
 };
@@ -13,7 +13,7 @@ export type SummaryRes = {
   crucialThemes: string[];
   crucialWords: string[];
   mentions: string[];
-  taskAssignment: TaskAssignmentProps;
+  taskAssignment: TaskAssignmentProps[];
   createdAt: Date;
 };
 

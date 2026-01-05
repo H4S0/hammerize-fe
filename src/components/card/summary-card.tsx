@@ -19,6 +19,7 @@ import {
 import { Separator } from '../ui/separator';
 import SummaryIconCard from '../ui/summary-icon-card';
 import SummaryActionDropdown from '../dropdown/summary-action-dropdown';
+import ViewSummaryMentionsModal from '../modal/view-summary-mentions-modal';
 
 type SummaryCardProps = {
   summary: SummaryRes;
@@ -74,9 +75,9 @@ const SummaryCard = ({ summary, canDelete }: SummaryCardProps) => {
         />
         <Separator orientation="vertical" className="py-2" />
 
-        <SummaryIconCard
-          icon={<Tags size={17} />}
-          text={`${summary.mentions.length.toLocaleString() || '0'} mentions`}
+        <ViewSummaryMentionsModal
+          taskAssignment={summary.taskAssignment}
+          mentions={summary.mentions}
         />
       </CardFooter>
     </Card>
