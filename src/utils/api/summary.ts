@@ -1,5 +1,10 @@
 import { api } from '../axios-config/axios';
 
+type TaskAssignmentProps = {
+  mention: string;
+  task: string;
+};
+
 export type SummaryRes = {
   _id: string;
   chatId: string;
@@ -7,6 +12,8 @@ export type SummaryRes = {
   messageCount: number;
   crucialThemes: string[];
   crucialWords: string[];
+  mentions: string[];
+  taskAssignment: TaskAssignmentProps;
   createdAt: Date;
 };
 

@@ -14,6 +14,7 @@ import {
   Lightbulb,
   RectangleEllipsis,
   ScrollText,
+  Tags,
 } from 'lucide-react';
 import { Separator } from '../ui/separator';
 import SummaryIconCard from '../ui/summary-icon-card';
@@ -66,9 +67,16 @@ const SummaryCard = ({ summary, canDelete }: SummaryCardProps) => {
           text={`${summary.messageCount} messages`}
         />
         <Separator orientation="vertical" className="py-2" />
+
         <SummaryIconCard
           icon={<CalendarDays size={17} />}
           text={new Date(summary.createdAt).toUTCString()}
+        />
+        <Separator orientation="vertical" className="py-2" />
+
+        <SummaryIconCard
+          icon={<Tags size={17} />}
+          text={`${summary.mentions.length.toLocaleString() || '0'} mentions`}
         />
       </CardFooter>
     </Card>
