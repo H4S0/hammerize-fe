@@ -14,12 +14,19 @@ import { isApiResponse } from '@/utils/axios-config/axios';
 import { useQueryClient } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 
+type PlatformSettingsDropdownProps = {
+  platformChatId: string;
+  serverId: string;
+  server?: boolean;
+};
+
 const PlatformSettingsDropdown = ({
   platformChatId,
-}: {
-  platformChatId: string;
-}) => {
+  serverId,
+  server,
+}: PlatformSettingsDropdownProps) => {
   const queryClient = useQueryClient();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -45,9 +52,13 @@ const PlatformSettingsDropdown = ({
             try {
               const res = await deletePlatform({ platformChatId });
               toast.success(res.message);
-              queryClient.invalidateQueries({
-                queryKey: ['user-platform-chat'],
-              });
+              server
+                ? queryClient.invalidateQueries({
+                    queryKey: ['server', serverId],
+                  })
+                : queryClient.invalidateQueries({
+                    queryKey: ['user-platform-chat'],
+                  });
             } catch (err) {
               if (isApiResponse(err)) {
                 const apiError = err;

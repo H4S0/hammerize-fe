@@ -80,6 +80,7 @@ function RouteComponent() {
                     key={channel._id}
                     platformChat={channel}
                     canManage={true}
+                    server
                   />
                 ))
               )}

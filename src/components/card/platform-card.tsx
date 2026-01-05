@@ -22,6 +22,7 @@ type PlatformCardProps = {
   canManage?: boolean;
   view?: boolean;
   workspaceId?: string;
+  server?: boolean;
 };
 
 const PlatformCard = ({
@@ -32,6 +33,7 @@ const PlatformCard = ({
   canManage,
   view,
   workspaceId,
+  server,
 }: PlatformCardProps) => {
   return (
     <Card>
@@ -62,7 +64,11 @@ const PlatformCard = ({
               onCheckedChange={onCheckedChange}
             />
           ) : (
-            <PlatformSettingsDropdown platformChatId={platformChat._id} />
+            <PlatformSettingsDropdown
+              serverId={platformChat.serverId}
+              platformChatId={platformChat._id}
+              server={server}
+            />
           ))}
 
         {view && (
