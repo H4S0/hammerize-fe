@@ -14,16 +14,29 @@ import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
 import { isApiResponse } from '@/utils/axios-config/axios';
 
+type SummaryActiondDropdownProps = {
+  summaryId: string;
+  chatId: string;
+  canDelete?: boolean;
+  summaryText: string;
+};
+
 const SummaryActionDropdown = ({
   summaryId,
   chatId,
   canDelete,
-}: {
-  summaryId: string;
-  chatId: string;
-  canDelete?: boolean;
-}) => {
+  summaryText,
+}: SummaryActiondDropdownProps) => {
   const queryClient = useQueryClient();
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(summaryText);
+      toast.success('Copied to clipboard');
+    } catch (err) {
+      console.error('Failed to copy', err);
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -35,7 +48,7 @@ const SummaryActionDropdown = ({
       <DropdownMenuContent side="bottom" align="start" sideOffset={5}>
         <DropdownMenuLabel>Summary information card</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="justify-between">
+        <DropdownMenuItem className="justify-between" onClick={handleCopy}>
           Copy summary text <Copy />
         </DropdownMenuItem>
         {canDelete && (

@@ -46,6 +46,7 @@ const SummaryCard = ({ summary, canDelete }: SummaryCardProps) => {
           summaryId={summary._id}
           chatId={summary.chatId}
           canDelete={canDelete}
+          summaryText={summary.summaryText}
         />
       </CardHeader>
       <CardContent>
