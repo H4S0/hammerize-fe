@@ -16,13 +16,13 @@ import { Separator } from '../ui/separator';
 import { Badge } from '../ui/badge';
 
 type ViewSummaryMentionsModalProps = {
-  taskAssignment: TaskAssignmentProps[];
-  mentions: string[];
+  taskAssignment?: TaskAssignmentProps[];
+  mentions?: string[];
 };
 
 const ViewSummaryMentionsModal = ({
-  taskAssignment,
-  mentions,
+  taskAssignment = [],
+  mentions = [],
 }: ViewSummaryMentionsModalProps) => {
   return (
     <Dialog>
@@ -30,31 +30,37 @@ const ViewSummaryMentionsModal = ({
         <Button size="sm" variant="outline">
           <SummaryIconCard
             icon={<Tags size={17} />}
-            text={`${mentions.length || 0} mentions`}
+            text={`${mentions.length} mentions`}
           />
         </Button>
       </DialogTrigger>
+
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>All mentions and task assignment</DialogTitle>
+          <DialogTitle>All mentions and task assignments</DialogTitle>
           <DialogDescription>
-            Here are all of mentions and task assignemnt
+            Here are all mentions and task assignments for this summary.
           </DialogDescription>
         </DialogHeader>
+
         <DialogTitle className="text-md">Only mentions</DialogTitle>
         <div className="flex flex-row gap-2 flex-wrap">
           {mentions.length > 0 ? (
-            mentions.map((mention) => <Badge>{mention}</Badge>)
+            mentions.map((mention, index) => (
+              <Badge key={`${mention}-${index}`}>{mention}</Badge>
+            ))
           ) : (
-            <DialogDescription>There is not mentions</DialogDescription>
+            <DialogDescription>There are no mentions.</DialogDescription>
           )}
         </div>
+
         <Separator />
-        <DialogTitle className="text-md">Task assignment</DialogTitle>
+
+        <DialogTitle className="text-md">Task assignments</DialogTitle>
         <div className="flex flex-col gap-2">
           {taskAssignment.length > 0 ? (
-            taskAssignment.map((task) => (
-              <Card>
+            taskAssignment.map((task, index) => (
+              <Card key={`${task.mention}-${index}`}>
                 <CardContent className="py-3 px-2 space-y-2">
                   <CardTitle>{task.mention}</CardTitle>
                   <CardDescription>
@@ -67,7 +73,7 @@ const ViewSummaryMentionsModal = ({
           ) : (
             <CustomEmptyCard
               title="0 assigned tasks"
-              description="There is no assigned tasks in this summary"
+              description="There are no assigned tasks in this summary."
             />
           )}
         </div>

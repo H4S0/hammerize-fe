@@ -108,7 +108,6 @@ function RouteComponent() {
         </Select>
       </div>
 
-      {/* Indikator učitavanja (samo kada se radi tihi refetch) */}
       <div className="h-6 mb-2 flex items-center">
         {summaryQuery.isFetching && !summaryQuery.isPending && (
           <div className="flex items-center gap-2 text-xs text-muted-foreground animate-in fade-in">
@@ -153,7 +152,7 @@ function RouteComponent() {
       )}
 
       {!summaryQuery.isPending && summaries.length > 0 && (
-        <div className="grid grid-cols-1 animate-in fade-in duration-500">
+        <div className="grid grid-cols-1 animate-in fade-in duration-500 gap-3">
           {summaries.map((summary) => (
             <SummaryCard key={summary._id} summary={summary} canDelete />
           ))}
