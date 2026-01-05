@@ -76,7 +76,7 @@ function RouteComponent() {
           )}
         </div>
 
-        <Card>
+        <Card className="h-fit">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               {platform.chatName}

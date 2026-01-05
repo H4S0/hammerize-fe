@@ -35,7 +35,7 @@ const SummaryCard = ({ summary, canDelete }: SummaryCardProps) => {
             <Lightbulb />
             Crucial Themes
           </CardTitle>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center flex-wrap gap-2">
             {summary.crucialThemes.map((theme) => (
               <Badge>{theme}</Badge>
             ))}
@@ -55,7 +55,7 @@ const SummaryCard = ({ summary, canDelete }: SummaryCardProps) => {
             <RectangleEllipsis />
             Crucial Words
           </CardDescription>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center flex-wrap gap-2">
             {summary.crucialWords.map((word) => (
               <Badge variant="outline">{word}</Badge>
             ))}
