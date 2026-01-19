@@ -11,7 +11,7 @@ const OAuthResSchema = z.object({
 });
 
 export const Route = createFileRoute(
-  '/_public/auth/oauth/success-oauth-response'
+  '/_auth-public/auth/oauth/success-oauth-response'
 )({
   component: RouteComponent,
   validateSearch: (search) => {
