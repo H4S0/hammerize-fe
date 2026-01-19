@@ -7,7 +7,7 @@ const OAuthErrorSearchSchema = z.object({
 });
 
 export const Route = createFileRoute(
-  '/_public/auth/oauth/error-oauth-response'
+  '/_auth-public/auth/oauth/error-oauth-response'
 )({
   component: RouteComponent,
   validateSearch: (search) => {

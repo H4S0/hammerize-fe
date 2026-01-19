@@ -2,7 +2,7 @@ import RegisterForm from '@/components/forms/auth-forms/register-form';
 import AuthLayout from '@/components/layout/auth-layout';
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/_public/register')({
+export const Route = createFileRoute('/_auth-public/register')({
   component: RouteComponent,
 });
 

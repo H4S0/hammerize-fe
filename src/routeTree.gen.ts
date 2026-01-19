@@ -10,19 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteImport } from './routes/_public'
+import { Route as AuthPublicRouteImport } from './routes/_auth-public'
 import { Route as AuthRouteImport } from './routes/_auth'
-import { Route as PublicRegisterRouteImport } from './routes/_public/register'
-import { Route as PublicLoginRouteImport } from './routes/_public/login'
-import { Route as PublicInitForgetPasswordRouteImport } from './routes/_public/init-forget-password'
 import { Route as AuthNavbarRouteImport } from './routes/_auth/_navbar'
-import { Route as PublicPasswordResetTokenRouteImport } from './routes/_public/password-reset/$token'
+import { Route as AuthPublicRegisterRouteImport } from './routes/_auth-public/register'
+import { Route as AuthPublicLoginRouteImport } from './routes/_auth-public/login'
+import { Route as AuthPublicInitForgetPasswordRouteImport } from './routes/_auth-public/init-forget-password'
 import { Route as AuthWorkspaceInvitationTokenRouteImport } from './routes/_auth/workspace-invitation/$token'
+import { Route as AuthPublicPasswordResetTokenRouteImport } from './routes/_auth-public/password-reset/$token'
 import { Route as AuthNavbarDashboardIndexRouteImport } from './routes/_auth/_navbar/dashboard/index'
-import { Route as PublicAuthOauthSuccessOauthResponseRouteImport } from './routes/_public/auth/oauth/success-oauth-response'
-import { Route as PublicAuthOauthErrorOauthResponseRouteImport } from './routes/_public/auth/oauth/error-oauth-response'
 import { Route as AuthNavbarDashboardUserSettingsRouteImport } from './routes/_auth/_navbar/dashboard/user-settings'
 import { Route as AuthNavbarDashboardSummariesRouteImport } from './routes/_auth/_navbar/dashboard/summaries'
 import { Route as AuthNavbarDashboardOverviewRouteImport } from './routes/_auth/_navbar/dashboard/overview'
+import { Route as AuthPublicAuthOauthSuccessOauthResponseRouteImport } from './routes/_auth-public/auth/oauth/success-oauth-response'
+import { Route as AuthPublicAuthOauthErrorOauthResponseRouteImport } from './routes/_auth-public/auth/oauth/error-oauth-response'
 import { Route as AuthNavbarDashboardWorkspaceIndexRouteImport } from './routes/_auth/_navbar/dashboard/workspace/index'
 import { Route as AuthNavbarDashboardBotsPageBotsRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/bots'
 import { Route as AuthNavbarDashboardBotsPageServerPageServerIdRouteImport } from './routes/_auth/_navbar/dashboard/bots-page/server-page/$serverId'
@@ -34,35 +35,33 @@ const PublicRoute = PublicRouteImport.update({
   id: '/_public',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthPublicRoute = AuthPublicRouteImport.update({
+  id: '/_auth-public',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PublicRegisterRoute = PublicRegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicLoginRoute = PublicLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicInitForgetPasswordRoute =
-  PublicInitForgetPasswordRouteImport.update({
-    id: '/init-forget-password',
-    path: '/init-forget-password',
-    getParentRoute: () => PublicRoute,
-  } as any)
 const AuthNavbarRoute = AuthNavbarRouteImport.update({
   id: '/_navbar',
   getParentRoute: () => AuthRoute,
 } as any)
-const PublicPasswordResetTokenRoute =
-  PublicPasswordResetTokenRouteImport.update({
-    id: '/password-reset/$token',
-    path: '/password-reset/$token',
-    getParentRoute: () => PublicRoute,
+const AuthPublicRegisterRoute = AuthPublicRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => AuthPublicRoute,
+} as any)
+const AuthPublicLoginRoute = AuthPublicLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthPublicRoute,
+} as any)
+const AuthPublicInitForgetPasswordRoute =
+  AuthPublicInitForgetPasswordRouteImport.update({
+    id: '/init-forget-password',
+    path: '/init-forget-password',
+    getParentRoute: () => AuthPublicRoute,
   } as any)
 const AuthWorkspaceInvitationTokenRoute =
   AuthWorkspaceInvitationTokenRouteImport.update({
@@ -70,23 +69,17 @@ const AuthWorkspaceInvitationTokenRoute =
     path: '/workspace-invitation/$token',
     getParentRoute: () => AuthRoute,
   } as any)
+const AuthPublicPasswordResetTokenRoute =
+  AuthPublicPasswordResetTokenRouteImport.update({
+    id: '/password-reset/$token',
+    path: '/password-reset/$token',
+    getParentRoute: () => AuthPublicRoute,
+  } as any)
 const AuthNavbarDashboardIndexRoute =
   AuthNavbarDashboardIndexRouteImport.update({
     id: '/dashboard/',
     path: '/dashboard/',
     getParentRoute: () => AuthNavbarRoute,
-  } as any)
-const PublicAuthOauthSuccessOauthResponseRoute =
-  PublicAuthOauthSuccessOauthResponseRouteImport.update({
-    id: '/auth/oauth/success-oauth-response',
-    path: '/auth/oauth/success-oauth-response',
-    getParentRoute: () => PublicRoute,
-  } as any)
-const PublicAuthOauthErrorOauthResponseRoute =
-  PublicAuthOauthErrorOauthResponseRouteImport.update({
-    id: '/auth/oauth/error-oauth-response',
-    path: '/auth/oauth/error-oauth-response',
-    getParentRoute: () => PublicRoute,
   } as any)
 const AuthNavbarDashboardUserSettingsRoute =
   AuthNavbarDashboardUserSettingsRouteImport.update({
@@ -105,6 +98,18 @@ const AuthNavbarDashboardOverviewRoute =
     id: '/dashboard/overview',
     path: '/dashboard/overview',
     getParentRoute: () => AuthNavbarRoute,
+  } as any)
+const AuthPublicAuthOauthSuccessOauthResponseRoute =
+  AuthPublicAuthOauthSuccessOauthResponseRouteImport.update({
+    id: '/auth/oauth/success-oauth-response',
+    path: '/auth/oauth/success-oauth-response',
+    getParentRoute: () => AuthPublicRoute,
+  } as any)
+const AuthPublicAuthOauthErrorOauthResponseRoute =
+  AuthPublicAuthOauthErrorOauthResponseRouteImport.update({
+    id: '/auth/oauth/error-oauth-response',
+    path: '/auth/oauth/error-oauth-response',
+    getParentRoute: () => AuthPublicRoute,
   } as any)
 const AuthNavbarDashboardWorkspaceIndexRoute =
   AuthNavbarDashboardWorkspaceIndexRouteImport.update({
@@ -148,16 +153,16 @@ const AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdR
   )
 
 export interface FileRoutesByFullPath {
-  '/init-forget-password': typeof PublicInitForgetPasswordRoute
-  '/login': typeof PublicLoginRoute
-  '/register': typeof PublicRegisterRoute
+  '/init-forget-password': typeof AuthPublicInitForgetPasswordRoute
+  '/login': typeof AuthPublicLoginRoute
+  '/register': typeof AuthPublicRegisterRoute
+  '/password-reset/$token': typeof AuthPublicPasswordResetTokenRoute
   '/workspace-invitation/$token': typeof AuthWorkspaceInvitationTokenRoute
-  '/password-reset/$token': typeof PublicPasswordResetTokenRoute
+  '/auth/oauth/error-oauth-response': typeof AuthPublicAuthOauthErrorOauthResponseRoute
+  '/auth/oauth/success-oauth-response': typeof AuthPublicAuthOauthSuccessOauthResponseRoute
   '/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
   '/dashboard/user-settings': typeof AuthNavbarDashboardUserSettingsRoute
-  '/auth/oauth/error-oauth-response': typeof PublicAuthOauthErrorOauthResponseRoute
-  '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/dashboard': typeof AuthNavbarDashboardIndexRoute
   '/dashboard/bots-page/bots': typeof AuthNavbarDashboardBotsPageBotsRoute
   '/dashboard/workspace': typeof AuthNavbarDashboardWorkspaceIndexRoute
@@ -167,16 +172,16 @@ export interface FileRoutesByFullPath {
   '/dashboard/workspace/certain-workspace/$workspaceId/platform/$platformId': typeof AuthNavbarDashboardWorkspaceCertainWorkspaceWorkspaceIdPlatformPlatformIdRoute
 }
 export interface FileRoutesByTo {
-  '/init-forget-password': typeof PublicInitForgetPasswordRoute
-  '/login': typeof PublicLoginRoute
-  '/register': typeof PublicRegisterRoute
+  '/init-forget-password': typeof AuthPublicInitForgetPasswordRoute
+  '/login': typeof AuthPublicLoginRoute
+  '/register': typeof AuthPublicRegisterRoute
+  '/password-reset/$token': typeof AuthPublicPasswordResetTokenRoute
   '/workspace-invitation/$token': typeof AuthWorkspaceInvitationTokenRoute
-  '/password-reset/$token': typeof PublicPasswordResetTokenRoute
+  '/auth/oauth/error-oauth-response': typeof AuthPublicAuthOauthErrorOauthResponseRoute
+  '/auth/oauth/success-oauth-response': typeof AuthPublicAuthOauthSuccessOauthResponseRoute
   '/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
   '/dashboard/user-settings': typeof AuthNavbarDashboardUserSettingsRoute
-  '/auth/oauth/error-oauth-response': typeof PublicAuthOauthErrorOauthResponseRoute
-  '/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/dashboard': typeof AuthNavbarDashboardIndexRoute
   '/dashboard/bots-page/bots': typeof AuthNavbarDashboardBotsPageBotsRoute
   '/dashboard/workspace': typeof AuthNavbarDashboardWorkspaceIndexRoute
@@ -188,18 +193,19 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
-  '/_public': typeof PublicRouteWithChildren
+  '/_auth-public': typeof AuthPublicRouteWithChildren
+  '/_public': typeof PublicRoute
+  '/_auth-public/init-forget-password': typeof AuthPublicInitForgetPasswordRoute
+  '/_auth-public/login': typeof AuthPublicLoginRoute
+  '/_auth-public/register': typeof AuthPublicRegisterRoute
   '/_auth/_navbar': typeof AuthNavbarRouteWithChildren
-  '/_public/init-forget-password': typeof PublicInitForgetPasswordRoute
-  '/_public/login': typeof PublicLoginRoute
-  '/_public/register': typeof PublicRegisterRoute
+  '/_auth-public/password-reset/$token': typeof AuthPublicPasswordResetTokenRoute
   '/_auth/workspace-invitation/$token': typeof AuthWorkspaceInvitationTokenRoute
-  '/_public/password-reset/$token': typeof PublicPasswordResetTokenRoute
+  '/_auth-public/auth/oauth/error-oauth-response': typeof AuthPublicAuthOauthErrorOauthResponseRoute
+  '/_auth-public/auth/oauth/success-oauth-response': typeof AuthPublicAuthOauthSuccessOauthResponseRoute
   '/_auth/_navbar/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/_auth/_navbar/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
   '/_auth/_navbar/dashboard/user-settings': typeof AuthNavbarDashboardUserSettingsRoute
-  '/_public/auth/oauth/error-oauth-response': typeof PublicAuthOauthErrorOauthResponseRoute
-  '/_public/auth/oauth/success-oauth-response': typeof PublicAuthOauthSuccessOauthResponseRoute
   '/_auth/_navbar/dashboard/': typeof AuthNavbarDashboardIndexRoute
   '/_auth/_navbar/dashboard/bots-page/bots': typeof AuthNavbarDashboardBotsPageBotsRoute
   '/_auth/_navbar/dashboard/workspace/': typeof AuthNavbarDashboardWorkspaceIndexRoute
@@ -214,13 +220,13 @@ export interface FileRouteTypes {
     | '/init-forget-password'
     | '/login'
     | '/register'
-    | '/workspace-invitation/$token'
     | '/password-reset/$token'
+    | '/workspace-invitation/$token'
+    | '/auth/oauth/error-oauth-response'
+    | '/auth/oauth/success-oauth-response'
     | '/dashboard/overview'
     | '/dashboard/summaries'
     | '/dashboard/user-settings'
-    | '/auth/oauth/error-oauth-response'
-    | '/auth/oauth/success-oauth-response'
     | '/dashboard'
     | '/dashboard/bots-page/bots'
     | '/dashboard/workspace'
@@ -233,13 +239,13 @@ export interface FileRouteTypes {
     | '/init-forget-password'
     | '/login'
     | '/register'
-    | '/workspace-invitation/$token'
     | '/password-reset/$token'
+    | '/workspace-invitation/$token'
+    | '/auth/oauth/error-oauth-response'
+    | '/auth/oauth/success-oauth-response'
     | '/dashboard/overview'
     | '/dashboard/summaries'
     | '/dashboard/user-settings'
-    | '/auth/oauth/error-oauth-response'
-    | '/auth/oauth/success-oauth-response'
     | '/dashboard'
     | '/dashboard/bots-page/bots'
     | '/dashboard/workspace'
@@ -250,18 +256,19 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_auth'
+    | '/_auth-public'
     | '/_public'
+    | '/_auth-public/init-forget-password'
+    | '/_auth-public/login'
+    | '/_auth-public/register'
     | '/_auth/_navbar'
-    | '/_public/init-forget-password'
-    | '/_public/login'
-    | '/_public/register'
+    | '/_auth-public/password-reset/$token'
     | '/_auth/workspace-invitation/$token'
-    | '/_public/password-reset/$token'
+    | '/_auth-public/auth/oauth/error-oauth-response'
+    | '/_auth-public/auth/oauth/success-oauth-response'
     | '/_auth/_navbar/dashboard/overview'
     | '/_auth/_navbar/dashboard/summaries'
     | '/_auth/_navbar/dashboard/user-settings'
-    | '/_public/auth/oauth/error-oauth-response'
-    | '/_public/auth/oauth/success-oauth-response'
     | '/_auth/_navbar/dashboard/'
     | '/_auth/_navbar/dashboard/bots-page/bots'
     | '/_auth/_navbar/dashboard/workspace/'
@@ -273,7 +280,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
-  PublicRoute: typeof PublicRouteWithChildren
+  AuthPublicRoute: typeof AuthPublicRouteWithChildren
+  PublicRoute: typeof PublicRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -285,33 +293,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth-public': {
+      id: '/_auth-public'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthPublicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_public/register': {
-      id: '/_public/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof PublicRegisterRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/login': {
-      id: '/_public/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof PublicLoginRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/init-forget-password': {
-      id: '/_public/init-forget-password'
-      path: '/init-forget-password'
-      fullPath: '/init-forget-password'
-      preLoaderRoute: typeof PublicInitForgetPasswordRouteImport
-      parentRoute: typeof PublicRoute
     }
     '/_auth/_navbar': {
       id: '/_auth/_navbar'
@@ -320,12 +314,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthNavbarRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_public/password-reset/$token': {
-      id: '/_public/password-reset/$token'
-      path: '/password-reset/$token'
-      fullPath: '/password-reset/$token'
-      preLoaderRoute: typeof PublicPasswordResetTokenRouteImport
-      parentRoute: typeof PublicRoute
+    '/_auth-public/register': {
+      id: '/_auth-public/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof AuthPublicRegisterRouteImport
+      parentRoute: typeof AuthPublicRoute
+    }
+    '/_auth-public/login': {
+      id: '/_auth-public/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthPublicLoginRouteImport
+      parentRoute: typeof AuthPublicRoute
+    }
+    '/_auth-public/init-forget-password': {
+      id: '/_auth-public/init-forget-password'
+      path: '/init-forget-password'
+      fullPath: '/init-forget-password'
+      preLoaderRoute: typeof AuthPublicInitForgetPasswordRouteImport
+      parentRoute: typeof AuthPublicRoute
     }
     '/_auth/workspace-invitation/$token': {
       id: '/_auth/workspace-invitation/$token'
@@ -334,26 +342,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthWorkspaceInvitationTokenRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth-public/password-reset/$token': {
+      id: '/_auth-public/password-reset/$token'
+      path: '/password-reset/$token'
+      fullPath: '/password-reset/$token'
+      preLoaderRoute: typeof AuthPublicPasswordResetTokenRouteImport
+      parentRoute: typeof AuthPublicRoute
+    }
     '/_auth/_navbar/dashboard/': {
       id: '/_auth/_navbar/dashboard/'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthNavbarDashboardIndexRouteImport
       parentRoute: typeof AuthNavbarRoute
-    }
-    '/_public/auth/oauth/success-oauth-response': {
-      id: '/_public/auth/oauth/success-oauth-response'
-      path: '/auth/oauth/success-oauth-response'
-      fullPath: '/auth/oauth/success-oauth-response'
-      preLoaderRoute: typeof PublicAuthOauthSuccessOauthResponseRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/auth/oauth/error-oauth-response': {
-      id: '/_public/auth/oauth/error-oauth-response'
-      path: '/auth/oauth/error-oauth-response'
-      fullPath: '/auth/oauth/error-oauth-response'
-      preLoaderRoute: typeof PublicAuthOauthErrorOauthResponseRouteImport
-      parentRoute: typeof PublicRoute
     }
     '/_auth/_navbar/dashboard/user-settings': {
       id: '/_auth/_navbar/dashboard/user-settings'
@@ -375,6 +376,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/overview'
       preLoaderRoute: typeof AuthNavbarDashboardOverviewRouteImport
       parentRoute: typeof AuthNavbarRoute
+    }
+    '/_auth-public/auth/oauth/success-oauth-response': {
+      id: '/_auth-public/auth/oauth/success-oauth-response'
+      path: '/auth/oauth/success-oauth-response'
+      fullPath: '/auth/oauth/success-oauth-response'
+      preLoaderRoute: typeof AuthPublicAuthOauthSuccessOauthResponseRouteImport
+      parentRoute: typeof AuthPublicRoute
+    }
+    '/_auth-public/auth/oauth/error-oauth-response': {
+      id: '/_auth-public/auth/oauth/error-oauth-response'
+      path: '/auth/oauth/error-oauth-response'
+      fullPath: '/auth/oauth/error-oauth-response'
+      preLoaderRoute: typeof AuthPublicAuthOauthErrorOauthResponseRouteImport
+      parentRoute: typeof AuthPublicRoute
     }
     '/_auth/_navbar/dashboard/workspace/': {
       id: '/_auth/_navbar/dashboard/workspace/'
@@ -468,32 +483,34 @@ const AuthRouteChildren: AuthRouteChildren = {
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
-interface PublicRouteChildren {
-  PublicInitForgetPasswordRoute: typeof PublicInitForgetPasswordRoute
-  PublicLoginRoute: typeof PublicLoginRoute
-  PublicRegisterRoute: typeof PublicRegisterRoute
-  PublicPasswordResetTokenRoute: typeof PublicPasswordResetTokenRoute
-  PublicAuthOauthErrorOauthResponseRoute: typeof PublicAuthOauthErrorOauthResponseRoute
-  PublicAuthOauthSuccessOauthResponseRoute: typeof PublicAuthOauthSuccessOauthResponseRoute
+interface AuthPublicRouteChildren {
+  AuthPublicInitForgetPasswordRoute: typeof AuthPublicInitForgetPasswordRoute
+  AuthPublicLoginRoute: typeof AuthPublicLoginRoute
+  AuthPublicRegisterRoute: typeof AuthPublicRegisterRoute
+  AuthPublicPasswordResetTokenRoute: typeof AuthPublicPasswordResetTokenRoute
+  AuthPublicAuthOauthErrorOauthResponseRoute: typeof AuthPublicAuthOauthErrorOauthResponseRoute
+  AuthPublicAuthOauthSuccessOauthResponseRoute: typeof AuthPublicAuthOauthSuccessOauthResponseRoute
 }
 
-const PublicRouteChildren: PublicRouteChildren = {
-  PublicInitForgetPasswordRoute: PublicInitForgetPasswordRoute,
-  PublicLoginRoute: PublicLoginRoute,
-  PublicRegisterRoute: PublicRegisterRoute,
-  PublicPasswordResetTokenRoute: PublicPasswordResetTokenRoute,
-  PublicAuthOauthErrorOauthResponseRoute:
-    PublicAuthOauthErrorOauthResponseRoute,
-  PublicAuthOauthSuccessOauthResponseRoute:
-    PublicAuthOauthSuccessOauthResponseRoute,
+const AuthPublicRouteChildren: AuthPublicRouteChildren = {
+  AuthPublicInitForgetPasswordRoute: AuthPublicInitForgetPasswordRoute,
+  AuthPublicLoginRoute: AuthPublicLoginRoute,
+  AuthPublicRegisterRoute: AuthPublicRegisterRoute,
+  AuthPublicPasswordResetTokenRoute: AuthPublicPasswordResetTokenRoute,
+  AuthPublicAuthOauthErrorOauthResponseRoute:
+    AuthPublicAuthOauthErrorOauthResponseRoute,
+  AuthPublicAuthOauthSuccessOauthResponseRoute:
+    AuthPublicAuthOauthSuccessOauthResponseRoute,
 }
 
-const PublicRouteWithChildren =
-  PublicRoute._addFileChildren(PublicRouteChildren)
+const AuthPublicRouteWithChildren = AuthPublicRoute._addFileChildren(
+  AuthPublicRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
-  PublicRoute: PublicRouteWithChildren,
+  AuthPublicRoute: AuthPublicRouteWithChildren,
+  PublicRoute: PublicRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

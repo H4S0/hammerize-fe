@@ -2,7 +2,7 @@ import InitPasswordResetForm from '@/components/forms/auth-forms/init-password-r
 import AuthLayout from '@/components/layout/auth-layout';
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/_public/init-forget-password')({
+export const Route = createFileRoute('/_auth-public/init-forget-password')({
   component: RouteComponent,
 });
 
