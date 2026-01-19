@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { Inbox, ScrollText, X, Loader2 } from 'lucide-react';
+import { Inbox, ScrollText, X, Loader2, Search } from 'lucide-react';
 import { z } from 'zod';
 import { useDebounce } from 'use-debounce';
 import SummaryCard from '@/components/card/summary-card';
@@ -17,6 +17,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '@/components/ui/input-group';
 
 const summariesSearchSchema = z.object({
   search: z.string().optional(),
@@ -76,12 +81,17 @@ function RouteComponent() {
 
       <div className="flex flex-col md:flex-row items-center w-full gap-4 my-7">
         <div className="relative w-full">
-          <Input
-            placeholder="Search for summary text, themes or words..."
-            value={localSearch}
-            onChange={(e) => setLocalSearch(e.target.value)}
-            className="pr-10 h-11"
-          />
+          <InputGroup>
+            <InputGroupInput
+              placeholder="Search for summary text, themes or words..."
+              value={localSearch}
+              onChange={(e) => setLocalSearch(e.target.value)}
+              className="pr-10 h-11"
+            />
+            <InputGroupAddon>
+              <Search />
+            </InputGroupAddon>
+          </InputGroup>
           {localSearch && (
             <button
               onClick={() => setLocalSearch('')}
