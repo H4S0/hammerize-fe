@@ -21,11 +21,11 @@ const LoginForm = () => {
   });
 
   const handleSubmit: SubmitHandler<z.infer<typeof LoginSchema>> = async (
-    data
+    data,
   ) => {
     try {
       await loginUser(data);
-      navigate({ to: '/dashboard' });
+      navigate({ to: '/dashboard/summaries' });
     } catch (err) {
       console.log('error', err);
     }

@@ -21,7 +21,6 @@ import { Route as AuthPublicPasswordResetTokenRouteImport } from './routes/_auth
 import { Route as AuthNavbarDashboardIndexRouteImport } from './routes/_auth/_navbar/dashboard/index'
 import { Route as AuthNavbarDashboardUserSettingsRouteImport } from './routes/_auth/_navbar/dashboard/user-settings'
 import { Route as AuthNavbarDashboardSummariesRouteImport } from './routes/_auth/_navbar/dashboard/summaries'
-import { Route as AuthNavbarDashboardOverviewRouteImport } from './routes/_auth/_navbar/dashboard/overview'
 import { Route as AuthPublicAuthOauthSuccessOauthResponseRouteImport } from './routes/_auth-public/auth/oauth/success-oauth-response'
 import { Route as AuthPublicAuthOauthErrorOauthResponseRouteImport } from './routes/_auth-public/auth/oauth/error-oauth-response'
 import { Route as AuthNavbarDashboardWorkspaceIndexRouteImport } from './routes/_auth/_navbar/dashboard/workspace/index'
@@ -93,12 +92,6 @@ const AuthNavbarDashboardSummariesRoute =
     path: '/dashboard/summaries',
     getParentRoute: () => AuthNavbarRoute,
   } as any)
-const AuthNavbarDashboardOverviewRoute =
-  AuthNavbarDashboardOverviewRouteImport.update({
-    id: '/dashboard/overview',
-    path: '/dashboard/overview',
-    getParentRoute: () => AuthNavbarRoute,
-  } as any)
 const AuthPublicAuthOauthSuccessOauthResponseRoute =
   AuthPublicAuthOauthSuccessOauthResponseRouteImport.update({
     id: '/auth/oauth/success-oauth-response',
@@ -160,7 +153,6 @@ export interface FileRoutesByFullPath {
   '/workspace-invitation/$token': typeof AuthWorkspaceInvitationTokenRoute
   '/auth/oauth/error-oauth-response': typeof AuthPublicAuthOauthErrorOauthResponseRoute
   '/auth/oauth/success-oauth-response': typeof AuthPublicAuthOauthSuccessOauthResponseRoute
-  '/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
   '/dashboard/user-settings': typeof AuthNavbarDashboardUserSettingsRoute
   '/dashboard': typeof AuthNavbarDashboardIndexRoute
@@ -179,7 +171,6 @@ export interface FileRoutesByTo {
   '/workspace-invitation/$token': typeof AuthWorkspaceInvitationTokenRoute
   '/auth/oauth/error-oauth-response': typeof AuthPublicAuthOauthErrorOauthResponseRoute
   '/auth/oauth/success-oauth-response': typeof AuthPublicAuthOauthSuccessOauthResponseRoute
-  '/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
   '/dashboard/user-settings': typeof AuthNavbarDashboardUserSettingsRoute
   '/dashboard': typeof AuthNavbarDashboardIndexRoute
@@ -203,7 +194,6 @@ export interface FileRoutesById {
   '/_auth/workspace-invitation/$token': typeof AuthWorkspaceInvitationTokenRoute
   '/_auth-public/auth/oauth/error-oauth-response': typeof AuthPublicAuthOauthErrorOauthResponseRoute
   '/_auth-public/auth/oauth/success-oauth-response': typeof AuthPublicAuthOauthSuccessOauthResponseRoute
-  '/_auth/_navbar/dashboard/overview': typeof AuthNavbarDashboardOverviewRoute
   '/_auth/_navbar/dashboard/summaries': typeof AuthNavbarDashboardSummariesRoute
   '/_auth/_navbar/dashboard/user-settings': typeof AuthNavbarDashboardUserSettingsRoute
   '/_auth/_navbar/dashboard/': typeof AuthNavbarDashboardIndexRoute
@@ -224,7 +214,6 @@ export interface FileRouteTypes {
     | '/workspace-invitation/$token'
     | '/auth/oauth/error-oauth-response'
     | '/auth/oauth/success-oauth-response'
-    | '/dashboard/overview'
     | '/dashboard/summaries'
     | '/dashboard/user-settings'
     | '/dashboard'
@@ -243,7 +232,6 @@ export interface FileRouteTypes {
     | '/workspace-invitation/$token'
     | '/auth/oauth/error-oauth-response'
     | '/auth/oauth/success-oauth-response'
-    | '/dashboard/overview'
     | '/dashboard/summaries'
     | '/dashboard/user-settings'
     | '/dashboard'
@@ -266,7 +254,6 @@ export interface FileRouteTypes {
     | '/_auth/workspace-invitation/$token'
     | '/_auth-public/auth/oauth/error-oauth-response'
     | '/_auth-public/auth/oauth/success-oauth-response'
-    | '/_auth/_navbar/dashboard/overview'
     | '/_auth/_navbar/dashboard/summaries'
     | '/_auth/_navbar/dashboard/user-settings'
     | '/_auth/_navbar/dashboard/'
@@ -370,13 +357,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthNavbarDashboardSummariesRouteImport
       parentRoute: typeof AuthNavbarRoute
     }
-    '/_auth/_navbar/dashboard/overview': {
-      id: '/_auth/_navbar/dashboard/overview'
-      path: '/dashboard/overview'
-      fullPath: '/dashboard/overview'
-      preLoaderRoute: typeof AuthNavbarDashboardOverviewRouteImport
-      parentRoute: typeof AuthNavbarRoute
-    }
     '/_auth-public/auth/oauth/success-oauth-response': {
       id: '/_auth-public/auth/oauth/success-oauth-response'
       path: '/auth/oauth/success-oauth-response'
@@ -437,7 +417,6 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthNavbarRouteChildren {
-  AuthNavbarDashboardOverviewRoute: typeof AuthNavbarDashboardOverviewRoute
   AuthNavbarDashboardSummariesRoute: typeof AuthNavbarDashboardSummariesRoute
   AuthNavbarDashboardUserSettingsRoute: typeof AuthNavbarDashboardUserSettingsRoute
   AuthNavbarDashboardIndexRoute: typeof AuthNavbarDashboardIndexRoute
@@ -450,7 +429,6 @@ interface AuthNavbarRouteChildren {
 }
 
 const AuthNavbarRouteChildren: AuthNavbarRouteChildren = {
-  AuthNavbarDashboardOverviewRoute: AuthNavbarDashboardOverviewRoute,
   AuthNavbarDashboardSummariesRoute: AuthNavbarDashboardSummariesRoute,
   AuthNavbarDashboardUserSettingsRoute: AuthNavbarDashboardUserSettingsRoute,
   AuthNavbarDashboardIndexRoute: AuthNavbarDashboardIndexRoute,

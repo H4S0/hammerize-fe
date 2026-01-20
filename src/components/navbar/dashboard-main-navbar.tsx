@@ -17,11 +17,6 @@ type NavbarItemsOptions = {
 
 const dashboardMainNavbarItems: NavbarItemsOptions[] = [
   {
-    icon: <LayoutPanelLeft size={18} />,
-    label: 'Overview',
-    link: '/dashboard/overview',
-  },
-  {
     icon: <MessageSquareMore size={18} />,
     label: 'Summaries',
     link: '/dashboard/summaries',
@@ -46,7 +41,7 @@ const DashboardMainNavbar = () => {
           className={cn(
             'flex items-center gap-2 sm:gap-2 px-2 py-1 rounded-md text-muted-foreground hover:bg-primary/70 hover:text-white transition-colors duration-150',
             'sm:flex-row flex-col sm:w-auto w-full justify-center',
-            item.link === location.href && 'bg-primary/70 text-white'
+            item.link === location.href && 'bg-primary/70 text-white',
           )}
         >
           {item.icon}
